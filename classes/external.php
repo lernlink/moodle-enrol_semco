@@ -363,22 +363,22 @@ class enrol_semco_external extends external_api {
                         'semcobookingid' =>
                                 new external_value(PARAM_TEXT,
                                         'The SEMCO booking ID which is the basis for this Moodle enrolment [optional].',
-                                        VALUE_OPTIONAL),
+                                        VALUE_DEFAULT, null),
                         'timestart' =>
                                 new external_value(PARAM_INT,
                                         'The timestamp when the enrolment starts (alternatively set to 0 to remove the timestart'.
                                                 ' date) [optional].',
-                                        VALUE_OPTIONAL),
+                                        VALUE_DEFAULT, null),
                         'timeend' =>
                                 new external_value(PARAM_INT,
                                         'The timestamp when the enrolment ends (alternatively set to 0 to remove the timeend'.
                                                 ' date) [optional].',
-                                        VALUE_OPTIONAL),
+                                        VALUE_DEFAULT, null),
                         'suspend' =>
                                 new external_value(PARAM_BOOL,
                                         'The fact if the enrolment is suspended or not (0: not suspended, 1: suspended)'.
                                                 ' [optional].',
-                                        VALUE_OPTIONAL)
+                                        VALUE_DEFAULT, null)
                 )
         );
     }
