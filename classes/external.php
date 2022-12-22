@@ -459,11 +459,13 @@ class enrol_semco_external extends external_api {
             throw new moodle_exception('bookingidempty', 'enrol_semco');
         }
 
-        // Throw an exception if there is already an enrolment instance with the given booking ID.
+        // Throw an exception if the SEMCO booking ID parameter was given and there is already an enrolment instance with the given booking ID.
         // This can happen if the booking ID was set again or if a booking ID from another booking was submitted.
-        $instanceexists = $DB->record_exists('enrol', array('customchar1' => $params['semcobookingid']));
-        if ($instanceexists == true) {
-            throw new moodle_exception('bookingidduplicatemustchange', 'enrol_semco', '', $params['semcobookingid']);
+        if ($params['semcobookingid'] !== null) {
+            $instanceexists = $DB->record_exists('enrol', array('customchar1' => $params['semcobookingid']));
+            if ($instanceexists == true) {
+                throw new moodle_exception('bookingidduplicatemustchange', 'enrol_semco', '', $params['semcobookingid']);
+           }
         }
 
         // Throw an exception if the timestart parameter was given (i.e. the caller wants to overwrite it) but is invalid.
