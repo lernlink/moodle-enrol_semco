@@ -91,7 +91,13 @@ function xmldb_enrol_semco_install() {
         assign_capability('enrol/semco:editenrolment', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('enrol/semco:getenrolments', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/role:assign', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        assign_capability('moodle/course:useremail', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/course:view', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        assign_capability('moodle/user:create', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        assign_capability('moodle/user:delete', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        assign_capability('moodle/user:update', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        assign_capability('moodle/user:viewdetails', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        assign_capability('moodle/user:viewhiddendetails', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('webservice/rest:use', CAP_ALLOW, $semcoroleid, $systemcontext->id);
 
         // Allow the SEMCO webservice role to assign the student role (which is set as default in the plugin settings).

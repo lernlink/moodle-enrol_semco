@@ -29,7 +29,12 @@ require_once($CFG->dirroot.'/enrol/semco/locallib.php');
 
 $services = array(
         'SEMCO' => array(
-                'functions' => array(),
+                'functions' => array(
+                        'core_course_get_courses_by_field',
+                        'core_user_create_users',
+                        'core_user_delete_users',
+                        'core_user_get_users_by_field',
+                        'core_user_update_users'),
                 'requiredcapability' => 'enrol/semco:usewebservice',
                 'enabled' => 1,
                 'restrictedusers' => 1,
