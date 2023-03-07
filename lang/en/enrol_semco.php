@@ -34,8 +34,10 @@ $string['settings_enrolmentheading'] = 'Enrolment process';
 $string['settings_role'] = 'Role';
 $string['settings_role_desc'] = 'With this setting, you control with which role SEMCO enrols users into courses. The configured role is mandatory for all users who are enrolled from SEMCO and cannot be overridden with the SEMCO enrolment webservice endpoint. Please note as well that changes of this setting will not have any effect on existing enrolments.';
 $string['settings_tokeninfo'] = 'Webservice token';
-$string['settings_tokeninfofound'] = 'The webservice token for the SEMCO webservice user is:<br /><strong>{$a}</strong><br />Please use this token to configure the Moodle connection in SEMCO.';
+$string['settings_tokeninfofound'] = 'The webservice token for the SEMCO webservice user is:<br /><strong>{$a}</strong><br />Please use this webservice token to configure the Moodle connection in SEMCO.';
 $string['settings_tokeninfononefound'] = 'No existing webservice token was found for the SEMCO webservice user. Please create a token manually.';
+$string['settings_wwwrootinfo'] = 'Moodle base URL';
+$string['settings_wwwrootinfofound'] = 'The Moodle base URL for the SEMCO webservice connection is:<br /><strong>{$a}</strong><br />Please use this Moodle base URL to configure the Moodle connection in SEMCO.';
 
 // Webservice errors.
 $string['bookingidduplicate'] = 'There is already an enrolment instance with this SEMCO booking ID ({$a}).';

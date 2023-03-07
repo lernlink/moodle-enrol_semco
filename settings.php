@@ -38,6 +38,13 @@ if ($ADMIN->fulltree) {
         $setting = new admin_setting_heading($name, $title, $description);
         $settings->add($setting);
 
+        // Create wwwroot information widget.
+        $name = 'enrol_semco/settings_wwwrootinfo';
+        $title = get_string('settings_wwwrootinfo', 'enrol_semco', null, true);
+        $description = '<p>'.get_string('settings_wwwrootinfofound', 'enrol_semco', $CFG->wwwroot, true).'</p>';
+        $setting = new admin_setting_description($name, $title, $description);
+        $settings->add($setting);
+
         // Get the webservice token.
         $sql = 'SELECT et.token
                 FROM {external_tokens} et
@@ -52,7 +59,7 @@ if ($ADMIN->fulltree) {
             // Create token information widget.
             $name = 'enrol_semco/settings_tokeninfo';
             $title = get_string('settings_tokeninfo', 'enrol_semco', null, true);
-            $description = get_string('settings_tokeninfofound', 'enrol_semco', $webservicetoken, true);;
+            $description = '<p>'.get_string('settings_tokeninfofound', 'enrol_semco', $webservicetoken, true).'</p>';
             $setting = new admin_setting_description($name, $title, $description);
             $settings->add($setting);
 
@@ -61,7 +68,7 @@ if ($ADMIN->fulltree) {
             // Create token information widget.
             $name = 'enrol_semco/settings_tokeninfo';
             $title = get_string('settings_tokeninfo', 'enrol_semco', null, true);
-            $description = get_string('settings_tokeninfononefound', 'enrol_semco', null, true);
+            $description = '<p>'.get_string('settings_tokeninfononefound', 'enrol_semco', null, true).'</p>';
             $setting = new admin_setting_description($name, $title, $description);
             $settings->add($setting);
         }
