@@ -1,5 +1,5 @@
 moodle-enrol_semco
-=============================
+==================
 
 [![Moodle Plugin CI](https://github.com/lernlink/moodle-enrol_semco/workflows/Moodle%20Plugin%20CI/badge.svg?branch=master)](https://github.com/lernlink/moodle-enrol_semco/actions?query=workflow%3A%22Moodle+Plugin+CI%22+branch%3Amaster)
 
@@ -48,7 +48,13 @@ During the installation, several steps to enable the webservice communication fr
   * enrol/semco:editenrolment
   * enrol/semco:getenrolments
   * moodle/role:assign
+  * moodle/course:useremail
   * moodle/course:view
+  * moodle/user:create
+  * moodle/user:delete
+  * moodle/user:update
+  * moodle/user:viewdetails
+  * moodle/user:viewhiddendetails
   * webservice/rest:use
 * The 'SEMCO webservice' is automatically allowed to assign the 'student' role.\
   You can verify this on /admin/roles/allow.php?mode=assign.
@@ -59,7 +65,9 @@ During the installation, several steps to enable the webservice communication fr
 * A webservice token is created automatically for the 'SEMCO webservice' user.\
   You can verify this on /admin/webservice/tokens.php.
   It is correct that you will not see the token there, you will just see _that_ a token exists.
-* The enrol_semco plugin is activated automaticall.\
+* A 'SEMCO' user profile field category is created automatically and a 'SEMCO User ID' field is added to this category.\
+  You can verify this on /user/profile/index.php.
+* The enrol_semco plugin is activated automatically.\
   You can verify this on /admin/settings.php?section=manageenrols.
 
 Each step is monitored with a clear success message in the installation wizard (in the web GUI as well as in the CLI). Watch out for any error messages during the installation of the plugin. If you see any error messages, please try to uninstall the plugin and re-install it again. If the erorr messages continue to be posted, please step through the list above and check if you can spot any asset which could block the automatic installation.
@@ -73,7 +81,7 @@ There, you find two sections:
 
 ### 1. Connection information
 
-In this section, you will find the webservice token which was automatically created during the plugin installation. Please use this token to configure the Moodle connection in SEMCO.
+In this section, you will find the Moodle base URL and the webservice token which was automatically created during the plugin installation. Please use this data to configure the Moodle connection in SEMCO.
 
 ### 2. Enrolment process
 
@@ -121,7 +129,7 @@ Backup & Restore
 ----------------
 
 This enrolment plugin does not support backup & restore of courses.
-This is done by purpose as each particular course enrolment is mapped to a particular SEMCO booking ID which is a unique 1:1 mapping. If we would backup & restore course enrolments to duplicated / restored / imported courses, this constraint could not be guaranteed.  
+This is done by purpose as each particular course enrolment is mapped to a particular SEMCO booking ID which is a unique 1:1 mapping. If we would backup & restore course enrolments to duplicated / restored / imported courses, this constraint could not be guaranteed.
 
 
 Theme support
