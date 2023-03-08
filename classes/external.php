@@ -105,7 +105,7 @@ class enrol_semco_external extends external_api {
 
         // Validate given parameters.
         $arrayparams = array(
-                'userid'   => $userid,
+                'userid' => $userid,
                 'courseid' => $courseid,
                 'semcobookingid' => $semcobookingid,
                 'timestart' => $timestart,
