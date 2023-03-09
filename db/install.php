@@ -179,6 +179,15 @@ function xmldb_enrol_semco_install() {
 
         // If we haven't skipped creating the SEMCO webservice role before.
         if (isset($semcoroleid) && $semcoroleid > 0) {
+            // The upcoming call of role_assign() might trigger a
+            // "Notice: Undefined property: stdClass::$coursecontact in /var/www/html/course/classes/category.php"
+            // debug message during an initial installation of Moodle as role_assign() will call role_assignment_changed()
+            // which wants to access $CFG->coursecontact which might not be there yet.
+            // We try to circumvent by faking this setting for this script.
+            if (during_initial_install()) {
+                $CFG->coursecontact = 3; // This is the standard value for this setting.
+            }
+
             // Add the SEMCO webservice user to the SEMCO webservice role.
             role_assign($semcoroleid, $semcouser->id, $systemcontext->id);
 
