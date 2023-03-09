@@ -101,7 +101,17 @@ function xmldb_enrol_semco_install() {
         assign_capability('moodle/user:update', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/user:viewdetails', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/user:viewhiddendetails', CAP_ALLOW, $semcoroleid, $systemcontext->id);
-        assign_capability('webservice/rest:use', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+
+        // Handle the webservice/rest:use capability specially.
+        // During the initial installation of Moodle, this capability does not exist yet when this plugin is installed.
+        // In this case, the installation would stop with a fatal error saying:
+        // "Coding error detected, it must be fixed by a programmer: Capability 'webservice/rest:use' was not found!
+        // This has to be fixed in code."
+        // We only set this capability now if the plugin is installed to a running Moodle instance.
+        // The case of an initial installation is handled later.
+        if (!during_initial_install()) {
+            assign_capability('webservice/rest:use', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        }
 
         // Allow the SEMCO webservice role to assign the student role (which is set as default in the plugin settings).
         core_role_set_assign_allowed($semcoroleid, enrol_semco_get_firststudentroleid());
@@ -111,6 +121,20 @@ function xmldb_enrol_semco_install() {
                 \core\output\notification::NOTIFY_INFO);
         $notification->set_show_closebutton(false);
         echo $OUTPUT->render($notification);
+
+        // Handle the webservice/rest:use capability during an initial installation.
+        // We will circumvent the described issue by queueing an ad-hoc task which will deal with setting the capability.
+        if (during_initial_install()) {
+            // Queue the task.
+            $adhoctask = new \enrol_semco\task\set_webservice_capability();
+            \core\task\manager::queue_adhoc_task($adhoctask);
+
+            // And show a notification about that fact (this also looks fine in the CLI installer).
+            $notification = new \core\output\notification(get_string('installer_queuedcapabilitytask', 'enrol_semco'),
+                    \core\output\notification::NOTIFY_WARNING);
+            $notification->set_show_closebutton(false);
+            echo $OUTPUT->render($notification);
+        }
 
         // Otherwise, there might be leftovers from previous installations and admin's tests.
     } else {
@@ -235,6 +259,7 @@ function xmldb_enrol_semco_install() {
         }
 
         // Create SEMCO user profile field (this is rather hardcoded but should work in the forseeable future).
+        $fielddata = new stdClass();
         $fielddata->id = 0;
         $fielddata->action = 'editfield';
         $fielddata->datatype = 'text';
