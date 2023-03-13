@@ -75,7 +75,7 @@ Each step is monitored with a clear success message in the installation wizard (
 After installing the plugin and after the automatic configurtion, it is ready to use with SEMCO.
 
 To configure the plugin and its behaviour, please visit:
-Site administration -> Plugins -> Enrolments -> Semco
+Site administration -> Plugins -> Enrolments -> SEMCO
 
 There, you find two sections:
 
