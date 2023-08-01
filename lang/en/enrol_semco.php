@@ -64,7 +64,7 @@ $string['installer_enabledauth'] = 'Moodle\'s webservice auth method has been en
 $string['installer_enabledrest'] = 'Moodle\'s webservice REST protocol has been enabled automatically to allow SEMCO to communicate with Moodle via webservices.';
 $string['installer_enabledws'] = 'Moodle\'s webservice subsystem has been enabled automatically to allow SEMCO to communicate with Moodle via webservices.';
 $string['installer_enabledplugin'] = 'The SEMCO enrolment plugin has been enabled automatically.';
-$string['installer_finalnotenoproblems'] = ' SEMCO should be able to communicate with Moodle now.';
+$string['installer_finalnotenoproblems'] = 'SEMCO should be able to communicate with Moodle now.';
 $string['installer_finalnotewithproblems'] = 'As there were issues with the automatic configuration in the previous steps, SEMCO might not be able to communicate with Moodle yet. Please double-check all configurations manually.';
 $string['installer_notcreatedprofilefield'] = 'The user profile field \'SEMCO user ID\' could not be created and properly configured automatically as it seems to exist already. Please verify the user field configuration manually.';
 $string['installer_notcreatedrole'] = 'The role \'SEMCO webservice\' could not be created and properly configured automatically as it seems to exist already. Please verify the role configuration manually.';
@@ -81,7 +81,7 @@ $string['uninstaller_removeduser'] = 'The user \'SEMCO webservice\' was removed 
 
 // Capabilities.
 $string['semco:editenrolment'] = 'Edit an existing SEMCO user enrolment';
-$string['semco:enrol'] = 'Enrol SEMCO users from a course';
+$string['semco:enrol'] = 'Enrol SEMCO users into a course';
 $string['semco:getenrolments'] = 'Get the existing SEMCO user enrolments from a course';
 $string['semco:unenrol'] = 'Unenrol SEMCO users from a course';
 $string['semco:usewebservice'] = 'Use the SEMCO enrolment webservices';
