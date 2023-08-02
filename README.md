@@ -15,7 +15,9 @@ This plugin requires Moodle 4.0+
 Motivation for this plugin
 --------------------------
 
-[The motivation to write this plugin]
+Moodle is great for managing and running e-learning courses, however is lacks some features and matureness when it comes to selling and organizing course memberships.\
+On the other hand, SEMCO is great in selling and organizing course memberships, but it lacks features to provide e-learning content for blended learning and self-learning scenarios.\
+This plugin bridges this gap and allows organizations to sell and manage their Moodle course memberships in SEMCO.
 
 
 Installation
@@ -70,9 +72,9 @@ During the installation, several steps to enable the webservice communication fr
 * The enrol_semco plugin is activated automatically.\
   You can verify this on /admin/settings.php?section=manageenrols.
 
-Each step is monitored with a clear success message in the installation wizard (in the web GUI as well as in the CLI). Watch out for any error messages during the installation of the plugin. If you see any error messages, please try to uninstall the plugin and re-install it again. If the erorr messages continue to be posted, please step through the list above and check if you can spot any asset which could block the automatic installation.
+Each step is monitored with a clear success message in the installation wizard (in the web GUI as well as in the CLI). Watch out for any error messages during the installation of the plugin. If you see any error messages, please try to uninstall the plugin and re-install it again. If the error messages continue to be posted, please step through the list above and check if you can spot any asset which could block the automatic installation.
 
-After installing the plugin and after the automatic configurtion, it is ready to use with SEMCO.
+After installing the plugin and after the automatic configuration, it is ready to be used with SEMCO.
 
 To configure the plugin and its behaviour, please visit:
 Site administration -> Plugins -> Enrolments -> SEMCO
@@ -86,6 +88,14 @@ In this section, you will find the Moodle base URL and the webservice token whic
 ### 2. Enrolment process
 
 In this section, you control with which role SEMCO enrols users into courses. The configured role is mandatory for all users who are enrolled from SEMCO and cannot be overridden with the SEMCO enrolment webservice endpoint.
+
+
+Connecting to SEMCO
+-------------------
+
+This documentation explains how to install this plugin in Moodle until it is ready to be connected by SEMCO.
+
+The other side of this connection is documented by SEMCO on https://www.semcosoft.com/de/helpreader/moodle-online-shop-mit-semco-moodle-integration (german).
 
 
 Capabilities
@@ -119,10 +129,59 @@ By default, these capabilities are not allowed to any role archetype as they sho
 They will be automatically assigned to the 'SEMCO webservice' role during the plugin installation.
 
 
-How this plugin works [ / Pitfalls]
------------------------------------
+How this plugin works
+---------------------
 
-[How it works]
+### General
+
+This plugin is implemented as enrolment plugin as this is its main purpose: Enrolling users into Moodle courses. To achieve this goal, this plugin offers multiple webservice functions which are called by SEMCO.\
+However, it is important to know that this plugin is part of the full SEMCO-Moodle integration. The business logic of this integration is implemented in SEMCO itself. SEMCO will not only communicate with this plugin but also with Moodle core webservice functions, especially to create users and to fill their user profile fields. To allow this communication, this plugin sets several capabilities from Moodle core during its installation (see above). 
+
+### Course enrolments
+
+Course enrolments which are created by SEMCO with this enrolment method are special in several ways. As Moodle administrator, you should know these facts:
+
+* There is one instance of this enrolment method _per course participant_ instead of one common 'SEMCO' enrolment instance for the whole course. This decision was made to allow SEMCO to store the (user-specific SEMCO booking ID within Moodle and to show this information in the course participant list). 
+* These user-specific enrolment instances are added and removed on-the-fly everytime when SEMCO is adding a user to a course or removing a user from a course. Adding the SEMCO enrolment method to a course manually is neither necessary nor possible.
+* These user-specific enrolment instances do not have any enrolment instance settings. You simply do not need to configure them.
+* These user-specific enrolment instances are protected. You simply cannot remove them from a course.
+* Likewise, the user enrolments are protected as well. You simply cannot manually unenrol a user which was enrolled by SEMCO.
+* Furthermore, the role assignments of these enrolments are protected as well. You can assign additional roles to enrolled SEMCO users, but you cannot remove the role which was assigned by SEMCO.
+
+### Data mappings
+
+Within the SEMCO-Moodle integration user-specific data is passed from SEMCO to Moodle. As Moodle administrator, you should know these facts:
+
+* The user accounts which are created by SEMCO are created as manual user accounts. There is no 'SEMCO' auth method for Moodle.
+* The usernames / login names of these users follow a common scheme. They all start with 'kn-', followed by a six digit number, followed by a dash, followed by another digit. An example would be: kn-010020-1. This name scheme might differ in future SEMCO releases or in customer-specific SEMCO installations.
+* This plugin created a user profile field called 'SEMCO User ID' during its installation. This user profile field holds the user ID of the user from within SEMCO. This profile field is filled when SEMCO creates a Moodle user. The 'SEMCO User ID' is normally the same as the Moodle username, just without the last digit.
+* As mentioned above, the SEMCO booking ID of a particular course booking is stored into the name of the enrolment instance with which the user is enrolled into a course. SEMCO booking IDs are unique which means that, if you look at a particular enrolment instance in a course, you can trace this enrolment back to the booking in SEMCO with the help of the given SEMCO booking ID.
+* The base user profile fields (first name, last name, email address) and the 'SEMCO User ID' profile field of all users which are created by SEMCO are kept up to date by SEMCO. If these fields are changed in SEMCO for any reason, they are updated in Moodle as well.
+
+### Warnings
+
+As Moodle administrator, you have the power to tamper with the user which are created by SEMCO and to break the integration for these users. This risk could not be eliminated programmatically during the implementation of this plugin.
+
+Thus, please do not fiddle with this data, please:
+
+1. Do not change the user name of SEMCO users. You will break their ability to login to Moodle and might prevent that SEMCO will find this user again in future webservice calls.
+2. Do not change the 'SEMCO User ID' profile field of SEMCO users for the same reason.
+3. Do not change the first name, last name or email address of SEMCO users. Change these fields directly in SEMCO. SEMCO will overwrite these fields during its next full synchronisation with Moodle anyway.
+4. Do not change the settings of the 'SEMCO User ID' profile field, especially do not rename it, unlock it, make it required or change the visibility to anything else than 'Not visible'. You might break the expected / proper usage of this profile field or uncover the profile field data to other users who do not need to see it.
+5. Do not fill the 'SEMCO User ID' profile field of manually created Moodle users and do not try to "link" existing Moodle users to SEMCO by filling their 'SEMCO User ID' profile field. Let SEMCO handle its users itself. SEMCO will not know about these users anyway.
+6. Do not manually enrol SEMCO users who got enrolled into course A by SEMCO into other courses which are controlled by SEMCO as well. Let SEMCO manage its enrolments itself. SEMCO will not know about these manual enrolments anyway.
+
+
+Important global Moodle settings
+--------------------------------
+
+During the design of the SEMCO-Moodle integration, some assumptions about the usage scenarios were made which have consequences on global Moodle settings.
+Your SEMCO-Moodle integration does not necessarily need to fully match these usage scenarios, but you should think about them before the go-live of your integration:
+
+* The email addresses of Moodle users should be unique (i.e. the Moodle setting allowaccountssameemail is set to No). This is because you will want to avoid that SEMCO creates a Moodle user if - for any reason - another Moodle user already exists for the same email address. However, SEMCO is able to deal with multiple tenants where multiple user accounts have the same email address. If your usage scenario requires it and as soon as your SEMCO consultant recommends it, you can set the allowaccountssameemail setting to Yes.
+* A course which is sold via SEMCO - or ideally all courses in the Moodle instance - should not have self-enrolment enabled. Alternatively, you should configure the 'Authenticated user' role in Moodle in a way that users cannot enrol into courses themselves. This is because you will not want that users who got enrolled into course A by SEMCO are able to enrol into course B themselves (without paying for the course via SEMCO). And you might not want that users who came from SEMCO snoop around in other Moodle courses which are not connected to SEMCO.
+* The role with which SEMCO enrols users into courses (and which can be set in the plugin configuration) should not have the moodle/course:viewparticipants capabilities set. This is because you should assume that these course participants are not all members of the same class / cohort and do not know each other. If they would see each other participants in the course, you might even have a data protection leak.
+* For the same reason, you should also disable the Moodle messaging system to avoid that users get in touch with each other on the Moodle instance. 
 
 
 Backup & Restore
@@ -142,10 +201,9 @@ It should also work with Boost child themes, including Moodle Core's Classic the
 Plugin repositories
 -------------------
 
-This plugin is published and regularly updated in the Moodle plugins repository:
-http://moodle.org/plugins/view/enrol_semco
+This plugin is not published in the Moodle plugins repository.
 
-The latest development version can be found on Github:
+The latest stable version can be found on Github:
 https://github.com/lernlink/moodle-enrol_semco
 
 
@@ -157,11 +215,13 @@ This plugin is carefully developed and thoroughly tested, but bugs and problems 
 Please report bugs and problems on Github:
 https://github.com/lernlink/moodle-enrol_semco/issues
 
+Alternatively, you can report your issues to us via support@lernlink.de.
+
 
 Community feature proposals
 ---------------------------
 
-The functionality of this plugin is primarily implemented for the needs of our clients and published as-is to the community. We are aware that members of the community will have other needs and would love to see them solved by this plugin.
+The functionality of this plugin is primarily implemented for the needs of our clients. We are aware that members of the community will have other needs and would love to see them solved by this plugin.
 
 Please issue feature proposals on Github:
 https://github.com/lernlink/moodle-enrol_semco/issues
@@ -183,8 +243,6 @@ Moodle release support
 
 This plugin is only maintained for the most recent major release of Moodle as well as the most recent LTS release of Moodle. Bugfixes are backported to the LTS release. However, new features and improvements are not necessarily backported to the LTS release.
 
-Apart from these maintained releases, previous versions of this plugin which work in legacy major releases of Moodle are still available as-is without any further updates in the Moodle Plugins repository.
-
 There may be several weeks after a new major release of Moodle has been published until we can do a compatibility check and fix problems if necessary. If you encounter problems with a new major release of Moodle - or can confirm that this plugin still works with a new major release - please let us know on Github.
 
 If you are running a legacy version of Moodle, but want or need to run the latest version of this plugin, you can get the latest version of the plugin, remove the line starting with $plugin->requires from version.php and use this latest plugin version then on your legacy Moodle. However, please note that you will run this setup completely at your own risk. We can't support this approach in any way and there is an undeniable risk for erratic behavior.
@@ -193,9 +251,7 @@ If you are running a legacy version of Moodle, but want or need to run the lates
 Translating this plugin
 -----------------------
 
-This Moodle plugin is shipped with an english language pack only. All translations into other languages must be managed through AMOS (https://lang.moodle.org) by what they will become part of Moodle's official language pack.
-
-As the plugin creator, we manage the translation into german for our own local needs on AMOS. Please contribute your translation into all other languages in AMOS where they will be reviewed by the official language pack maintainers for Moodle.
+This Moodle plugin is shipped with an english and german language pack. It can't be translated on AMOS as it is not published in the Moodle plugins repository.
 
 
 Right-to-left support
