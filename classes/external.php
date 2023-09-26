@@ -178,6 +178,13 @@ class enrol_semco_external extends external_api {
             throw new moodle_exception('timeendinvalid', 'enrol_semco');
         }
 
+        // Throw an exception if there is already an enrolment instance which overlaps with the given enrolment period.
+        $overlapexists = enrol_semco_detect_enrolment_overlap($params['courseid'], $params['userid'], $params['timestart'],
+                $params['timeend']);
+        if ($overlapexists == true) {
+            throw new moodle_exception('bookingoverlap', 'enrol_semco');
+        }
+
         // Add an enrolment instance to the course on-the-fly.
         // For each particular enrolment, a new enrolment instance will be created in the course.
         // This might sound crazy, however it's the only way to overcome Moodle's database unique contraint for the
@@ -477,6 +484,29 @@ class enrol_semco_external extends external_api {
         // Throw an exception if the timestart parameter was given (i.e. the caller wants to overwrite it) but is invalid.
         if ($params['timeend'] !== null && $params['timeend'] < 0) {
             throw new moodle_exception('timeendinvalid', 'enrol_semco');
+        }
+
+        // Throw an exception if either timestart or timeend parameter was given, but there is already an enrolment instance
+        // which overlaps with the given enrolment period.
+        if ($params['timestart'] !== null || $params['timeend'] !== null) {
+            // Pick the parameters for calling the overlap function.
+            $timestartforoverlap = $params['timestart'];
+            $timeendforoverlap = $params['timeend'];
+            // If no timestart was given (but obviously timeend was given).
+            if ($params['timestart'] === null) {
+                // Get the original timestart from the enrolment instance.
+                $timestartforoverlap = (int) $userinstance->timestart;
+            }
+            // If no timeend was given (but obviously timestart was given).
+            if ($params['timeend'] === null) {
+                // Get the original timeend from the enrolment instance.
+                $timeendforoverlap = (int) $userinstance->timeend;
+            }
+            $overlapexists = enrol_semco_detect_enrolment_overlap($instance->courseid, $userinstance->userid, $timestartforoverlap,
+                    $timeendforoverlap, $instance->id);
+            if ($overlapexists == true) {
+                throw new moodle_exception('bookingoverlap', 'enrol_semco');
+            }
         }
 
         // Finally, if there were any enrolment fields set.

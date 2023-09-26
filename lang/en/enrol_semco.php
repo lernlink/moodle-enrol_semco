@@ -43,6 +43,7 @@ $string['settings_wwwrootinfofound'] = 'The Moodle base URL for the SEMCO webser
 $string['bookingidduplicate'] = 'There is already an enrolment instance with this SEMCO booking ID ({$a}).';
 $string['bookingidduplicatemustchange'] = 'There is already an enrolment instance with this SEMCO booking ID ({$a}). If you want to edit the enrolment without changing the SEMCO booking ID, simply do not pass the booking ID as parameter. If you want to edit the enrolment and change the SEMCO booking ID, make sure that you do not set it to an ID which exists somewhere else in the system already.';
 $string['bookingidempty'] = 'The SEMCO booking ID field must not be empty.';
+$string['bookingoverlap'] = 'There is already an enrolment instance with an enrolment period which overlaps with the given enrolment period. However, overlapping enrolment periods are not supported.';
 $string['coursenotexist'] = 'The given course ({$a}) does not exist.';
 $string['enrolnoinstance'] = 'The SEMCO enrolment plugin instance associated to the given user enrolment instance ({$a}) does not exist.';
 $string['enrolnouserinstance'] = 'The given user enrolment instance ({$a}) does not exist.';
