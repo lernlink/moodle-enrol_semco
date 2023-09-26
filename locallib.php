@@ -56,14 +56,14 @@ function enrol_semco_roleassign_updatecallback() {
     $newsemcoroleid = get_config('enrol_semco', 'role');
 
     // Get the SEMCO webservice role ID from the database.
-    $semcoroleid = $DB->get_field('role', 'id', array('shortname' => ENROL_SEMCO_ROLEANDUSERNAME));
+    $semcoroleid = $DB->get_field('role', 'id', ['shortname' => ENROL_SEMCO_ROLEANDUSERNAME]);
 
     // If we have found a role ID.
     if (is_numeric($newsemcoroleid) && is_numeric($semcoroleid)) {
         // Check if the SEMCO webservice user is already allowed to assign the new setting's role.
         // (We have to check that because otherwise core_role_set_assign_allowed() would throw a 'duplicate key value violation').
-        $alreadyallowed = $DB->record_exists('role_allow_assign', array('roleid' => $semcoroleid,
-                'allowassign' => $newsemcoroleid));
+        $alreadyallowed = $DB->record_exists('role_allow_assign', ['roleid' => $semcoroleid,
+                'allowassign' => $newsemcoroleid, ]);
 
         // If the role is not allowed yet.
         if ($alreadyallowed == false) {

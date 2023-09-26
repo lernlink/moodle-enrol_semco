@@ -27,54 +27,54 @@ defined('MOODLE_INTERNAL') || die();
 // Require plugin library.
 require_once($CFG->dirroot.'/enrol/semco/locallib.php');
 
-$services = array(
-        'SEMCO' => array(
-                'functions' => array(
+$services = [
+        'SEMCO' => [
+                'functions' => [
                         'core_course_get_courses_by_field',
                         'core_user_create_users',
                         'core_user_delete_users',
                         'core_user_get_users_by_field',
-                        'core_user_update_users'),
+                        'core_user_update_users', ],
                 'requiredcapability' => 'enrol/semco:usewebservice',
                 'enabled' => 1,
                 'restrictedusers' => 1,
                 'shortname' => ENROL_SEMCO_SERVICENAME,
                 'downloadfiles' => 0,
-                'uploadfiles' => 0
-        )
-);
+                'uploadfiles' => 0,
+        ],
+];
 
-$functions = array(
-        'enrol_semco_enrol_user' => array(
+$functions = [
+        'enrol_semco_enrol_user' => [
                 'classname' => 'enrol_semco_external',
                 'methodname' => 'enrol_user',
                 'description' => 'Enrol a given user from SEMCO',
                 'capabilities' => 'enrol/semco:enrol',
                 'type' => 'write',
-                'services' => array(ENROL_SEMCO_SERVICENAME),
-        ),
-        'enrol_semco_unenrol_user' => array(
+                'services' => [ENROL_SEMCO_SERVICENAME],
+        ],
+        'enrol_semco_unenrol_user' => [
                 'classname' => 'enrol_semco_external',
                 'methodname' => 'unenrol_user',
                 'description' => 'Unenrol a given user from SEMCO',
                 'capabilities' => 'enrol/semco:unenrol',
                 'type' => 'write',
-                'services' => array(ENROL_SEMCO_SERVICENAME),
-        ),
-        'enrol_semco_edit_enrolment' => array(
+                'services' => [ENROL_SEMCO_SERVICENAME],
+        ],
+        'enrol_semco_edit_enrolment' => [
                 'classname' => 'enrol_semco_external',
                 'methodname' => 'edit_enrolment',
                 'description' => 'Edit an existing user enrolment from SEMCO',
                 'capabilities' => 'enrol/semco:editenrolment',
                 'type' => 'write',
-                'services' => array(ENROL_SEMCO_SERVICENAME),
-        ),
-        'enrol_semco_get_enrolments' => array(
+                'services' => [ENROL_SEMCO_SERVICENAME],
+        ],
+        'enrol_semco_get_enrolments' => [
                 'classname' => 'enrol_semco_external',
                 'methodname' => 'get_enrolments',
                 'description' => 'Get the existing user enrolments from SEMCO in a course',
                 'capabilities' => 'enrol/semco:getenrolments',
                 'type' => 'read',
-                'services' => array(ENROL_SEMCO_SERVICENAME),
-        ),
-);
+                'services' => [ENROL_SEMCO_SERVICENAME],
+        ],
+];

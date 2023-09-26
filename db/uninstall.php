@@ -37,7 +37,7 @@ function xmldb_enrol_semco_uninstall() {
     global $DB, $OUTPUT;
 
     // If the SEMCO webservice role still exists.
-    $rolerecord = $DB->get_record('role', array('shortname' => ENROL_SEMCO_ROLEANDUSERNAME));
+    $rolerecord = $DB->get_record('role', ['shortname' => ENROL_SEMCO_ROLEANDUSERNAME]);
     if ($rolerecord != false) {
         // Remove it.
         delete_role($rolerecord->id);
@@ -50,7 +50,7 @@ function xmldb_enrol_semco_uninstall() {
     }
 
     // If the SEMCO webservice user still exists.
-    $userrecord = $DB->get_record('user', array('username' => ENROL_SEMCO_ROLEANDUSERNAME));
+    $userrecord = $DB->get_record('user', ['username' => ENROL_SEMCO_ROLEANDUSERNAME]);
     if ($userrecord != false) {
         // Remove it.
         user_delete_user($userrecord);

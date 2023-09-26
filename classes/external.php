@@ -52,7 +52,7 @@ class enrol_semco_external extends external_api {
      */
     public static function enrol_user_parameters() {
         return new external_function_parameters(
-                array(
+                [
                         'userid' =>
                                 new external_value(PARAM_INT,
                                         'The Moodle user ID that is going to be enrolled.',
@@ -78,8 +78,8 @@ class enrol_semco_external extends external_api {
                                 new external_value(PARAM_BOOL,
                                         'The fact if the enrolment is suspended or not (0: not suspended, 1: suspended)'.
                                                 ' [optional].',
-                                        VALUE_DEFAULT, false)
-                )
+                                        VALUE_DEFAULT, false),
+                ]
         );
     }
 
@@ -104,18 +104,18 @@ class enrol_semco_external extends external_api {
         require_once($CFG->libdir.'/enrollib.php');
 
         // Validate given parameters.
-        $arrayparams = array(
+        $arrayparams = [
                 'userid' => $userid,
                 'courseid' => $courseid,
                 'semcobookingid' => $semcobookingid,
                 'timestart' => $timestart,
                 'timeend' => $timeend,
                 'suspend' => $suspend,
-        );
+        ];
         $params = self::validate_parameters(self::enrol_user_parameters(), $arrayparams);
 
         // Initialize warnings.
-        $warnings = array();
+        $warnings = [];
 
         // Start a transaction to rollback the changes if an error occurs (except if the DB doesn't support it).
         $transaction = $DB->start_delegated_transaction();
@@ -163,7 +163,7 @@ class enrol_semco_external extends external_api {
         }
 
         // Throw an exception if there is already an enrolment instance with the given booking ID.
-        $instanceexists = $DB->record_exists('enrol', array('customchar1' => $params['semcobookingid']));
+        $instanceexists = $DB->record_exists('enrol', ['customchar1' => $params['semcobookingid']]);
         if ($instanceexists == true) {
             throw new moodle_exception('bookingidduplicate', 'enrol_semco', '', $params['semcobookingid']);
         }
@@ -183,11 +183,11 @@ class enrol_semco_external extends external_api {
         // This might sound crazy, however it's the only way to overcome Moodle's database unique contraint for the
         // instanceid + userid tupel on the one hand and to show the SEMCO booking ID in the enrolment details modal
         // on the other hand.
-        $instancefields = array('status' => ENROL_INSTANCE_ENABLED, 'customchar1' => $params['semcobookingid']);
+        $instancefields = ['status' => ENROL_INSTANCE_ENABLED, 'customchar1' => $params['semcobookingid']];
         $newinstanceid = $enrol->add_instance(get_course($params['courseid']), $instancefields);
 
         // And remember it for further processing.
-        $instance = $DB->get_record('enrol', array('id' => $newinstanceid), '*', MUST_EXIST);
+        $instance = $DB->get_record('enrol', ['id' => $newinstanceid], '*', MUST_EXIST);
 
         // Finally proceed the enrolment.
         // As written above, this endpoint will create a new enrolment instance per call.
@@ -201,17 +201,17 @@ class enrol_semco_external extends external_api {
         $enrol->enrol_user($instance, $params['userid'], $roleid, $params['timestart'], $params['timeend'], $status);
 
         // Get the created enrolment ID from the database (as we have to return it and enrol_user() didn't give it to us).
-        $enrolid = $DB->get_field('user_enrolments', 'id', array('enrolid' => $instance->id, 'userid' => $params['userid']));
+        $enrolid = $DB->get_field('user_enrolments', 'id', ['enrolid' => $instance->id, 'userid' => $params['userid']]);
 
         // Commit the DB transaction.
         $transaction->allow_commit();
 
         // Return the results.
-        $result = array('enrolid' => $enrolid,
+        $result = ['enrolid' => $enrolid,
                 'userid' => $params['userid'],
                 'courseid' => $params['courseid'],
                 'semcobookingid' => $params['semcobookingid'],
-                'warnings' => $warnings);
+                'warnings' => $warnings, ];
         return $result;
     }
 
@@ -222,7 +222,7 @@ class enrol_semco_external extends external_api {
      */
     public static function enrol_user_returns() {
         return new external_single_structure(
-                array(
+                [
                         'enrolid' =>
                                 new external_value(PARAM_INT, 'The Moodle enrolment ID of the created enrolment.'),
                         'userid' =>
@@ -231,8 +231,8 @@ class enrol_semco_external extends external_api {
                                 new external_value(PARAM_INT, 'The Moodle course ID of the created enrolment.'),
                         'semcobookingid' =>
                                 new external_value(PARAM_TEXT, 'The SEMCO booking ID of the created enrolment.'),
-                        'warnings' => new external_warnings()
-                )
+                        'warnings' => new external_warnings(),
+                ]
         );
     }
 
@@ -243,12 +243,12 @@ class enrol_semco_external extends external_api {
      */
     public static function unenrol_user_parameters() {
         return new external_function_parameters(
-                array(
+                [
                         'enrolid' =>
                                 new external_value(PARAM_INT,
                                     'The Moodle enrolment ID that should be unenrolled.',
                                     VALUE_REQUIRED),
-                )
+                ]
         );
     }
 
@@ -268,13 +268,13 @@ class enrol_semco_external extends external_api {
         require_once($CFG->libdir.'/enrollib.php');
 
         // Validate given parameters.
-        $arrayparams = array(
+        $arrayparams = [
                 'enrolid' => $enrolid,
-        );
+        ];
         $params = self::validate_parameters(self::unenrol_user_parameters(), $arrayparams);
 
         // Initialize warnings.
-        $warnings = array();
+        $warnings = [];
 
         // Start a transaction to rollback all changes if an error occurs (except if the DB doesn't support it).
         $transaction = $DB->start_delegated_transaction();
@@ -292,14 +292,14 @@ class enrol_semco_external extends external_api {
 
         // Get the user enrolment associated to the given enrolment ID from the database,
         // throw an exception if it does not exist.
-        $userinstance = $DB->get_record('user_enrolments', array('id' => $params['enrolid']));
+        $userinstance = $DB->get_record('user_enrolments', ['id' => $params['enrolid']]);
         if (empty($userinstance)) {
             throw new moodle_exception('enrolnouserinstance', 'enrol_semco', '', $params['enrolid']);
         }
 
         // Get the enrolment instance associated to the given enrolment ID from the database,
         // throw an exception if it does not exist.
-        $instance = $DB->get_record('enrol', array('enrol' => 'semco', 'id' => $userinstance->enrolid));
+        $instance = $DB->get_record('enrol', ['enrol' => 'semco', 'id' => $userinstance->enrolid]);
         if (empty($instance)) {
             throw new moodle_exception('enrolnoinstance', 'enrol_semco', '', $params['enrolid']);
         }
@@ -329,8 +329,8 @@ class enrol_semco_external extends external_api {
         $transaction->allow_commit();
 
         // Return the results.
-        $result = array('result' => true,
-                'warnings' => $warnings);
+        $result = ['result' => true,
+                'warnings' => $warnings, ];
         return $result;
     }
 
@@ -341,10 +341,10 @@ class enrol_semco_external extends external_api {
      */
     public static function unenrol_user_returns() {
         return new external_single_structure(
-                array(
+                [
                         'result' => new external_value(PARAM_BOOL, 'The unenrolment result.'),
-                        'warnings' => new external_warnings()
-                )
+                        'warnings' => new external_warnings(),
+                ]
         );
     }
 
@@ -355,7 +355,7 @@ class enrol_semco_external extends external_api {
      */
     public static function edit_enrolment_parameters() {
         return new external_function_parameters(
-                array(
+                [
                         'enrolid' =>
                                 new external_value(PARAM_INT,
                                         'The Moodle enrolment ID that should be edited.',
@@ -378,8 +378,8 @@ class enrol_semco_external extends external_api {
                                 new external_value(PARAM_BOOL,
                                         'The fact if the enrolment is suspended or not (0: not suspended, 1: suspended)'.
                                                 ' [optional].',
-                                        VALUE_DEFAULT, null)
-                )
+                                        VALUE_DEFAULT, null),
+                ]
         );
     }
 
@@ -401,17 +401,17 @@ class enrol_semco_external extends external_api {
         require_once($CFG->libdir.'/enrollib.php');
 
         // Validate given parameters.
-        $arrayparams = array(
+        $arrayparams = [
                 'enrolid' => $enrolid,
                 'semcobookingid' => $semcobookingid,
                 'timestart' => $timestart,
                 'timeend' => $timeend,
                 'suspend' => $suspend,
-        );
+        ];
         $params = self::validate_parameters(self::edit_enrolment_parameters(), $arrayparams);
 
         // Initialize warnings.
-        $warnings = array();
+        $warnings = [];
 
         // Start a transaction to rollback all changes if an error occurs (except if the DB doesn't support it).
         $transaction = $DB->start_delegated_transaction();
@@ -429,14 +429,14 @@ class enrol_semco_external extends external_api {
 
         // Get the user enrolment associated to the given enrolment ID from the database,
         // throw an exception if it does not exist.
-        $userinstance = $DB->get_record('user_enrolments', array('id' => $params['enrolid']));
+        $userinstance = $DB->get_record('user_enrolments', ['id' => $params['enrolid']]);
         if (empty($userinstance)) {
             throw new moodle_exception('enrolnouserinstance', 'enrol_semco', '', $params['enrolid']);
         }
 
         // Get the enrolment instance associated to the given enrolment ID from the database,
         // throw an exception if it does not exist.
-        $instance = $DB->get_record('enrol', array('enrol' => 'semco', 'id' => $userinstance->enrolid));
+        $instance = $DB->get_record('enrol', ['enrol' => 'semco', 'id' => $userinstance->enrolid]);
         if (empty($instance)) {
             throw new moodle_exception('enrolnoinstance', 'enrol_semco', '', $params['enrolid']);
         }
@@ -463,7 +463,7 @@ class enrol_semco_external extends external_api {
         // given booking ID.
         // This can happen if the booking ID was set again or if a booking ID from another booking was submitted.
         if ($params['semcobookingid'] !== null) {
-            $instanceexists = $DB->record_exists('enrol', array('customchar1' => $params['semcobookingid']));
+            $instanceexists = $DB->record_exists('enrol', ['customchar1' => $params['semcobookingid']]);
             if ($instanceexists == true) {
                 throw new moodle_exception('bookingidduplicatemustchange', 'enrol_semco', '', $params['semcobookingid']);
             }
@@ -499,8 +499,8 @@ class enrol_semco_external extends external_api {
         $transaction->allow_commit();
 
         // Return the results.
-        $result = array('result' => true,
-                'warnings' => $warnings);
+        $result = ['result' => true,
+                'warnings' => $warnings, ];
         return $result;
     }
 
@@ -511,10 +511,10 @@ class enrol_semco_external extends external_api {
      */
     public static function edit_enrolment_returns() {
         return new external_single_structure(
-                array(
+                [
                         'result' => new external_value(PARAM_BOOL, 'The editing result.'),
-                        'warnings' => new external_warnings()
-                )
+                        'warnings' => new external_warnings(),
+                ]
         );
     }
 
@@ -525,12 +525,12 @@ class enrol_semco_external extends external_api {
      */
     public static function get_enrolments_parameters() {
         return new external_function_parameters(
-                array(
+                [
                         'courseid' =>
                                 new external_value(PARAM_INT,
                                         'The Moodle course ID of which the enrolments should be returned.',
                                         VALUE_REQUIRED),
-                )
+                ]
         );
     }
 
@@ -548,9 +548,9 @@ class enrol_semco_external extends external_api {
         require_once($CFG->libdir.'/enrollib.php');
 
         // Validate given parameters.
-        $arrayparams = array(
+        $arrayparams = [
                 'courseid' => $courseid,
-        );
+        ];
         $params = self::validate_parameters(self::get_enrolments_parameters(), $arrayparams);
 
         // Retrieve the SEMCO enrolment plugin.
@@ -565,7 +565,7 @@ class enrol_semco_external extends external_api {
         }
 
         // Get the course from the DB, throw an exception if it does not exist.
-        $courseexists = $DB->record_exists('course', array('id' => $params['courseid']));
+        $courseexists = $DB->record_exists('course', ['id' => $params['courseid']]);
         if ($courseexists == false) {
             throw new moodle_exception('coursenotexist', 'enrol_semco', '', $params['courseid']);
         }
@@ -587,7 +587,7 @@ class enrol_semco_external extends external_api {
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
                 ORDER BY ue.id';
-        $sqlparams = array('courseid' => $params['courseid']);
+        $sqlparams = ['courseid' => $params['courseid']];
         $enrolments = $DB->get_records_sql($sql, $sqlparams);
 
         // Return the results.
@@ -602,7 +602,7 @@ class enrol_semco_external extends external_api {
     public static function get_enrolments_returns() {
         return new external_multiple_structure(
                 new external_single_structure(
-                        array(
+                        [
                                 'enrolid' => new external_value(PARAM_INT, 'The Moodle enrolment ID of the enrolment.'),
                                 'userid' => new external_value(PARAM_INT, 'The Moodle user ID of the enrolment.'),
                                 'semcobookingid' => new external_value(PARAM_TEXT, 'The SEMCO booking ID of the enrolment.'),
@@ -613,7 +613,7 @@ class enrol_semco_external extends external_api {
                                 'suspend' => new external_value(PARAM_BOOL, 'The fact if the enrolment is suspended or not (0:'.
                                         ' not suspended, 1: suspended).'),
 
-                        )
+                        ]
                 )
         );
     }
