@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2023-09-26 - Prepare compatibility for Moodle 4.2.
 * 2023-09-26 - Make codechecker happy again
 * 2023-09-26 - Updated Moodle Plugin CI to latest upstream recommendations
 
