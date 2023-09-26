@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2023-09-26 - Improvement: The Webservice enrol_semco_get_enrolments will only return SEMCO enrolment instances from now on (instead of all enrolments).
 * 2023-09-26 - Make codechecker happy again
 * 2023-09-26 - Updated Moodle Plugin CI to latest upstream recommendations
 
