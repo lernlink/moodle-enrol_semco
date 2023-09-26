@@ -29,7 +29,7 @@ if ($ADMIN->fulltree) {
     require_once($CFG->dirroot.'/enrol/semco/locallib.php');
 
     // Show the webservice token from the DB (but only if we are on the right page to save unnecessary database queries).
-    $settingsurl = new moodle_url('/admin/settings.php', array('section' => 'enrolsettingssemco'));
+    $settingsurl = new moodle_url('/admin/settings.php', ['section' => 'enrolsettingssemco']);
     if ($settingsurl->compare($PAGE->url, URL_MATCH_PARAMS) == true) {
         // Create connection information heading.
         $name = 'enrol_semco/settings_connectioninfoheading';
@@ -51,7 +51,7 @@ if ($ADMIN->fulltree) {
                 JOIN {external_services} es ON et.externalserviceid = es.id
                 JOIN {user} u ON et.userid = u.id
                 WHERE u.username = :username AND es.shortname = :serviceshortname';
-        $sqlparams = array('serviceshortname' => ENROL_SEMCO_SERVICENAME, 'username' => ENROL_SEMCO_ROLEANDUSERNAME);
+        $sqlparams = ['serviceshortname' => ENROL_SEMCO_SERVICENAME, 'username' => ENROL_SEMCO_ROLEANDUSERNAME];
         $webservicetoken = $DB->get_field_sql($sql, $sqlparams);
 
         // If a token was found.
@@ -82,7 +82,7 @@ if ($ADMIN->fulltree) {
     $settings->add($setting);
 
     // Create role chooser widget.
-    $roleoptions = array();
+    $roleoptions = [];
     // Get some basic data we are going to need.
     $roles = get_all_roles();
     $systemcontext = context_system::instance();
