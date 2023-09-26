@@ -522,7 +522,7 @@ class enrol_semco_external extends external_api {
         }
 
         // Finally, if there were any enrolment fields set.
-        if (isset($params['timestart']) || isset($params['timestart']) || isset($params['suspend'])) {
+        if (isset($params['timestart']) || isset($params['timeend']) || isset($params['suspend'])) {
             // Edit the enrolment details.
             $params['timestart'] = (isset($params['timestart']) && !empty($params['timestart'])) ? $params['timestart'] : 0;
             $params['timeend'] = (isset($params['timeend']) && !empty($params['timeend'])) ? $params['timeend'] : 0;
