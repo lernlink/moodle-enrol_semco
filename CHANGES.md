@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2023-09-26 - Improvement: The Webservice enrol_semco_get_enrolments will only return SEMCO enrolment instances from now on (instead of all enrolments).
+
 ### v4.2-r1
 
 * 2023-09-26 - Upgrade: Replace function call to external_generate_token() with core_external\util::generate_token() as the library function was moved in Moodle core.
