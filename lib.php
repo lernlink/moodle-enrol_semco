@@ -183,7 +183,7 @@ class enrol_semco_plugin extends enrol_plugin {
      * @return array
      */
     public function get_action_icons(stdClass $instance) {
-        return array();
+        return [];
     }
 
     /**

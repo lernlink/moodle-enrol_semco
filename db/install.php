@@ -74,14 +74,14 @@ function xmldb_enrol_semco_install() {
     }
 
     // If the SEMCO webservice role does not exist yet. As this plugin is installed freshly, this should be the case.
-    if ($DB->record_exists('role', array('shortname' => ENROL_SEMCO_ROLEANDUSERNAME)) == false) {
+    if ($DB->record_exists('role', ['shortname' => ENROL_SEMCO_ROLEANDUSERNAME]) == false) {
         // Create the SEMCO webservice role.
         $semcoroleid = create_role(get_string('installer_rolename', 'enrol_semco'),
                 ENROL_SEMCO_ROLEANDUSERNAME,
                 get_string('installer_roledescription', 'enrol_semco'));
 
         // Allow the role in the system context.
-        set_role_contextlevels($semcoroleid, array(CONTEXT_SYSTEM));
+        set_role_contextlevels($semcoroleid, [CONTEXT_SYSTEM]);
 
         // Update the plugin's capabilities. The Moodle core installer would do this himself, but it would do it _after_ processing
         // this file. To be able to run assign_capability() later, we need to prepone this step ourselves.
@@ -161,7 +161,7 @@ function xmldb_enrol_semco_install() {
     }
 
     // If the SEMCO webservice user does not exist yet. As this plugin is installed freshly, this should be the case.
-    if ($DB->record_exists('user', array('username' => ENROL_SEMCO_ROLEANDUSERNAME)) == false) {
+    if ($DB->record_exists('user', ['username' => ENROL_SEMCO_ROLEANDUSERNAME]) == false) {
         // Create the SEMCO webservice user.
         $semcouser = create_user_record(ENROL_SEMCO_ROLEANDUSERNAME, md5(rand()), ENROL_SEMCO_AUTH);
 
@@ -203,7 +203,7 @@ function xmldb_enrol_semco_install() {
         external_update_descriptions('enrol_semco');
 
         // Get the ID of the service for further processing.
-        $semcoserviceid = $DB->get_field('external_services', 'id', array('shortname' => ENROL_SEMCO_SERVICENAME));
+        $semcoserviceid = $DB->get_field('external_services', 'id', ['shortname' => ENROL_SEMCO_SERVICENAME]);
 
         // Add the SEMCO webservice user to the SEMCO webservice as allowed user.
         $webservicemanager = new webservice();
@@ -225,7 +225,7 @@ function xmldb_enrol_semco_install() {
         // fact that the token is not shown on /admin/webservice/tokens.php.
         // To avoid this problem, we set the creatorid of the token to the SEMCO webservice user id now.
         $generatedtoken = $DB->get_record('external_tokens',
-                array('externalserviceid' => $semcoserviceid, 'userid' => $semcouser->id),
+                ['externalserviceid' => $semcoserviceid, 'userid' => $semcouser->id],
                 '*',
                 MUST_EXIST);
         $generatedtoken->creatorid = $semcouser->id;
@@ -250,11 +250,11 @@ function xmldb_enrol_semco_install() {
     }
 
     // If the SEMCO user profile field does not exist yet.
-    $profilefield = $DB->get_record('user_info_field', array('shortname' => ENROL_SEMCO_USERFIELDNAME));
+    $profilefield = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELDNAME]);
     if ($profilefield == false) {
 
         // If the SEMCO user profile field category does not exist yet.
-        $profilefieldcategory = $DB->get_record('user_info_category', array('name' => ENROL_SEMCO_USERFIELDCATEGORY));
+        $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
         if ($profilefieldcategory == false) {
             // Create the SEMCO user profile field category (this is rather hardcoded but should work in the forseeable future).
             $categorydata = new stdClass();
@@ -264,7 +264,7 @@ function xmldb_enrol_semco_install() {
             profile_save_category($categorydata);
 
             // Get the category object again for further usage.
-            $profilefieldcategory = $DB->get_record('user_info_category', array('name' => ENROL_SEMCO_USERFIELDCATEGORY));
+            $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
         }
 
         // Create SEMCO user profile field (this is rather hardcoded but should work in the forseeable future).

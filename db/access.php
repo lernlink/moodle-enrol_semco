@@ -24,7 +24,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$capabilities = array(
+$capabilities = [
         // Ability to control Moodle enrolments via the SEMCO enrolment webservice.
         // This might be unnecessary as we also have the enrol/semco:enrol, enrol/semco:unenrol and
         // enrol/semco:editenrolment capabilities.
@@ -32,36 +32,36 @@ $capabilities = array(
         // Webservice set defined by this plugin.
         // By default, this is not allowed to any role archetype as it should just be used by a webservice.
         // It will be automatically assigned to the SEMCO webservice role in install.php.
-        'enrol/semco:usewebservice' => array(
+        'enrol/semco:usewebservice' => [
                 'captype' => 'write',
                 'contextlevel' => CONTEXT_SYSTEM,
-        ),
+        ],
         // Ability to enrol a SEMCO user into a course.
         // By default, this is not allowed to any role archetype as it should just be used by a webservice.
         // It will be automatically assigned to the SEMCO webservice role in install.php.
-        'enrol/semco:enrol' => array(
+        'enrol/semco:enrol' => [
                 'captype' => 'write',
                 'contextlevel' => CONTEXT_COURSE,
-        ),
+        ],
         // Ability to unenrol a SEMCO user from a course.
         // By default, this is not allowed to any role archetype as it should just be used by a webservice.
         // It will be automatically assigned to the SEMCO webservice role in install.php.
-        'enrol/semco:unenrol' => array(
+        'enrol/semco:unenrol' => [
                 'captype' => 'write',
                 'contextlevel' => CONTEXT_COURSE,
-        ),
+        ],
         // Ability to edit an existing SEMCO user enrolment in a course.
         // By default, this is not allowed to any role archetype as it should just be used by a webservice.
         // It will be automatically assigned to the SEMCO webservice role in install.php.
-        'enrol/semco:editenrolment' => array(
+        'enrol/semco:editenrolment' => [
                 'captype' => 'write',
                 'contextlevel' => CONTEXT_COURSE,
-        ),
+        ],
         // Ability to get the existing SEMCO user enrolments in a course.
         // By default, this is not allowed to any role archetype as it should just be used by a webservice.
         // It will be automatically assigned to the SEMCO webservice role in install.php.
-        'enrol/semco:getenrolments' => array(
+        'enrol/semco:getenrolments' => [
                 'captype' => 'read',
                 'contextlevel' => CONTEXT_COURSE,
-        ),
-);
+        ],
+];

@@ -47,7 +47,7 @@ class set_webservice_capability extends adhoc_task {
         $systemcontext = \context_system::instance();
 
         // Get the SEMCO webservice role.
-        $semcoroleid = $DB->get_field('role', 'id', array('shortname' => ENROL_SEMCO_ROLEANDUSERNAME), MUST_EXIST);
+        $semcoroleid = $DB->get_field('role', 'id', ['shortname' => ENROL_SEMCO_ROLEANDUSERNAME], MUST_EXIST);
 
         // Assign the capability.
         assign_capability('webservice/rest:use', CAP_ALLOW, $semcoroleid, $systemcontext->id);
