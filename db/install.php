@@ -219,7 +219,8 @@ function xmldb_enrol_semco_install() {
         echo $OUTPUT->render($notification);
 
         // Generate a webservice token for the user.
-        external_generate_token(EXTERNAL_TOKEN_PERMANENT, $semcoserviceid, $semcouser->id, $systemcontext);
+        $serviceobject = \core_external\util::get_service_by_id($semcoserviceid);
+        \core_external\util::generate_token(EXTERNAL_TOKEN_PERMANENT, $serviceobject, $semcouser->id, $systemcontext);
 
         // Unfortunately, with the previous function, the token was created with a creator ID of 0 which will result in the
         // fact that the token is not shown on /admin/webservice/tokens.php.
