@@ -4,7 +4,7 @@ moodle-enrol_semco
 Changes
 -------
 
-### Unreleased
+### v4.2-r1
 
 * 2023-09-26 - Upgrade: Replace function call to external_generate_token() with core_external\util::generate_token() as the library function was moved in Moodle core.
 * 2023-09-26 - Prepare compatibility for Moodle 4.2.
