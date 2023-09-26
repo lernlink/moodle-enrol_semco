@@ -47,6 +47,144 @@ function enrol_semco_get_firststudentroleid() {
 }
 
 /**
+ * Helper function to detect an enrolment period overlap with existing user enrolments.
+ * This algorithm is needed in two different webservices.
+ *
+ * @param int $courseid The course ID
+ * @param int $userid The user ID
+ * @param int $timestart The enrolment start of the new enrolment
+ * @param int $timeend The enrolment end of the new enrolment
+ * @param int $ignoreoriginalid The enrolment ID which should be ignored during overlap check (necessary for editing enrolments).
+ * @return bool
+ */
+function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $timeend, $ignoreoriginalid = null) {
+    global $DB;
+
+    // If we haven't a given start date and end date at all.
+    if ($timestart == 0 && $timeend == 0) {
+        // Check if there are any other enrolment instances
+        // which would directly conflict with this one.
+        $overlapunlimitedexistssql = 'SELECT ue.id
+                FROM {user_enrolments} ue
+                JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                WHERE e.enrol = :enrol AND
+                    ue.userid = :userid';
+        $overlapunlimitedparams = ['courseid' => $courseid,
+                'userid' => $userid,
+                'enrol' => 'semco'
+        ];
+        if ($ignoreoriginalid != null) {
+            $overlapunlimitedexistssql .= ' AND e.id != :ignoreid';
+            $overlapunlimitedparams['ignoreid'] = $ignoreoriginalid;
+        }
+        $overlapunlimitedexists = $DB->record_exists_sql($overlapunlimitedexistssql, $overlapunlimitedparams);
+    }
+
+    // If we have a given start date, but no end date.
+    if ($timestart > 0 && $timeend == 0) {
+        // Check if there are any enrolment instances
+        // which do neither have a start date nor end date
+        // OR which do not have a start date and end after this one starts
+        // OR which do not have an end date
+        // OR which start after this one starts
+        $overlapstartexistssql = 'SELECT ue.id
+                FROM {user_enrolments} ue
+                JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                WHERE e.enrol = :enrol AND
+                    ue.userid = :userid AND
+                    (ue.timestart = 0 AND ue.timeend = 0
+                        OR ue.timestart = 0 AND ue.timeend >= :timestart1
+                        OR ue.timeend = 0
+                        OR ue.timestart >= :timestart2)';
+        $overlapstartparams = ['courseid' => $courseid,
+                'userid' => $userid,
+                'enrol' => 'semco',
+                'timestart1' => $timestart,
+                'timestart2' => $timestart, // For a strange reason, Moodle does not allow to reuse SQL parameters.
+                'timeend' => $timeend,
+        ];
+        if ($ignoreoriginalid != null) {
+            $overlapstartexistssql .= ' AND e.id != :ignoreid';
+            $overlapstartparams['ignoreid'] = $ignoreoriginalid;
+        }
+        $overlapstartexists = $DB->record_exists_sql($overlapstartexistssql, $overlapstartparams);
+    }
+
+    // If we have a given end date, but no start date.
+    if ($timeend > 0 && $timestart == 0) {
+        // Check if there are any enrolment instances
+        // which do neither have a start date nor end date
+        // OR which do not have an end date and start before this one ends
+        // OR which do not have a start date
+        // OR which end before this one ends
+        $overlapstartexistssql = 'SELECT ue.id
+                FROM {user_enrolments} ue
+                JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                WHERE e.enrol = :enrol AND
+                    ue.userid = :userid AND
+                    (ue.timestart = 0 AND ue.timeend = 0
+                        OR ue.timeend = 0 AND ue.timestart <= :timeend1
+                        OR ue.timestart = 0
+                        OR ue.timeend <= :timeend2)';
+        $overlapstartparams = ['courseid' => $courseid,
+                'userid' => $userid,
+                'enrol' => 'semco',
+                'timeend1' => $timeend,
+                'timeend2' => $timeend, // For a strange reason, Moodle does not allow to reuse SQL parameters.
+                'timestart' => $timestart,
+        ];
+        if ($ignoreoriginalid != null) {
+            $overlapstartexistssql .= ' AND e.id != :ignoreid';
+            $overlapstartparams['ignoreid'] = $ignoreoriginalid;
+        }
+        $overlapstartexists = $DB->record_exists_sql($overlapstartexistssql, $overlapstartparams);
+    }
+
+    // If we have a given end date and a given start date.
+    if ($timeend > 0 && $timestart > 0) {
+        // Check if there are any enrolment instances
+        // which do neither have a start date nor end date
+        // OR which start after this one starts and start before this one ends
+        // OR which end before this one ends and end after this one starts
+        // OR which start before this one starts and end after this one ends
+        $overlapbothexistssql = 'SELECT ue.id
+                FROM {user_enrolments} ue
+                JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                WHERE e.enrol = :enrol AND
+                    ue.userid = :userid AND
+                    (ue.timestart = 0 AND ue.timeend = 0
+                        OR ue.timestart >= :timestart1 AND ue.timestart <= :timeend1
+                        OR ue.timeend <= :timeend2 AND ue.timeend >= :timestart2
+                        OR ue.timestart <= :timestart3 AND ue.timeend >= :timeend3)';
+        $overlapbothparams = ['courseid' => $courseid,
+                'userid' => $userid,
+                'enrol' => 'semco',
+                'timeend1' => $timeend,
+                'timeend2' => $timeend, // For a strange reason, Moodle does not allow to reuse SQL parameters.
+                'timeend3' => $timeend, // For a strange reason, Moodle does not allow to reuse SQL parameters.
+                'timestart1' => $timestart,
+                'timestart2' => $timestart, // For a strange reason, Moodle does not allow to reuse SQL parameters.
+                'timestart3' => $timestart, // For a strange reason, Moodle does not allow to reuse SQL parameters.
+        ];
+        if ($ignoreoriginalid != null) {
+            $overlapbothexistssql .= ' AND e.id != :ignoreid';
+            $overlapbothparams['ignoreid'] = $ignoreoriginalid;
+        }
+        $overlapbothexists = $DB->record_exists_sql($overlapbothexistssql, $overlapbothparams);
+    }
+
+    // If any overlap exists.
+    if ($overlapunlimitedexists == true || $overlapstartexists == true || $overlapstartexists == true ||
+            $overlapbothexists == true) {
+        return true;
+
+        // Otherwise.
+    } else {
+        return false;
+    }
+}
+
+/**
  * Callback function to update the role-assignment permissions as soon as the enrol_semco/role was changed.
  */
 function enrol_semco_roleassign_updatecallback() {
