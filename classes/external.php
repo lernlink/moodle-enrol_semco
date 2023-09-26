@@ -586,8 +586,9 @@ class enrol_semco_external extends external_api {
                     ue.status AS suspend
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
+                WHERE e.enrol = :enrol
                 ORDER BY ue.id';
-        $sqlparams = ['courseid' => $params['courseid']];
+        $sqlparams = ['courseid' => $params['courseid'], 'enrol' => 'semco'];
         $enrolments = $DB->get_records_sql($sql, $sqlparams);
 
         // Return the results.
