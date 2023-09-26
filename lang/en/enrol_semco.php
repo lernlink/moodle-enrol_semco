@@ -51,6 +51,7 @@ $string['semcopluginnotenabled'] = 'The SEMCO enrolment plugin is not enabled cu
 $string['semcopluginnotinstalled'] = 'The SEMCO enrolment plugin has not yet been installed.';
 $string['timeendinvalid'] = 'The Timeend field must be greater than or equal to zero.';
 $string['timestartinvalid'] = 'The Timestart field must be greater than or equal to zero.';
+$string['timestartendorder'] = 'The Timestart field must not be greater than the Timeend field.';
 $string['usernotexist'] = 'The given user ({$a}) does not exist.';
 $string['wsusercannotassign'] = 'You don\'t have the permission to assign this role ({$a->roleid}) to this user ({$a->userid}) in this course ({$a->courseid}).';
 
