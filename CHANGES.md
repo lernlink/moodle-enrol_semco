@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2023-09-26 - Improvement: The webservices enrol_semco_enrol_user and enrol_semco_edit_enrolment won't accept timeend values which are smaller than the timestart value anymore.
 * 2023-09-26 - Improvement: The webservices enrol_semco_enrol_user and enrol_semco_edit_enrolment will now return an error if a user should get enrolled into the same course multiple times with overlapping enrolment periods.
 * 2023-09-26 - Improvement: The Webservice enrol_semco_get_enrolments will only return SEMCO enrolment instances from now on (instead of all enrolments).
 * 2023-09-26 - Make codechecker happy again

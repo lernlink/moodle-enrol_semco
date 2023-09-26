@@ -178,6 +178,11 @@ class enrol_semco_external extends external_api {
             throw new moodle_exception('timeendinvalid', 'enrol_semco');
         }
 
+        // Throw an exception if the timestart parameter is greater than the timeend parameter.
+        if ($params['timestart'] > 0 && $params['timeend'] > 0 && $params['timestart'] > $params['timeend']) {
+            throw new moodle_exception('timestartendorder', 'enrol_semco');
+        }
+
         // Throw an exception if there is already an enrolment instance which overlaps with the given enrolment period.
         $overlapexists = enrol_semco_detect_enrolment_overlap($params['courseid'], $params['userid'], $params['timestart'],
                 $params['timeend']);
@@ -484,6 +489,13 @@ class enrol_semco_external extends external_api {
         // Throw an exception if the timestart parameter was given (i.e. the caller wants to overwrite it) but is invalid.
         if ($params['timeend'] !== null && $params['timeend'] < 0) {
             throw new moodle_exception('timeendinvalid', 'enrol_semco');
+        }
+
+        // Throw an exception if the timestart parameter and the timeend parameter was given,
+        // but timestart is greater than timeend.
+        if ($params['timestart'] !== null && $params['timeend'] !== null &&
+                $params['timestart'] > 0 && $params['timeend'] > 0 && $params['timestart'] > $params['timeend']) {
+            throw new moodle_exception('timestartendorder', 'enrol_semco');
         }
 
         // Throw an exception if either timestart or timeend parameter was given, but there is already an enrolment instance
