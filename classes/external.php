@@ -674,7 +674,7 @@ class enrol_semco_external extends external_api {
                                         new external_value(PARAM_INT,
                                                 'The Moodle enrolment ID for which the course completion should be returned.',
                                                 VALUE_REQUIRED),
-                                )
+                                ),
                 ]
         );
     }
@@ -788,8 +788,12 @@ class enrol_semco_external extends external_api {
                         // Get the course final grade.
                         // In fact, this code gets _all_ final grades of all of the user's courses which is quite an overhead,
                         // but it's the official method.
-                        $gpr = new grade_plugin_return(array('type' => 'report', 'plugin' => 'overview',
-                                'courseid' => $instance->courseid, 'userid' => $userinstance->userid));
+                        $gpr = new grade_plugin_return(['type' => 'report',
+                                'plugin' => 'overview',
+                                'courseid' => $instance->courseid,
+                                'userid' => $userinstance->userid,
+                                ],
+                        );
                         $report = new grade_report_overview($userinstance->userid, $gpr, $coursecontext);
                         $coursesgrades = $report->setup_courses_data(false);
                         $finalgrade = grade_format_gradevalue($coursesgrades[$instance->courseid]['finalgrade'],
