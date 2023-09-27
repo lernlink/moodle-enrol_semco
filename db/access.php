@@ -64,4 +64,11 @@ $capabilities = [
                 'captype' => 'read',
                 'contextlevel' => CONTEXT_COURSE,
         ],
+        // Ability to get the course completions for given SEMCO user enrolments.
+        // By default, this is not allowed to any role archetype as it should just be used by a webservice.
+        // It will be automatically assigned to the SEMCO webservice role in install.php.
+        'enrol/semco:getcoursecompletions' => [
+                'captype' => 'read',
+                'contextlevel' => CONTEXT_COURSE,
+        ],
 ];

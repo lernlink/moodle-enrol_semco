@@ -27,6 +27,7 @@ define('ENROL_SEMCO_AUTH', 'webservice');
 define('ENROL_SEMCO_SERVICENAME', 'enrol_semco');
 define('ENROL_SEMCO_USERFIELDCATEGORY', 'SEMCO');
 define('ENROL_SEMCO_USERFIELDNAME', 'semco_userid');
+define('ENROL_SEMCO_GET_COURSE_COMPLETIONS_MAXREQUEST', 100);
 
 /**
  * Helper function to get the first student archetype role id.

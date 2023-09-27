@@ -660,4 +660,229 @@ class enrol_semco_external extends external_api {
                 )
         );
     }
+
+    /**
+     * Returns description of method parameters.
+     *
+     * @return external_function_parameters
+     */
+    public static function get_course_completions_parameters() {
+        return new external_function_parameters(
+                [
+                        'enrolmentids' =>
+                                new external_multiple_structure(
+                                        new external_value(PARAM_INT,
+                                                'The Moodle enrolment ID for which the course completion should be returned.',
+                                                VALUE_REQUIRED),
+                                )
+                ]
+        );
+    }
+
+    /**
+     * Getting the existing course completions for given SEMCO user enrolments.
+     *
+     * @param array $enrolmentids The Moodle enrolment IDs for which the course completions should be returned.
+     * @return array The webservice's return array
+     * @throws moodle_exception
+     */
+    public static function get_course_completions($enrolmentids) {
+        global $DB, $CFG;
+
+        // Initialize a static variable to hold the 'canbecompleted' status for courses.
+        // We don't want to fetch that more than once per course.
+        static $coursescanbecompleted = [];
+
+        // Require enrolment library.
+        require_once($CFG->libdir.'/enrollib.php');
+
+        // Require grade libraries.
+        require_once($CFG->libdir.'/gradelib.php');
+        require_once($CFG->dirroot.'/grade/lib.php');
+        require_once($CFG->dirroot.'/grade/report/overview/lib.php');
+
+        // Validate given parameters.
+        $arrayparams = [
+                'enrolmentids' => $enrolmentids,
+        ];
+        $params = self::validate_parameters(self::get_course_completions_parameters(), $arrayparams);
+
+        // Throw an exception if the caller passed too many enrolment IDs (for performance reasons).
+        if (count($params['enrolmentids']) > ENROL_SEMCO_GET_COURSE_COMPLETIONS_MAXREQUEST) {
+            throw new moodle_exception('getcoursecompletionsmaxrequest', 'enrol_semco', '',
+                    ENROL_SEMCO_GET_COURSE_COMPLETIONS_MAXREQUEST);
+        }
+
+        // Retrieve the SEMCO enrolment plugin.
+        $enrol = enrol_get_plugin('semco');
+        if (empty($enrol)) {
+            throw new moodle_exception('semcopluginnotinstalled', 'enrol_semco');
+        }
+
+        // Throw an exception if the SEMCO enrolment plugin is not enabled.
+        if (enrol_is_enabled('semco') == false) {
+            throw new moodle_exception('semcopluginnotenabled', 'enrol_semco');
+        }
+
+        // Initialize the return array.
+        $completions = [];
+
+        // Iterate over the given enrolment IDs.
+        foreach ($params['enrolmentids'] as $e) {
+            // Get the user enrolment associated to the given enrolment ID from the database,
+            // throw an exception if it does not exist.
+            $userinstance = $DB->get_record('user_enrolments', ['id' => $e]);
+            if (empty($userinstance)) {
+                throw new moodle_exception('enrolnouserinstance', 'enrol_semco', '', $e);
+            }
+
+            // Get the enrolment instance associated to the given enrolment ID from the database,
+            // throw an exception if it does not exist.
+            $instance = $DB->get_record('enrol', ['enrol' => 'semco', 'id' => $userinstance->enrolid]);
+            if (empty($instance)) {
+                throw new moodle_exception('enrolnoinstance', 'enrol_semco', '', $e);
+            }
+
+            // Ensure the webservice user is allowed to run this function in the enrolment context.
+            $coursecontext = context_course::instance($instance->courseid);
+            self::validate_context($coursecontext);
+
+            // Check that the webservice user has the permission to get SEMCO user enrolments.
+            require_capability('enrol/semco:getcoursecompletions', $coursecontext);
+
+            // Check if the course can be completed or not.
+            // If we have already got this status for the given course.
+            if (array_key_exists($instance->courseid, $coursescanbecompleted)) {
+                // Just pick it from the static array.
+                $canbecompleted = $coursescanbecompleted[$instance->courseid];
+
+                // Otherwise.
+            } else {
+                // Fetch the status once.
+                $course = get_course($instance->courseid);
+                $completioninfo = new completion_info($course);
+
+                // Pick it.
+                $canbecompleted = $completioninfo->is_enabled();
+
+                // And store it for subsequent calls.
+                $coursescanbecompleted[$instance->courseid] = $canbecompleted;
+
+                // Additionally, trigger a regrade of the course as we are getting the course grades as well.
+                grade_regrade_final_grades($instance->courseid);
+            }
+
+            // If the course can be completed.
+            if ($canbecompleted == true) {
+                // Get the course completion time for this enrolment instance from the DB.
+                $timecompleted = $DB->get_field('course_completions', 'timecompleted',
+                        ['userid' => $userinstance->userid, 'course' => $instance->courseid]);
+
+                // If a course completion time could be retrieved.
+                if ($timecompleted != false) {
+                    // If the course is completed.
+                    if ($timecompleted > 0) {
+                        // The following grade-fetching code was adopted and modified from
+                        // /grade/report/overview/classes/external.php -> get_course_grades().
+
+                        // Get the course final grade.
+                        // In fact, this code gets _all_ final grades of all of the user's courses which is quite an overhead,
+                        // but it's the official method.
+                        $gpr = new grade_plugin_return(array('type' => 'report', 'plugin' => 'overview',
+                                'courseid' => $instance->courseid, 'userid' => $userinstance->userid));
+                        $report = new grade_report_overview($userinstance->userid, $gpr, $coursecontext);
+                        $coursesgrades = $report->setup_courses_data(false);
+                        $finalgrade = grade_format_gradevalue($coursesgrades[$instance->courseid]['finalgrade'],
+                                $coursesgrades[$instance->courseid]['courseitem'], true);
+                        $finalgraderaw = $coursesgrades[$instance->courseid]['finalgrade'];
+
+                        // Build the completion record.
+                        $completion = ['enrolid' => $e,
+                                'userid' => $userinstance->userid,
+                                'semcobookingid' => $instance->customchar1,
+                                'canbecompleted' => true,
+                                'completed' => true,
+                                'timecompleted' => $timecompleted,
+                                'finalgrade' => $finalgrade,
+                                'finalgraderaw' => $finalgraderaw,
+                        ];
+
+                        // Otherwise.
+                    } else {
+                        // Build the completion record.
+                        $completion = ['enrolid' => $e,
+                                'userid' => $userinstance->userid,
+                                'semcobookingid' => $instance->customchar1,
+                                'canbecompleted' => true,
+                                'completed' => false,
+                                'timecompleted' => null,
+                                'finalgrade' => null,
+                                'finalgraderaw' => null,
+                        ];
+                    }
+
+                    // Otherwise.
+                    // (This can happen if the user has just been enrolled into the course and course completions have not been
+                    // processed yet by cron).
+                } else {
+                    // Build an empty completion record.
+                    $completion = ['enrolid' => $e,
+                            'userid' => $userinstance->userid,
+                            'semcobookingid' => $instance->customchar1,
+                            'canbecompleted' => true,
+                            'completed' => false,
+                            'timecompleted' => null,
+                            'finalgrade' => null,
+                            'finalgraderaw' => null,
+                    ];
+                }
+
+                // Otherwise.
+            } else {
+                // Build an empty completion record.
+                $completion = ['enrolid' => $e,
+                        'userid' => $userinstance->userid,
+                        'semcobookingid' => $instance->customchar1,
+                        'canbecompleted' => false,
+                        'completed' => false,
+                        'timecompleted' => null,
+                        'finalgrade' => null,
+                        'finalgraderaw' => null,
+                ];
+            }
+
+            // Add the completion record to the return array.
+            $completions[] = $completion;
+        }
+
+        // Return the completions.
+        return $completions;
+    }
+
+    /**
+     * Returns description of method result value.
+     *
+     * @return external_multiple_structure
+     */
+    public static function get_course_completions_returns() {
+        return new external_multiple_structure(
+                new external_single_structure(
+                        [
+                                'enrolid' => new external_value(PARAM_INT, 'The Moodle enrolment ID of the enrolment.'),
+                                'userid' => new external_value(PARAM_INT, 'The Moodle user ID of the enrolment.'),
+                                'semcobookingid' => new external_value(PARAM_TEXT, 'The SEMCO booking ID of the enrolment.'),
+                                'canbecompleted' => new external_value(PARAM_BOOL, 'The fact if the course can be completed,'.
+                                        ' i.e. if course completion has been enabled (0: not enabled, 1: enabled).'),
+                                'completed' => new external_value(PARAM_BOOL, 'The fact if the user has completed'.
+                                        ' the course or not (0: not completed, 1: completed).'),
+                                'timecompleted' => new external_value(PARAM_INT, 'The timestamp when the course was completed'.
+                                        ' (or null if the course is not completed yet).'),
+                                'finalgrade' => new external_value(PARAM_RAW, 'The (formatted) final grade which the user got'.
+                                        ' if he has completed the course (or null if the course is not completed yet).'),
+                                'finalgraderaw' => new external_value(PARAM_RAW, 'The (raw) final grade which the user got'.
+                                        ' if he has completed the course (or null if the course is not completed yet).'),
+                        ]
+                )
+        );
+    }
 }
