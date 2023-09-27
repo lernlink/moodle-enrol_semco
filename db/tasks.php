@@ -15,18 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Enrolment method "SEMCO" - Version file
+ * Enrolment method "SEMCO" - Scheduled tasks.
  *
  * @package    enrol_semco
- * @copyright  2022 Alexander Bias, lern.link GmbH <alexander.bias@lernlink.de>
+ * @copyright  2023 Alexander Bias, lern.link GmbH <alexander.bias@lernlink.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'enrol_semco';
-$plugin->version = 2022112802;
-$plugin->release = 'v4.1-r1';
-$plugin->requires = 2022112800;
-$plugin->supported = [401, 401];
-$plugin->maturity = MATURITY_STABLE;
+$tasks = [
+        [
+                'classname' => '\enrol_semco\task\cleanup_orphaned_enrolment_instances',
+                'blocking' => 0,
+                'minute' => 'R',
+                'hour' => '*',
+                'day' => '*',
+                'month' => '*',
+                'dayofweek' => '*',
+                'disabled' => 0,
+        ],
+];

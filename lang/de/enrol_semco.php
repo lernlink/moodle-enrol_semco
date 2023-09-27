@@ -76,5 +76,8 @@ $string['semco:getcoursecompletions'] = 'Abrufen der (abgeschlossenen) Kursabsch
 $string['semco:unenrol'] = 'Ausschreibung eines SEMCO Nutzers aus einem Kurs';
 $string['semco:usewebservice'] = 'Benutzung der SEMCO Webservices zur Einschreibung';
 
+// Tasks.
+$string['task_cleanorphaned'] = 'Bereinigung verwaister SEMCO Einschreibungsinstanzen.';
+
 // Privacy API.
 $string['privacy:metadata'] = 'Das SEMCO Einschreibeplugin speichert keinerlei personenbezogene Daten.';
