@@ -93,9 +93,12 @@ function xmldb_enrol_semco_install() {
         assign_capability('enrol/semco:unenrol', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('enrol/semco:editenrolment', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('enrol/semco:getenrolments', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        assign_capability('enrol/semco:getcoursecompletions', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/role:assign', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/course:useremail', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/course:view', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        assign_capability('moodle/course:viewhiddencourses', CAP_ALLOW, $semcoroleid, $systemcontext->id);
+        assign_capability('moodle/grade:viewall', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/user:create', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/user:delete', CAP_ALLOW, $semcoroleid, $systemcontext->id);
         assign_capability('moodle/user:update', CAP_ALLOW, $semcoroleid, $systemcontext->id);

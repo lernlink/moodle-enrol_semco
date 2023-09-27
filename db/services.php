@@ -77,4 +77,12 @@ $functions = [
                 'type' => 'read',
                 'services' => [ENROL_SEMCO_SERVICENAME],
         ],
+        'enrol_semco_get_course_completions' => [
+                'classname' => 'enrol_semco_external',
+                'methodname' => 'get_course_completions',
+                'description' => 'Get the course completions for given SEMCO user enrolments',
+                'capabilities' => 'enrol/semco:getcoursecompletions',
+                'type' => 'read',
+                'services' => [ENROL_SEMCO_SERVICENAME],
+        ]
 ];

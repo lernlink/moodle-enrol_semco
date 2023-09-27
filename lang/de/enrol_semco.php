@@ -65,10 +65,14 @@ $string['uninstaller_remainenabled'] = 'Das SEMCO Einschreibeplugin wird entfern
 $string['uninstaller_removedrole'] = 'Die Rolle \'SEMCO Webservice\' wurde automatisch entfernt.';
 $string['uninstaller_removeduser'] = 'Der Nutzer \'SEMCO Webservice\' wurde automatisch entfernt.';
 
+// Updater.
+$string['updater_2023092601_addcapability'] = 'Die Rechte \'enrol/semco:getcoursecompletions\', \'moodle/course:viewhiddencourses\' and \'moodle/grade:viewall\' wurden während des Plugin-Updates automatisch zur Rolle \'SEMCO Webservice\' hinzugefügt.';
+
 // Capabilities.
 $string['semco:editenrolment'] = 'Bearbeitung einer existierenden SEMCO Einschreibung';
 $string['semco:enrol'] = 'Einschreibung eines SEMCO Nutzers in einen Kurs';
 $string['semco:getenrolments'] = 'Abrufen der existierenden SEMCO Einschreibungen aus einem Kurs';
+$string['semco:getcoursecompletions'] = 'Abrufen der (abgeschlossenen) Kursabschlüsse für Nutzer mit SEMCO Einschreibungen in einem Kurs';
 $string['semco:unenrol'] = 'Ausschreibung eines SEMCO Nutzers aus einem Kurs';
 $string['semco:usewebservice'] = 'Benutzung der SEMCO Webservices zur Einschreibung';
 

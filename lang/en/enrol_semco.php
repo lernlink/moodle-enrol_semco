@@ -47,6 +47,7 @@ $string['bookingoverlap'] = 'There is already an enrolment instance with an enro
 $string['coursenotexist'] = 'The given course ({$a}) does not exist.';
 $string['enrolnoinstance'] = 'The SEMCO enrolment plugin instance associated to the given user enrolment instance ({$a}) does not exist.';
 $string['enrolnouserinstance'] = 'The given user enrolment instance ({$a}) does not exist.';
+$string['getcoursecompletionsmaxrequest'] = 'You passed more than the maximum amount of enrolment IDs (which is {$a}).';
 $string['semcopluginnotenabled'] = 'The SEMCO enrolment plugin is not enabled currently.';
 $string['semcopluginnotinstalled'] = 'The SEMCO enrolment plugin has not yet been installed.';
 $string['timeendinvalid'] = 'The Timeend field must be greater than or equal to zero.';
@@ -81,10 +82,14 @@ $string['uninstaller_remainenabled'] = 'The SEMCO enrolment plugin is removed an
 $string['uninstaller_removedrole'] = 'The role \'SEMCO webservice\' was removed automatically.';
 $string['uninstaller_removeduser'] = 'The user \'SEMCO webservice\' was removed automatically.';
 
+// Updater.
+$string['updater_2023092601_addcapability'] = 'The capabilities \'enrol/semco:getcoursecompletions\', \'moodle/course:viewhiddencourses\' and \'moodle/grade:viewall\' were added to the role \'SEMCO webservice\' during the plugin update.';
+
 // Capabilities.
 $string['semco:editenrolment'] = 'Edit an existing SEMCO user enrolment';
 $string['semco:enrol'] = 'Enrol SEMCO users into a course';
 $string['semco:getenrolments'] = 'Get the existing SEMCO user enrolments from a course';
+$string['semco:getcoursecompletions'] = 'Get the course completions for given SEMCO user enrolments';
 $string['semco:unenrol'] = 'Unenrol SEMCO users from a course';
 $string['semco:usewebservice'] = 'Use the SEMCO enrolment webservices';
 
