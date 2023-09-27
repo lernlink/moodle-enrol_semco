@@ -84,5 +84,5 @@ $functions = [
                 'capabilities' => 'enrol/semco:getcoursecompletions',
                 'type' => 'read',
                 'services' => [ENROL_SEMCO_SERVICENAME],
-        ]
+        ],
 ];
