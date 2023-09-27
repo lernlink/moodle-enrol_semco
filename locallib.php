@@ -72,7 +72,7 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
                     ue.userid = :userid';
         $overlapunlimitedparams = ['courseid' => $courseid,
                 'userid' => $userid,
-                'enrol' => 'semco'
+                'enrol' => 'semco',
         ];
         if ($ignoreoriginalid != null) {
             $overlapunlimitedexistssql .= ' AND e.id != :ignoreid';
@@ -87,7 +87,7 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
         // which do neither have a start date nor end date
         // OR which do not have a start date and end after this one starts
         // OR which do not have an end date
-        // OR which start after this one starts
+        // OR which start after this one starts.
         $overlapstartexistssql = 'SELECT ue.id
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
@@ -117,7 +117,7 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
         // which do neither have a start date nor end date
         // OR which do not have an end date and start before this one ends
         // OR which do not have a start date
-        // OR which end before this one ends
+        // OR which end before this one ends.
         $overlapstartexistssql = 'SELECT ue.id
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
@@ -147,7 +147,7 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
         // which do neither have a start date nor end date
         // OR which start after this one starts and start before this one ends
         // OR which end before this one ends and end after this one starts
-        // OR which start before this one starts and end after this one ends
+        // OR which start before this one starts and end after this one ends.
         $overlapbothexistssql = 'SELECT ue.id
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid

@@ -54,7 +54,7 @@ class cleanup_orphaned_enrolment_instances extends scheduled_task {
                 'mdl_user_enrolments.');
         $sql = 'SELECT *
                 FROM {enrol} e
-                WHERE e.enrol = :enrol AND 
+                WHERE e.enrol = :enrol AND
                     NOT EXISTS (
                     SELECT ue.id
                     FROM {user_enrolments} ue
@@ -72,7 +72,7 @@ class cleanup_orphaned_enrolment_instances extends scheduled_task {
             $enrol = enrol_get_plugin('semco');
 
             // Iterate over the instances.
-            foreach($orphanedenrolments as $oe) {
+            foreach ($orphanedenrolments as $oe) {
                 // Trace.
                 mtrace('... Removing the enrolment instance '.$oe->id.' from course '.$oe->courseid.'.');
 
