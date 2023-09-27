@@ -93,5 +93,8 @@ $string['semco:getcoursecompletions'] = 'Get the course completions for given SE
 $string['semco:unenrol'] = 'Unenrol SEMCO users from a course';
 $string['semco:usewebservice'] = 'Use the SEMCO enrolment webservices';
 
+// Tasks.
+$string['task_cleanorphaned'] = 'Clean orphaned SEMCO enrolment instances.';
+
 // Privacy API.
 $string['privacy:metadata'] = 'The SEMCO enrolment plugin does not store any personal data.';
