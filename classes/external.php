@@ -25,8 +25,9 @@
 defined('MOODLE_INTERNAL') || die;
 
 // Require libraries.
-require_once($CFG->libdir . '/externallib.php');
-require_once($CFG->libdir . '/enrollib.php');
+require_once($CFG->libdir.'/externallib.php');
+require_once($CFG->libdir.'/enrollib.php');
+require_once($CFG->dirroot.'/grade/querylib.php');
 
 /**
  * Enrolment method "SEMCO" - External API
@@ -782,34 +783,54 @@ class enrol_semco_external extends external_api {
                 if ($timecompleted != false) {
                     // If the course is completed.
                     if ($timecompleted > 0) {
-                        // The following grade-fetching code was adopted and modified from
-                        // /grade/report/overview/classes/external.php -> get_course_grades().
+                        // Get the grade data.
+                        $gradeitem = grade_item::fetch_course_item($instance->courseid);
+                        $coursegrade = grade_grade::fetch(['itemid' => $gradeitem->id, 'userid' => $userinstance->userid]);
 
-                        // Get the course final grade.
-                        // In fact, this code gets _all_ final grades of all of the user's courses which is quite an overhead,
-                        // but it's the official method.
-                        $gpr = new grade_plugin_return(['type' => 'report',
-                                'plugin' => 'overview',
-                                'courseid' => $instance->courseid,
-                                'userid' => $userinstance->userid,
-                                ],
-                        );
-                        $report = new grade_report_overview($userinstance->userid, $gpr, $coursecontext);
-                        $coursesgrades = $report->setup_courses_data(false);
-                        $finalgrade = grade_format_gradevalue($coursesgrades[$instance->courseid]['finalgrade'],
-                                $coursesgrades[$instance->courseid]['courseitem'], true);
-                        $finalgraderaw = $coursesgrades[$instance->courseid]['finalgrade'];
+                        // If we got grade data.
+                        if ($coursegrade != false) {
+                            // Deduce the final grade.
+                            $finalgraderaw = $coursegrade->finalgrade;
+                            $finalgrade = grade_format_gradevalue($finalgraderaw, $gradeitem, true);
 
-                        // Build the completion record.
-                        $completion = ['enrolid' => $e,
-                                'userid' => $userinstance->userid,
-                                'semcobookingid' => $instance->customchar1,
-                                'canbecompleted' => true,
-                                'completed' => true,
-                                'timecompleted' => $timecompleted,
-                                'finalgrade' => $finalgrade,
-                                'finalgraderaw' => $finalgraderaw,
-                        ];
+                            // Get the pass information.
+                            $grademinraw = $gradeitem->grademin;
+                            $grademaxraw = $gradeitem->grademax;
+                            $gradepassraw = $gradeitem->gradepass;
+                            $passed = $coursegrade->is_passed($gradeitem);
+
+                            // Build the completion record.
+                            $completion = ['enrolid' => $e,
+                                    'userid' => $userinstance->userid,
+                                    'semcobookingid' => $instance->customchar1,
+                                    'canbecompleted' => true,
+                                    'completed' => true,
+                                    'timecompleted' => $timecompleted,
+                                    'finalgrade' => $finalgrade,
+                                    'finalgraderaw' => $finalgraderaw,
+                                    'grademinraw' => $grademinraw,
+                                    'grademaxraw' => $grademaxraw,
+                                    'gradepassraw' => $gradepassraw,
+                                    'passed' => $passed,
+                            ];
+
+                            // Otherwise.
+                        } else {
+                            // Build the completion record.
+                            $completion = ['enrolid' => $e,
+                                    'userid' => $userinstance->userid,
+                                    'semcobookingid' => $instance->customchar1,
+                                    'canbecompleted' => true,
+                                    'completed' => true,
+                                    'timecompleted' => $timecompleted,
+                                    'finalgrade' => null,
+                                    'finalgraderaw' => null,
+                                    'grademinraw' => null,
+                                    'grademaxraw' => null,
+                                    'gradepassraw' => null,
+                                    'passed' => null,
+                            ];
+                        }
 
                         // Otherwise.
                     } else {
@@ -822,6 +843,10 @@ class enrol_semco_external extends external_api {
                                 'timecompleted' => null,
                                 'finalgrade' => null,
                                 'finalgraderaw' => null,
+                                'grademinraw' => null,
+                                'grademaxraw' => null,
+                                'gradepassraw' => null,
+                                'passed' => null,
                         ];
                     }
 
@@ -838,6 +863,10 @@ class enrol_semco_external extends external_api {
                             'timecompleted' => null,
                             'finalgrade' => null,
                             'finalgraderaw' => null,
+                            'grademinraw' => null,
+                            'grademaxraw' => null,
+                            'gradepassraw' => null,
+                            'passed' => null,
                     ];
                 }
 
@@ -852,6 +881,10 @@ class enrol_semco_external extends external_api {
                         'timecompleted' => null,
                         'finalgrade' => null,
                         'finalgraderaw' => null,
+                        'grademinraw' => null,
+                        'grademaxraw' => null,
+                        'gradepassraw' => null,
+                        'passed' => null,
                 ];
             }
 
@@ -882,9 +915,24 @@ class enrol_semco_external extends external_api {
                                 'timecompleted' => new external_value(PARAM_INT, 'The timestamp when the course was completed'.
                                         ' (or null if the course is not completed yet).'),
                                 'finalgrade' => new external_value(PARAM_RAW, 'The (formatted) final grade which the user got'.
-                                        ' if he has completed the course (or null if the course is not completed yet).'),
+                                        ' after he has completed the course (or null if the course is not completed yet or'.
+                                        ' the user did not receive a grade in the course).'),
                                 'finalgraderaw' => new external_value(PARAM_RAW, 'The (raw) final grade which the user got'.
-                                        ' if he has completed the course (or null if the course is not completed yet).'),
+                                        ' after he has completed the course (or null if the course is not completed yet or'.
+                                        ' the user did not receive a grade in the course).'),
+                                'grademinraw' => new external_value(PARAM_RAW, 'The (raw) min grade which is the lower limit'.
+                                        ' for the user\'s grade (or null if the course is not completed yet or'.
+                                        ' the user did not receive a grade in the course).'),
+                                'grademaxraw' => new external_value(PARAM_RAW, 'The (raw) max grade which is the upper limit'.
+                                        ' for the user\'s grade (or null if the course is not completed yet or'.
+                                        ' the user did not receive a grade in the course).'),
+                                'gradepassraw' => new external_value(PARAM_RAW, 'The (raw) grade which is required'.
+                                        ' for the course to be assessed as passed (or null if the course is not completed yet or'.
+                                        ' the user did not receive a grade in the course).'),
+                                'passed' => new external_value(PARAM_BOOL, 'The fact if the user has passed'.
+                                        ' the course or not, i.e. if his finalgrade was greater or equal to the course\'s'.
+                                        ' pass grade (0: not passed, 1: passed, null if the course is not completed yet'.
+                                        ' or if the course\'s passing grade is zero).'),
                         ]
                 )
         );
