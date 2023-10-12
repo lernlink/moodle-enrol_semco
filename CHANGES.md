@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2023-10-12 - Feature: The plugin will add a new user profile field "SEMCO User company" which will be filled by SEMCO with the user's company. 
 * 2023-09-27 - Improvement: Add a scheduled task which cleans up orphaned SEMCO enrolment instances which were not removed when a user was deleted (as SEMCO enrolment instances are only properly removed when a user is unenrolled via webservice).
 * 2023-09-26 - Feature: The new webservice enrol_semco_get_course_completions will return the course completions for given SEMCO user enrolments.
 * 2023-09-26 - Bugfix: The webservice enrol_semco_edit_enrolment didn't process enrolment period changes with given timeend dates but without given timestart dates.

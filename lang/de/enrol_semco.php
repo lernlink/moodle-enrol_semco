@@ -43,7 +43,9 @@ $string['settings_wwwrootinfofound'] = 'Die Moodle Basis-URL für die SEMCO Webs
 $string['installer_addedusertorole'] = 'Die Rolle \'SEMCO Webservice\' wurde dem Nutezr \'SEMCO Webservice\' automatisch zugewiesen.';
 $string['installer_addedusertoservice'] = 'Der Nutzer \'SEMCO Webservice\' wurde automatisch zum SEMCO Webservice als berechtigte Person zugewiesen.';
 $string['installer_createdrole'] = 'Die Rolle \'SEMCO Webservice\' wurde automatisch erstellt und passend konfiguriert. Diese Rolle wurde für den SEMCO Webservice Nutzer in Moodle verwendet.';
-$string['installer_createdprofilefield'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer ID\' wurde automatisch erstellt und passend konfiguriert. Dieses Nutzerprofilfeld wird für Moodle Nutzer, welche vom SEMCO Webservice angelegt werden, befüllt.';
+$string['installer_createdprofilefield1'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer ID\' wurde automatisch erstellt und passend konfiguriert. Dieses Nutzerprofilfeld wird für Moodle Nutzer, welche vom SEMCO Webservice angelegt werden, befüllt.';
+$string['installer_createdprofilefield2'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer Firma\' wurde automatisch erstellt und passend konfiguriert. Dieses Nutzerprofilfeld wird für Moodle Nutzer, welche vom SEMCO Webservice angelegt werden, befüllt.';
+$string['installer_createdprofilefieldcategory'] = 'Die Nutzerprofilfeld-Kategorie \'SEMCO\' wurde automatisch erstellt und passend konfiguriert. Dieses Nutzerprofilfeld-Kategorie wird für Profilfelder im Zusammenhang mit Moodle Nutzern, welche vom SEMCO Webservice angelegt werden, genutzt.';
 $string['installer_createduser'] = 'Der Nutzer \'SEMCO Webservice\' wurde automatisch erstellt. Dieser Nutzer wird dazu verwendet um das Webservice Token für SEMCO zu erstellen.';
 $string['installer_createdusertoken'] = 'Ein Webservice Token für den Nutzer \'SEMCO Webservice\' wurde automatisch erstellt. Sie können das Token auf der Einstellungseite des Plugins ansehen.';
 $string['installer_enabledauth'] = 'Die Authentifizierungsmethode \'Webservices\' wurde automatisch aktiviert damit SEMCO darüber mit den Moodle Webservices kommunizieren kann.';
@@ -52,13 +54,15 @@ $string['installer_enabledws'] = 'Das Webservice Subsystem in Moodle wurde autom
 $string['installer_enabledplugin'] = 'Das SEMCO Einschreibeplugin wurde automatisch aktiviert.';
 $string['installer_finalnotenoproblems'] = 'SEMCO sollte nun mit Moodle kommunizieren können.';
 $string['installer_finalnotewithproblems'] = 'Da in den vorangehenden Schritten leider Probleme bei der automatischen Konfiguration aufgetreten sind kann es sein dass SEMCO noch nicht mit Moodle kommunizieren kann. Bitte prüfen Sie alle nötigen Einstellungen manuell.';
-$string['installer_notcreatedprofilefield'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer ID\' konnte nicht automatisch erstellt und passend konfiguriert werden da es anscheinend schon existiert. Bitte verifizieren Sie die Konfiguration des Nutzerprofilfelds manuell.';
+$string['installer_notcreatedprofilefield1'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer ID\' konnte nicht automatisch erstellt und passend konfiguriert werden da es anscheinend schon existiert. Bitte verifizieren Sie die Konfiguration des Nutzerprofilfelds manuell.';
+$string['installer_notcreatedprofilefield2'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer Firma\' konnte nicht automatisch erstellt und passend konfiguriert werden da es anscheinend schon existiert. Bitte verifizieren Sie die Konfiguration des Nutzerprofilfelds manuell.';
 $string['installer_notcreatedrole'] = 'Die Rolle \'SEMCO Webservice\' konnte nicht automatisch erstellt und passend konfiguriert werden da sie anscheinend schon existiert. Bitte verifizieren Sie die Konfiguration der Rolle manuell.';
 $string['installer_notcreateduser'] = 'Der Nutzer \'SEMCO Webservice\' konnte nicht automatisch erstellt werden da er anscheinend schon existiert. Bitte verifizieren Sie die Konfiguration des Nutzers manuell.';
 $string['installer_queuedcapabilitytask'] = 'Das erforderliche Rechte \'webservice/rest:use\' konnte während der initialen Installation von Moodle nicht zur Rolle \'SEMCO Webservice\' hinzugefügt werden da dieses Recht noch nicht existiert (Das Webservice Subsystem wird erst nach diesem Plugin installiert werden). Ein Ad-hoc Task wurde eingeplant, welcher dieses Recht automatisch hinzufügen wird sobald der Moodle Cron das erste Mal läuft.';
 $string['installer_roledescription'] = 'Dies ist eine interne Rolle mit dem einzigen Zweck dem SEMCO Webservice Nutzer die notwendigen Rechte zuzuweisen. Geben Sie diese Rolle keinem anderen Moodle Nutzer, vor allem keinen von Menschen genutzern Moodle Nutzerkonten.';
 $string['installer_rolename'] = 'SEMCO Webservice';
-$string['installer_userfieldfullname'] = 'SEMCO Nutzer ID';
+$string['installer_userfield1fullname'] = 'SEMCO Nutzer ID';
+$string['installer_userfield2fullname'] = 'SEMCO Nutzer Firma';
 $string['installer_userfirstname'] = 'SEMCO';
 $string['installer_userlastname'] = 'Webservice';
 $string['uninstaller_remainenabled'] = 'Das SEMCO Einschreibeplugin wird entfernt und wird das Moodle Webservice Subsystem sowie die Authentifizierungsmethode \'Webservice\' nicht mehr benötigen. Da der Plugin Uninstaller jedoch nicht wissen kann ob andere Plugins oder aktivierte Funktionen in Moodle diese weiterhin brauchen werden sie weiterhin aktiviert bleiben. Bitte deaktivieren Sie sie selbst manuell falls Sie nicht mehr benötigt werden.';
@@ -67,6 +71,7 @@ $string['uninstaller_removeduser'] = 'Der Nutzer \'SEMCO Webservice\' wurde auto
 
 // Updater.
 $string['updater_2023092601_addcapability'] = 'Die Rechte \'enrol/semco:getcoursecompletions\', \'moodle/course:viewhiddencourses\' and \'moodle/grade:viewall\' wurden während des Plugin-Updates automatisch zur Rolle \'SEMCO Webservice\' hinzugefügt.';
+$string['updater_2023092605_addprofilefield'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer Firma\' wurde während des Plugin-Updates automatisch erstellt und passend konfiguriert.';
 
 // Capabilities.
 $string['semco:editenrolment'] = 'Bearbeitung einer existierenden SEMCO Einschreibung';

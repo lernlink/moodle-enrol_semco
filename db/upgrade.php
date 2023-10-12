@@ -27,6 +27,9 @@ defined('MOODLE_INTERNAL') || die();
 // Require plugin library.
 require_once($CFG->dirroot.'/enrol/semco/locallib.php');
 
+// Require user profile field library.
+require_once($CFG->dirroot . '/user/profile/definelib.php');
+
 /**
  * Function to upgrade enrol_semco
  * @param int $oldversion the version we are upgrading from
@@ -61,6 +64,47 @@ function xmldb_enrol_semco_upgrade($oldversion) {
 
         // Enrol_semco savepoint reached.
         upgrade_plugin_savepoint(true, 2023092601, 'enrol', 'semco');
+    }
+
+    if ($oldversion < 2023092605) {
+        // If the SEMCO user company profile field does not exist yet.
+        $profilefield = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD2NAME]);
+        if ($profilefield == false) {
+            // Get the profilefield category.
+            $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
+
+            // Create SEMCO user company profile field (this is rather hardcoded but should work in the forseeable future).
+            $fielddata = new stdClass();
+            $fielddata->id = 0;
+            $fielddata->action = 'editfield';
+            $fielddata->datatype = 'text';
+            $fielddata->shortname = ENROL_SEMCO_USERFIELD2NAME;
+            $fielddata->name = get_string('installer_userfield2fullname', 'enrol_semco');
+            $fielddata->description['text'] = '';
+            $fielddata->description['format'] = 1;
+            $fielddata->required = 0;
+            $fielddata->locked = 1;
+            $fielddata->forceunique = 1;
+            $fielddata->signup = 0;
+            $fielddata->visible = 0;
+            $fielddata->categoryid = $profilefieldcategory->id;
+            $fielddata->defaultdata = '';
+            $fielddata->param1 = 50;
+            $fielddata->param2 = 200;
+            $fielddata->param3 = 0;
+            $fielddata->param4 = '';
+            $fielddata->param5 = '';
+            profile_save_field($fielddata, []);
+
+            // And show a notification about that fact (this also looks fine in the CLI installer).
+            $notification = new \core\output\notification(get_string('updater_2023092605_addprofilefield', 'enrol_semco'),
+                \core\output\notification::NOTIFY_INFO);
+            $notification->set_show_closebutton(false);
+            echo $OUTPUT->render($notification);
+        }
+
+        // Enrol_semco savepoint reached.
+        upgrade_plugin_savepoint(true, 2023092605, 'enrol', 'semco');
     }
 
     return true;
