@@ -26,7 +26,8 @@ define('ENROL_SEMCO_ROLEANDUSERNAME', 'semcowebservice');
 define('ENROL_SEMCO_AUTH', 'webservice');
 define('ENROL_SEMCO_SERVICENAME', 'enrol_semco');
 define('ENROL_SEMCO_USERFIELDCATEGORY', 'SEMCO');
-define('ENROL_SEMCO_USERFIELDNAME', 'semco_userid');
+define('ENROL_SEMCO_USERFIELD1NAME', 'semco_userid');
+define('ENROL_SEMCO_USERFIELD2NAME', 'semco_usercompany');
 define('ENROL_SEMCO_GET_COURSE_COMPLETIONS_MAXREQUEST', 100);
 
 /**

@@ -253,31 +253,36 @@ function xmldb_enrol_semco_install() {
         $therewasaproblem = true;
     }
 
-    // If the SEMCO user profile field does not exist yet.
-    $profilefield = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELDNAME]);
-    if ($profilefield == false) {
+    // If the SEMCO user profile field category does not exist yet.
+    $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
+    if ($profilefieldcategory == false) {
+        // Create the SEMCO user profile field category (this is rather hardcoded but should work in the forseeable future).
+        $categorydata = new stdClass();
+        $categorydata->id = 0;
+        $categorydata->action = 'editcategory';
+        $categorydata->name = ENROL_SEMCO_USERFIELDCATEGORY;
+        profile_save_category($categorydata);
 
-        // If the SEMCO user profile field category does not exist yet.
+        // And show a notification about that fact (this also looks fine in the CLI installer).
+        $notification = new \core\output\notification(get_string('installer_createdprofilefieldcategory', 'enrol_semco'),
+            \core\output\notification::NOTIFY_INFO);
+        $notification->set_show_closebutton(false);
+        echo $OUTPUT->render($notification);
+
+        // Get the category object again for further usage.
         $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
-        if ($profilefieldcategory == false) {
-            // Create the SEMCO user profile field category (this is rather hardcoded but should work in the forseeable future).
-            $categorydata = new stdClass();
-            $categorydata->id = 0;
-            $categorydata->action = 'editcategory';
-            $categorydata->name = ENROL_SEMCO_USERFIELDCATEGORY;
-            profile_save_category($categorydata);
+    }
 
-            // Get the category object again for further usage.
-            $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
-        }
-
-        // Create SEMCO user profile field (this is rather hardcoded but should work in the forseeable future).
+    // If the SEMCO user ID profile field does not exist yet.
+    $profilefield = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD1NAME]);
+    if ($profilefield == false) {
+        // Create SEMCO user ID profile field (this is rather hardcoded but should work in the forseeable future).
         $fielddata = new stdClass();
         $fielddata->id = 0;
         $fielddata->action = 'editfield';
         $fielddata->datatype = 'text';
-        $fielddata->shortname = ENROL_SEMCO_USERFIELDNAME;
-        $fielddata->name = get_string('installer_userfieldfullname', 'enrol_semco');
+        $fielddata->shortname = ENROL_SEMCO_USERFIELD1NAME;
+        $fielddata->name = get_string('installer_userfield1fullname', 'enrol_semco');
         $fielddata->description['text'] = '';
         $fielddata->description['format'] = 1;
         $fielddata->required = 0;
@@ -295,7 +300,7 @@ function xmldb_enrol_semco_install() {
         profile_save_field($fielddata, []);
 
         // And show a notification about that fact (this also looks fine in the CLI installer).
-        $notification = new \core\output\notification(get_string('installer_createdprofilefield', 'enrol_semco'),
+        $notification = new \core\output\notification(get_string('installer_createdprofilefield1', 'enrol_semco'),
                 \core\output\notification::NOTIFY_INFO);
         $notification->set_show_closebutton(false);
         echo $OUTPUT->render($notification);
@@ -303,8 +308,52 @@ function xmldb_enrol_semco_install() {
         // Otherwise, there might be leftovers from previous installations and admin's tests.
     } else {
         // Show a notification about that fact (this also looks fine in the CLI installer).
-        $notification = new \core\output\notification(get_string('installer_notcreatedprofilefield', 'enrol_semco'),
+        $notification = new \core\output\notification(get_string('installer_notcreatedprofilefield1', 'enrol_semco'),
                 \core\output\notification::NOTIFY_ERROR);
+        $notification->set_show_closebutton(false);
+        echo $OUTPUT->render($notification);
+
+        // Remember this fact for the final notification.
+        $therewasaproblem = true;
+    }
+
+    // If the SEMCO user company profile field does not exist yet.
+    $profilefield = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD2NAME]);
+    if ($profilefield == false) {
+        // Create SEMCO user company profile field (this is rather hardcoded but should work in the forseeable future).
+        $fielddata = new stdClass();
+        $fielddata->id = 0;
+        $fielddata->action = 'editfield';
+        $fielddata->datatype = 'text';
+        $fielddata->shortname = ENROL_SEMCO_USERFIELD2NAME;
+        $fielddata->name = get_string('installer_userfield2fullname', 'enrol_semco');
+        $fielddata->description['text'] = '';
+        $fielddata->description['format'] = 1;
+        $fielddata->required = 0;
+        $fielddata->locked = 1;
+        $fielddata->forceunique = 1;
+        $fielddata->signup = 0;
+        $fielddata->visible = 0;
+        $fielddata->categoryid = $profilefieldcategory->id;
+        $fielddata->defaultdata = '';
+        $fielddata->param1 = 50;
+        $fielddata->param2 = 200;
+        $fielddata->param3 = 0;
+        $fielddata->param4 = '';
+        $fielddata->param5 = '';
+        profile_save_field($fielddata, []);
+
+        // And show a notification about that fact (this also looks fine in the CLI installer).
+        $notification = new \core\output\notification(get_string('installer_createdprofilefield2', 'enrol_semco'),
+            \core\output\notification::NOTIFY_INFO);
+        $notification->set_show_closebutton(false);
+        echo $OUTPUT->render($notification);
+
+        // Otherwise, there might be leftovers from previous installations and admin's tests.
+    } else {
+        // Show a notification about that fact (this also looks fine in the CLI installer).
+        $notification = new \core\output\notification(get_string('installer_notcreatedprofilefield2', 'enrol_semco'),
+            \core\output\notification::NOTIFY_ERROR);
         $notification->set_show_closebutton(false);
         echo $OUTPUT->render($notification);
 
