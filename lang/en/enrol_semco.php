@@ -85,6 +85,7 @@ $string['installer_userlastname'] = 'Webservice';
 $string['uninstaller_remainenabled'] = 'The SEMCO enrolment plugin is removed and will not need Moodle\'s webservice subsystem and webservice auth method anymore. However, as the plugin uninstaller does not know, if any other plugins or features still need it, both will remain enabled. Please disable them manually if you do not need them anymore.';
 $string['uninstaller_removedrole'] = 'The role \'SEMCO webservice\' was removed automatically.';
 $string['uninstaller_removeduser'] = 'The user \'SEMCO webservice\' was removed automatically.';
+$string['uninstaller_removedprofilefields'] = 'The user profile fields for \'SEMCO\' were removed automatically.';
 
 // Updater.
 $string['updater_2023092601_addcapability'] = 'The capabilities \'enrol/semco:getcoursecompletions\', \'moodle/course:viewhiddencourses\' and \'moodle/grade:viewall\' were added to the role \'SEMCO webservice\' during the plugin update.';
