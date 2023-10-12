@@ -30,6 +30,9 @@ require_once($CFG->dirroot.'/enrol/semco/locallib.php');
 // Require user library.
 require_once($CFG->dirroot.'/user/lib.php');
 
+// Require user profile field library.
+require_once($CFG->dirroot . '/user/profile/definelib.php');
+
 /**
  * Uninstall the plugin.
  */
@@ -58,6 +61,48 @@ function xmldb_enrol_semco_uninstall() {
         // And show a notification about that fact (this also looks fine in the CLI installer).
         $notification = new \core\output\notification(get_string('uninstaller_removeduser', 'enrol_semco'),
                 \core\output\notification::NOTIFY_INFO);
+        $notification->set_show_closebutton(false);
+        echo $OUTPUT->render($notification);
+    }
+
+    // Initialize feedback flag for profile fields.
+    $fieldsremoved = false;
+
+    // If the SEMCO user ID profile field still exists.
+    $profilefield1 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD1NAME]);
+    if ($profilefield1 != false) {
+        // Remove it.
+        profile_delete_field($profilefield1->id);
+
+        // And remember that fact.
+        $fieldsremoved = true;
+    }
+
+    // If the SEMCO user company profile field still exists.
+    $profilefield2 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD2NAME]);
+    if ($profilefield2 != false) {
+        // Remove it.
+        profile_delete_field($profilefield2->id);
+
+        // And remember that fact.
+        $fieldsremoved = true;
+    }
+
+    // If the SEMCO user profile field category still exists.
+    $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
+    if ($profilefieldcategory != false) {
+        // Remove it.
+        profile_delete_category($profilefieldcategory->id);
+
+        // And remember that fact.
+        $fieldsremoved = true;
+    }
+
+    // If any profile field or the category was rewmoved.
+    if ($fieldsremoved == true) {
+        // Show a notification about that fact (this also looks fine in the CLI installer).
+        $notification = new \core\output\notification(get_string('uninstaller_removedprofilefields', 'enrol_semco'),
+            \core\output\notification::NOTIFY_INFO);
         $notification->set_show_closebutton(false);
         echo $OUTPUT->render($notification);
     }

@@ -273,8 +273,8 @@ function xmldb_enrol_semco_install() {
     }
 
     // If the SEMCO user ID profile field does not exist yet.
-    $profilefield = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD1NAME]);
-    if ($profilefield == false) {
+    $profilefield1 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD1NAME]);
+    if ($profilefield1 == false) {
         // Create SEMCO user ID profile field (this is rather hardcoded but should work in the forseeable future).
         $fielddata = new stdClass();
         $fielddata->id = 0;
@@ -317,8 +317,8 @@ function xmldb_enrol_semco_install() {
     }
 
     // If the SEMCO user company profile field does not exist yet.
-    $profilefield = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD2NAME]);
-    if ($profilefield == false) {
+    $profilefield2 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD2NAME]);
+    if ($profilefield2 == false) {
         // Create SEMCO user company profile field (this is rather hardcoded but should work in the forseeable future).
         $fielddata = new stdClass();
         $fielddata->id = 0;
