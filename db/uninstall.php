@@ -88,6 +88,26 @@ function xmldb_enrol_semco_uninstall() {
         $fieldsremoved = true;
     }
 
+    // If the SEMCO user birthday profile field still exists.
+    $profilefield3 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD3NAME]);
+    if ($profilefield3 != false) {
+        // Remove it.
+        profile_delete_field($profilefield3->id);
+
+        // And remember that fact.
+        $fieldsremoved = true;
+    }
+
+    // If the SEMCO user place of birth profile field still exists.
+    $profilefield4 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD4NAME]);
+    if ($profilefield4 != false) {
+        // Remove it.
+        profile_delete_field($profilefield4->id);
+
+        // And remember that fact.
+        $fieldsremoved = true;
+    }
+
     // If the SEMCO user profile field category still exists.
     $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
     if ($profilefieldcategory != false) {
