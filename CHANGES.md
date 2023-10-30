@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2023-10-30 - Improvement: Use a dedicated semcowebservice mail address for the SEMCO webservice user as the noreply address which has been used up to now may be empty.
 * 2023-10-12 - Improvement: Remove the user profile fields and user profile field category when the plugin is uninstalled. 
 * 2023-10-12 - Feature: The plugin will add a new user profile field "SEMCO User company" which will be filled by SEMCO with the user's company. 
 * 2023-09-27 - Improvement: Add a scheduled task which cleans up orphaned SEMCO enrolment instances which were not removed when a user was deleted (as SEMCO enrolment instances are only properly removed when a user is unenrolled via webservice).
