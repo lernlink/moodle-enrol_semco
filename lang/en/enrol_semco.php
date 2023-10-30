@@ -62,6 +62,8 @@ $string['installer_addedusertoservice'] = 'The user \'SEMCO webservice\' was add
 $string['installer_createdrole'] = 'The role \'SEMCO webservice\' was created and properly configured automatically. This role is used for the SEMCO webservice user in Moodle.';
 $string['installer_createdprofilefield1'] = 'The user profile field \'SEMCO user ID\' was created and properly configured automatically. This user profile field is used for Moodle users which are created by the SEMCO webservice.';
 $string['installer_createdprofilefield2'] = 'The user profile field \'SEMCO user company\' was created and properly configured automatically. This user profile field is used for Moodle users which are created by the SEMCO webservice.';
+$string['installer_createdprofilefield3'] = 'The user profile field \'SEMCO user birthday\' was created and properly configured automatically. This user profile field is used for Moodle users which are created by the SEMCO webservice.';
+$string['installer_createdprofilefield4'] = 'The user profile field \'SEMCO user place of birth\' was created and properly configured automatically. This user profile field is used for Moodle users which are created by the SEMCO webservice.';
 $string['installer_createdprofilefieldcategory'] = 'The user profile field category \'SEMCO\' was created and properly configured automatically. This user profile field category is used to hold multiple user profile fields related to Moodle users which are created by the SEMCO webservice.';
 $string['installer_createduser'] = 'The user \'SEMCO webservice\' was created automatically. This user is used to create the webservice token for SEMCO.';
 $string['installer_createdusertoken'] = 'A webservice token was created automatically for the user \'SEMCO webservice\'. You can view it on the plugin\'s settings page.';
@@ -73,6 +75,8 @@ $string['installer_finalnotenoproblems'] = 'SEMCO should be able to communicate 
 $string['installer_finalnotewithproblems'] = 'As there were issues with the automatic configuration in the previous steps, SEMCO might not be able to communicate with Moodle yet. Please double-check all configurations manually.';
 $string['installer_notcreatedprofilefield1'] = 'The user profile field \'SEMCO user ID\' could not be created and properly configured automatically as it seems to exist already. Please verify the user field configuration manually.';
 $string['installer_notcreatedprofilefield2'] = 'The user profile field \'SEMCO user company\' could not be created and properly configured automatically as it seems to exist already. Please verify the user field configuration manually.';
+$string['installer_notcreatedprofilefield3'] = 'The user profile field \'SEMCO user birthday\' could not be created and properly configured automatically as it seems to exist already. Please verify the user field configuration manually.';
+$string['installer_notcreatedprofilefield4'] = 'The user profile field \'SEMCO user place of birth\' could not be created and properly configured automatically as it seems to exist already. Please verify the user field configuration manually.';
 $string['installer_notcreatedrole'] = 'The role \'SEMCO webservice\' could not be created and properly configured automatically as it seems to exist already. Please verify the role configuration manually.';
 $string['installer_notcreateduser'] = 'The user \'SEMCO webservice\' could not be created automatically as it seems to exist already. Please verify the user configuration manually.';
 $string['installer_queuedcapabilitytask'] = 'The necessary capability \'webservice/rest:use\' could not be added to the role \'SEMCO webservice\' during the initial installation of Moodle as this capability did not exist yet (the webservice subsystem will be installed after this plugin). An ad-hoc task was queued to add this capability automatically as soon as the Moodle cron is running for the first time.';
@@ -80,6 +84,8 @@ $string['installer_roledescription'] = 'This is an internal role which has the s
 $string['installer_rolename'] = 'SEMCO webservice';
 $string['installer_userfield1fullname'] = 'SEMCO User ID';
 $string['installer_userfield2fullname'] = 'SEMCO User company';
+$string['installer_userfield3fullname'] = 'SEMCO User birthday';
+$string['installer_userfield4fullname'] = 'SEMCO User place of birth';
 $string['installer_userfirstname'] = 'SEMCO';
 $string['installer_userlastname'] = 'Webservice';
 $string['uninstaller_remainenabled'] = 'The SEMCO enrolment plugin is removed and will not need Moodle\'s webservice subsystem and webservice auth method anymore. However, as the plugin uninstaller does not know, if any other plugins or features still need it, both will remain enabled. Please disable them manually if you do not need them anymore.';
@@ -90,6 +96,8 @@ $string['uninstaller_removedprofilefields'] = 'The user profile fields for \'SEM
 // Updater.
 $string['updater_2023092601_addcapability'] = 'The capabilities \'enrol/semco:getcoursecompletions\', \'moodle/course:viewhiddencourses\' and \'moodle/grade:viewall\' were added to the role \'SEMCO webservice\' during the plugin update.';
 $string['updater_2023092605_addprofilefield'] = 'The profile field \'SEMCO User company\' was created and properly configured automatically during the plugin update.';
+$string['updater_2023092606_addprofilefield3'] = 'The profile field \'SEMCO User birthday\' was created and properly configured automatically during the plugin update.';
+$string['updater_2023092606_addprofilefield4'] = 'The profile field \'SEMCO User place of birth\' was created and properly configured automatically during the plugin update.';
 
 // Capabilities.
 $string['semco:editenrolment'] = 'Edit an existing SEMCO user enrolment';

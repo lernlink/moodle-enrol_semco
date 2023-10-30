@@ -68,8 +68,8 @@ function xmldb_enrol_semco_upgrade($oldversion) {
 
     if ($oldversion < 2022112803) {
         // If the SEMCO user company profile field does not exist yet.
-        $profilefield = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD2NAME]);
-        if ($profilefield == false) {
+        $profilefield2= $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD2NAME]);
+        if ($profilefield2 == false) {
             // Get the profilefield category.
             $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
 
@@ -105,6 +105,83 @@ function xmldb_enrol_semco_upgrade($oldversion) {
 
         // Enrol_semco savepoint reached.
         upgrade_plugin_savepoint(true, 2022112803, 'enrol', 'semco');
+    }
+
+    if ($oldversion < 2022112804) {
+        // If the SEMCO user birthday profile field does not exist yet.
+        $profilefield3 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD3NAME]);
+        if ($profilefield3 == false) {
+            // Get the profilefield category.
+            $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
+
+            // Create SEMCO user company profile field (this is rather hardcoded but should work in the forseeable future).
+            $fielddata = new stdClass();
+            $fielddata->id = 0;
+            $fielddata->action = 'editfield';
+            $fielddata->datatype = 'text';
+            $fielddata->shortname = ENROL_SEMCO_USERFIELD3NAME;
+            $fielddata->name = get_string('installer_userfield3fullname', 'enrol_semco');
+            $fielddata->description['text'] = '';
+            $fielddata->description['format'] = 1;
+            $fielddata->required = 0;
+            $fielddata->locked = 1;
+            $fielddata->forceunique = 1;
+            $fielddata->signup = 0;
+            $fielddata->visible = 0;
+            $fielddata->categoryid = $profilefieldcategory->id;
+            $fielddata->defaultdata = '';
+            $fielddata->param1 = 30;
+            $fielddata->param2 = 30;
+            $fielddata->param3 = 0;
+            $fielddata->param4 = '';
+            $fielddata->param5 = '';
+            profile_save_field($fielddata, []);
+
+            // And show a notification about that fact (this also looks fine in the CLI installer).
+            $notification = new \core\output\notification(get_string('updater_2023092606_addprofilefield3', 'enrol_semco'),
+                \core\output\notification::NOTIFY_INFO);
+            $notification->set_show_closebutton(false);
+            echo $OUTPUT->render($notification);
+        }
+
+        // If the SEMCO user place of birth profile field does not exist yet.
+        $profilefield4 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD4NAME]);
+        if ($profilefield4 == false) {
+            // Get the profilefield category.
+            $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
+
+            // Create SEMCO user company profile field (this is rather hardcoded but should work in the forseeable future).
+            $fielddata = new stdClass();
+            $fielddata->id = 0;
+            $fielddata->action = 'editfield';
+            $fielddata->datatype = 'text';
+            $fielddata->shortname = ENROL_SEMCO_USERFIELD3NAME;
+            $fielddata->name = get_string('installer_userfield4fullname', 'enrol_semco');
+            $fielddata->description['text'] = '';
+            $fielddata->description['format'] = 1;
+            $fielddata->required = 0;
+            $fielddata->locked = 1;
+            $fielddata->forceunique = 1;
+            $fielddata->signup = 0;
+            $fielddata->visible = 0;
+            $fielddata->categoryid = $profilefieldcategory->id;
+            $fielddata->defaultdata = '';
+            $fielddata->param1 = 50;
+            $fielddata->param2 = 200;
+            $fielddata->param3 = 0;
+            $fielddata->param4 = '';
+            $fielddata->param5 = '';
+            profile_save_field($fielddata, []);
+
+            // And show a notification about that fact (this also looks fine in the CLI installer).
+            $notification = new \core\output\notification(get_string('updater_2023092606_addprofilefield4', 'enrol_semco'),
+                \core\output\notification::NOTIFY_INFO);
+            $notification->set_show_closebutton(false);
+            echo $OUTPUT->render($notification);
+        }
+
+        // Enrol_semco savepoint reached.
+        upgrade_plugin_savepoint(true, 2022112804, 'enrol', 'semco');
     }
 
     return true;
