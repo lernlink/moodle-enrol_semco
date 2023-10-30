@@ -171,7 +171,7 @@ function xmldb_enrol_semco_install() {
         // And add firstname, lastname and email to the user account.
         $semcouser->firstname = get_string('installer_userfirstname', 'enrol_semco');
         $semcouser->lastname = get_string('installer_userlastname', 'enrol_semco');
-        $semcouser->email = $CFG->noreplyaddress;
+        $semcouser->email = ENROL_SEMCO_ROLEANDUSERNAME.'@'.get_host_from_url($CFG->wwwroot);
         user_update_user($semcouser, false);
 
         // And show a notification about that fact (this also looks fine in the CLI installer).
