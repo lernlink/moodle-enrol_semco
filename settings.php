@@ -28,9 +28,17 @@ if ($ADMIN->fulltree) {
     // Require plugin library.
     require_once($CFG->dirroot.'/enrol/semco/locallib.php');
 
-    // Show the webservice token from the DB (but only if we are on the right page to save unnecessary database queries).
+    // Show the webservice token from the DB.
+    // But only if we are on the right page to save unnecessary database queries.
+    // And if we are not during the initial install or if the script is called without setting the page URL
+    // (which will happen during the plugin installation and will show a debug warning, that's why we suppress debugging messages
+    // temporarily).
     $settingsurl = new moodle_url('/admin/settings.php', ['section' => 'enrolsettingssemco']);
-    if ($settingsurl->compare($PAGE->url, URL_MATCH_PARAMS) == true) {
+    $olddebug = $CFG->debug;
+    $CFG->debug = 0;
+    $pageurl = $PAGE->url;
+    $CFG->debug = $olddebug;
+    if (!during_initial_install() && $settingsurl->compare($pageurl, URL_MATCH_PARAMS) == true) {
         // Create connection information heading.
         $name = 'enrol_semco/settings_connectioninfoheading';
         $title = get_string('settings_connectioninfoheading', 'enrol_semco', null, true);
