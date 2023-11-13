@@ -129,7 +129,7 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
                     (ue.timestart = 0 AND ue.timeend = 0
                         OR ue.timeend = 0 AND ue.timestart <= :timeend1
                         OR ue.timestart = 0
-                        OR ue.timeend <= :timeend2)';
+                        OR ue.timeend > 0 AND ue.timeend <= :timeend2)';
         $overlapstartparams = ['courseid' => $courseid,
                 'userid' => $userid,
                 'enrol' => 'semco',
@@ -158,7 +158,7 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
                     ue.userid = :userid AND
                     (ue.timestart = 0 AND ue.timeend = 0
                         OR ue.timestart >= :timestart1 AND ue.timestart <= :timeend1
-                        OR ue.timeend <= :timeend2 AND ue.timeend >= :timestart2
+                        OR ue.timeend > 0 AND ue.timeend <= :timeend2 AND ue.timeend >= :timestart2
                         OR ue.timestart <= :timestart3 AND ue.timeend >= :timeend3)';
         $overlapbothparams = ['courseid' => $courseid,
                 'userid' => $userid,
