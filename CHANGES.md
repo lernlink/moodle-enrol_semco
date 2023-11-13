@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2023-11-10 - Feature: Reset the course completion with local_recompletion if a user gets enrolled into a course again.
 * 2023-11-10 - Bugfix: Get rid of a "This page did not call $PAGE->set_url(...)" debug message during the plugin installation via CLI.
 * 2023-10-30 - Feature: The plugin will add new user profile fields "SEMCO User birthday" and "SEMCO User place of birth" which will be filled by SEMCO with the user's birthday and place of birth.
 * 2023-10-30 - Improvement: Use a dedicated semcowebservice mail address for the SEMCO webservice user as the noreply address which has been used up to now may be empty.
