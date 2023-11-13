@@ -71,4 +71,10 @@ $capabilities = [
                 'captype' => 'read',
                 'contextlevel' => CONTEXT_COURSE,
         ],
+        // Capability to receive notifications on missed resets.
+        // By default, this is not allowed to any role archetype as it should be assigned on purpose to a role.
+        'enrol/semco:receiveresetnotifications' => [
+                'captype' => 'read',
+                'contextlevel' => CONTEXT_SYSTEM,
+        ],
 ];

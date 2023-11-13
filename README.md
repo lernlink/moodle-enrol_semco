@@ -29,6 +29,16 @@ Install the plugin like any other plugin to folder
 See http://docs.moodle.org/en/Installing_plugins for details on installing Moodle plugins
 
 
+Soft dependencies
+-----------------
+
+The SEMCO enrolment plugin is able to reset a user's course completion if he gets enrolled into a particular course by SEMCO once more.
+To realize this course completion reset and to avoid to re-invent the wheel, this plugin has a soft dependency to local_recompletion (see https://moodle.org/plugins/local_recompletion) by Dan Marsden.
+
+Please install local_recompletion with at least version 2023111402 alongside this plugin if you plan to use subsequent user enrolments into the same course and need to reset course completion.
+If you do not need plan to reset course completion, you do not need to install local_recompletion.
+
+
 Usage & Settings
 ----------------
 
@@ -89,6 +99,9 @@ In this section, you will find the Moodle base URL and the webservice token whic
 
 In this section, you control with which role SEMCO enrols users into courses. The configured role is mandatory for all users who are enrolled from SEMCO and cannot be overridden with the SEMCO enrolment webservice endpoint.
 
+### 3. Course completion
+
+In this section, you control if the course completion of a user is reset if he is enrolled into a particular course once more by SEMCO. If this setting is disabled, course completion is not touched at all. If this setting is enabled, the course completion is reset by a scheduled task before the next enrolment period starts.
 
 Connecting to SEMCO
 -------------------

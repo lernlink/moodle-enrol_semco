@@ -28,6 +28,10 @@ if ($ADMIN->fulltree) {
     // Require plugin library.
     require_once($CFG->dirroot.'/enrol/semco/locallib.php');
 
+    // Prepare options array for select settings.
+    $yesnooption = [ENROL_SEMCO_SETTING_SELECT_YES => get_string('yes'),
+        ENROL_SEMCO_SETTING_SELECT_NO => get_string('no'), ];
+
     // Show the webservice token from the DB.
     // But only if we are on the right page to save unnecessary database queries.
     // And if we are not during the initial install or if the script is called without setting the page URL
@@ -113,4 +117,60 @@ if ($ADMIN->fulltree) {
     $settings->add($setting);
 
     unset($roleoptions);
+
+    // Create course completion settings heading.
+    $name = 'enrol_semco/settings_coursecompletionheading';
+    $title = get_string('settings_coursecompletionheading', 'enrol_semco', null, true);
+    $description = '';
+    $setting = new admin_setting_heading($name, $title, $description);
+    $settings->add($setting);
+
+    // If local_recompletion is installed.
+    if (enrol_semco_check_local_recompletion() == true) {
+        // Create reset course completion setting.
+        $name = 'enrol_semco/resetcoursecompletion';
+        $title = get_string('settings_resetcoursecompletion', 'enrol_semco', null, true);
+        $localrecompletionurl = new moodle_url('/admin/settings.php', ['section' => 'local_recompletion']);
+        $description = get_string('settings_resetcoursecompletion_desc', 'enrol_semco', null, true).'<br /><br />'.
+                get_string('settings_resetcoursecompletion_note', 'enrol_semco', $localrecompletionurl->out(), true);
+        $setting = new admin_setting_configselect($name, $title, $description, ENROL_SEMCO_SETTING_SELECT_NO, $yesnooption);
+        $settings->add($setting);
+
+        // Create reset lead time setting.
+        $name = 'enrol_semco/resetleadtime';
+        $title = get_string('settings_resetleadtime', 'enrol_semco', null, true);
+        $description = get_string('settings_resetleadtime_desc', 'enrol_semco', null, true);
+        $leadtimeoptions = [
+            HOURSECS => get_string('numhours', '', 1),
+            DAYSECS => get_string('numday', '', 1),
+            WEEKSECS => get_string('numweek', '', 1),
+        ];
+        $setting = new admin_setting_configselect($name, $title, $description, DAYSECS, $leadtimeoptions);
+        $settings->add($setting);
+        $settings->hide_if('enrol_semco/resetleadtime', 'enrol_semco/resetcoursecompletion',
+            'neq', ENROL_SEMCO_SETTING_SELECT_YES);
+
+        // Create user notification chooser widget.
+        $name = 'enrol_semco/notifyonmissedreset';
+        $title = get_string('settings_notifyonmissedreset', 'enrol_semco', null, true);
+        $description = get_string('settings_notifyonmissedreset_desc', 'enrol_semco', null, true);
+        $setting = new admin_setting_users_with_capability($name, $title, $description, [],
+                'enrol/semco:receiveresetnotifications');
+        $settings->add($setting);
+        $settings->hide_if('enrol_semco/notifyonmissedreset', 'enrol_semco/resetcoursecompletion',
+            'neq', ENROL_SEMCO_SETTING_SELECT_YES);
+
+        // Otherwise.
+    } else {
+        // Create information widget.
+        $name = 'enrol_semco/settings_coursecompletionnotfound';
+        $title = '';
+        $notification = new \core\output\notification(get_string('settings_coursecompletionnotfound', 'enrol_semco', null, true),
+            \core\output\notification::NOTIFY_INFO);
+        $notification->set_show_closebutton(false);
+        $description = $OUTPUT->render($notification);
+        $setting = new admin_setting_heading($name, $title, $description);
+        $settings->add($setting);
+
+    }
 }

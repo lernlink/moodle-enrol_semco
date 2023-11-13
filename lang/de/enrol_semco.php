@@ -30,7 +30,19 @@ $string['instance_namewithoutbookingid'] = 'SEMCO';
 
 // Admin settings.
 $string['settings_connectioninfoheading'] = 'Verbindungsdaten';
+$string['settings_coursecompletionheading'] = 'Kursabschluss';
+$string['settings_coursecompletionnotfound'] = '<p>Das SEMCO Einschreibeplugin ist in der Lage, den Kursabschluss eines Nutzers zurückzusetzen sobald dieser ein weiteres Mal von SEMCO in einen Kurs eingeschrieben wird.<br />
+Um diesen Reset umzusetzen und zu vermeiden, das Rad neu zu erfinden, hat dieses Plugin eine lose Abhängigkeit zu <a href="https://moodle.org/plugins/local_recompletion">local_recompletion</a> von Dan Marsden.</p><p>
+Bitte installieren Sie local_recompletion mit mindestens der Version 2023092801 falls Sie planen, mehrfache Kurseinschreibungen mit SEMCO zu nutzen und den Kursabschluss dabei zurücksetzen wollen.<br />
+Falls Sie dies nicht planen, müssen Sie local_recompletion nicht installieren.</p>';
 $string['settings_enrolmentheading'] = 'Einschreibungsprozess';
+$string['settings_notifyonmissedreset'] = 'Benachrichtigung bei verpasstem Kursabschluss-Zurücksetzen';
+$string['settings_notifyonmissedreset_desc'] = 'Da das Zurücksetzen des Kursabschluss vor dem Startzeitpunkt einer Einschreibung passieren muss, hängt der Erfolg des Zurücksetzen davon ab dass der Moodle Cron ohne Probleme läuft. Falls es irgendwelche Probleme mit dem Cron gibt und das Zeitfenster zum Zurücksetzen eines bestimmten Kurses verpasst wird, wird der Kurs nicht mehr zurückgesetzt. Stattdessen wird eine Informations-Nachricht an die hier konfigurierten Nutzer geschickt.';
+$string['settings_resetcoursecompletion'] = 'Zurücksetzen des Kursabschluss bei erneuter Einschreibung';
+$string['settings_resetcoursecompletion_desc'] = 'Mit dieser Einstellung steuern Sie ob der Kursabschluss eines Nutzers zurückgesetzt wird wenn er von SEMCO in einen Kurs erneut eingeschrieben wird. Wenn diese Einstellung deaktiviert ist, wird der Kursabschluss in keinster Weise geändert. Wenn diese Einstellung aktiviert ist, dann wird der Kursabschluss von einem geplanten Task vor dem Beginn des zweiten Einschreibungszeitraums zurückgesetzt.';
+$string['settings_resetcoursecompletion_note'] = 'Bitte beachten Sie: Diese Einstellung stößt nur die manuelle Zurücksetzung des Kursabschluss welche vom <a href="{$a}">Plugin Kurswiederholung</a> angeboten wird an. Es ist trotzdem Aufgabe der jeweiligen Trainer die Kurswiederholung in ihrem Kurs bedarfsgerecht zu konfigurieren und die Kurswiederholung im Kurs auf \'On demand\' zu stellen.';
+$string['settings_resetleadtime'] = 'Vorlaufzeit zum Kursabschluss-Zurücksetzen';
+$string['settings_resetleadtime_desc'] = 'Mit dieser Einstellung steuern Sie wie lange vor dem Startzeitpunkt einer Einschreibung der Kursabschluss zurückgesetzt wird. Bitte setzen Sie diese Einstellung entsprechend Ihren Einschreibungsprozessen. Bitte beachten Sie jedoch auch die Hinweise zur folgenden Einstellung \'Benachrichtigung bei verpasstem Kursabschluss-Zurücksetzen\'. Vor diesem Hintergrund ist eine längere Vorlaufzeit grundsätzlich einer kürzeren Vorlaufzeit vorzuziehen.';
 $string['settings_role'] = 'Rolle';
 $string['settings_role_desc'] = 'Mit dieser Einstellung steuern Sie mit welcher Rolle SEMCO Nutzer in Kurse eingeschrieben werden. Die konfigurierte Rolle wird verpflichtend für alle Nutzer genutzt, welche von SEMCO heraus eingeschrieben werden und kann auch über den SEMCO Webservice-Endpunkt überschrieben werden. Bitte beachten Sie außerdem dass Änderungen an dieser Einstellung sich nicht auf schon erfolgte Einschreibungen auswirken werden.';
 $string['settings_tokeninfo'] = 'Webservice Tokens';
@@ -38,6 +50,11 @@ $string['settings_tokeninfofound'] = 'Das Webserver Token des SEMCO Webservice N
 $string['settings_tokeninfononefound'] = 'Es wurde kein existierendes Webservice Token für den SEMCO Webservice Nutzer gefunden. Bitte legen Sie manuell ein Token an.';
 $string['settings_wwwrootinfo'] = 'Moodle Basis-URL';
 $string['settings_wwwrootinfofound'] = 'Die Moodle Basis-URL für die SEMCO Webservice Verbindung lautet:<br /><strong>{$a}</strong><br />Bitte nutzen Sie diese Basis-URL um die Verbindung zu Moodle in SEMCO herzustellen.';
+
+// Notifications.
+$string['notification_missedcoursereset_subj'] = 'Verpasstes Kursabschluss-Zurücksetzen';
+$string['notification_missedcoursereset_bodyheader'] = 'ACHTUNG! Für die folgenden Kurseinschreibungen konnte der Kursabschluss nicht zurückgesetzt werden da der Cron nicht rechtzeitig gelaufen ist:';
+$string['notification_missedcoursereset_bodyline'] = 'Nutzer ID {$a->userid} im Kurs ID {$a->courseid} mit SEMCO Buchungsnummer {$a->semcobookingid} startend um {$a->timestart}.';
 
 // Installer.
 $string['installer_addedusertorole'] = 'Die Rolle \'SEMCO Webservice\' wurde dem Nutezr \'SEMCO Webservice\' automatisch zugewiesen.';
@@ -89,9 +106,11 @@ $string['semco:getenrolments'] = 'Abrufen der existierenden SEMCO Einschreibunge
 $string['semco:getcoursecompletions'] = 'Abrufen der (abgeschlossenen) Kursabschlüsse für Nutzer mit SEMCO Einschreibungen in einem Kurs';
 $string['semco:unenrol'] = 'Ausschreibung eines SEMCO Nutzers aus einem Kurs';
 $string['semco:usewebservice'] = 'Benutzung der SEMCO Webservices zur Einschreibung';
+$string['semco:receiveresetnotifications'] = 'Empfangen von Kursabschluss-Zurücksetzen Benachrichtigungen';
 
 // Tasks.
 $string['task_cleanorphaned'] = 'Bereinigung verwaister SEMCO Einschreibungsinstanzen.';
+$string['task_resetcoursecompletion'] = 'Zurücksetzen des Kursabschluss bei erneuter Einschreibung.';
 
 // Privacy API.
 $string['privacy:metadata'] = 'Das SEMCO Einschreibeplugin speichert keinerlei personenbezogene Daten.';

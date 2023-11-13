@@ -30,7 +30,19 @@ $string['instance_namewithoutbookingid'] = 'SEMCO';
 
 // Admin settings.
 $string['settings_connectioninfoheading'] = 'Connection information';
+$string['settings_coursecompletionheading'] = 'Course completion';
+$string['settings_coursecompletionnotfound'] = '<p>The SEMCO enrolment plugin is able to reset a user\'s course completion if he gets enrolled into a particular course by SEMCO once more.<br />
+To realize this course completion reset and to avoid to re-invent the wheel, this plugin has a soft dependency to <a href="https://moodle.org/plugins/local_recompletion">local_recompletion</a> by Dan Marsden.</p><p>
+Please install local_recompletion with at least version 2023092801 alongside this plugin if you plan to use subsequent user enrolments into the same course and need to reset course completion.<br />
+If you do not need plan to reset course completion, you do not need to install local_recompletion.</p>';
 $string['settings_enrolmentheading'] = 'Enrolment process';
+$string['settings_notifyonmissedreset'] = 'Notify on missed course completion reset';
+$string['settings_notifyonmissedreset_desc'] = 'As resetting a course\'s completion must happen before the particular enrolment period starts, the success of this reset depends on the fact that cron runs without problems. If there are any problems with cron and the time frame to reset course completion is missed, the course is not reset anymore. Instead, an information message is set to the configured user(s).';
+$string['settings_resetcoursecompletion'] = 'Reset course completion on subsequent enrolments';
+$string['settings_resetcoursecompletion_desc'] = 'With this setting, you control if the course completion of a user is reset if he is enrolled into a particular course once more by SEMCO. If this setting is disabled, course completion is not touched at all. If this setting is enabled, the course completion is reset by a scheduled task before the next enrolment period starts.';
+$string['settings_resetcoursecompletion_note'] = 'Please note: This setting just triggers the on-demand course recompletion which is provided by the <a href="{$a}">course recompletion plugin</a>. It\'s still up to the individual teachers to configure course recompletion in their courses according to the individual needs and to set the course\'s recompletion type to \'On demand\'.';
+$string['settings_resetleadtime'] = 'Course completion reset lead time';
+$string['settings_resetleadtime_desc'] = 'With this setting, you control the time between the course completion reset and the start of a particular enrolment period. Please choose the setting which matches your enrolment processes best. However, please note the explanations on the following setting \'Notify on missed course completion reset\' as well. Against this background, a longer lead time is generally preferred over a shorter time.';
 $string['settings_role'] = 'Role';
 $string['settings_role_desc'] = 'With this setting, you control with which role SEMCO enrols users into courses. The configured role is mandatory for all users who are enrolled from SEMCO and cannot be overridden with the SEMCO enrolment webservice endpoint. Please note as well that changes of this setting will not have any effect on existing enrolments.';
 $string['settings_tokeninfo'] = 'Webservice token';
@@ -55,6 +67,11 @@ $string['timestartinvalid'] = 'The Timestart field must be greater than or equal
 $string['timestartendorder'] = 'The Timestart field must not be greater than the Timeend field.';
 $string['usernotexist'] = 'The given user ({$a}) does not exist.';
 $string['wsusercannotassign'] = 'You don\'t have the permission to assign this role ({$a->roleid}) to this user ({$a->userid}) in this course ({$a->courseid}).';
+
+// Notifications.
+$string['notification_missedcoursereset_subj'] = 'Missed course completion reset';
+$string['notification_missedcoursereset_bodyheader'] = 'ATTENTION! For the following course enrolments, the course completion was not reset as cron did not run timely enough:';
+$string['notification_missedcoursereset_bodyline'] = 'User ID {$a->userid} in course ID {$a->courseid} with SEMCO booking ID {$a->semcobookingid} starting at {$a->timestart}.';
 
 // Installer.
 $string['installer_addedusertorole'] = 'The role \'SEMCO webservice\' was assigned to the user \'SEMCO webservice\' automatically.';
@@ -106,9 +123,11 @@ $string['semco:getenrolments'] = 'Get the existing SEMCO user enrolments from a 
 $string['semco:getcoursecompletions'] = 'Get the course completions for given SEMCO user enrolments';
 $string['semco:unenrol'] = 'Unenrol SEMCO users from a course';
 $string['semco:usewebservice'] = 'Use the SEMCO enrolment webservices';
+$string['semco:receiveresetnotifications'] = 'Receive course completion reset notifications';
 
 // Tasks.
 $string['task_cleanorphaned'] = 'Clean orphaned SEMCO enrolment instances.';
+$string['task_resetcoursecompletion'] = 'Reset course completion on subsequent enrolments.';
 
 // Privacy API.
 $string['privacy:metadata'] = 'The SEMCO enrolment plugin does not store any personal data.';
