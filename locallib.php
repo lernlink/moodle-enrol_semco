@@ -22,6 +22,8 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+define('ENROL_SEMCO_SETTING_SELECT_YES', 'yes');
+define('ENROL_SEMCO_SETTING_SELECT_NO', 'no');
 define('ENROL_SEMCO_ROLEANDUSERNAME', 'semcowebservice');
 define('ENROL_SEMCO_AUTH', 'webservice');
 define('ENROL_SEMCO_SERVICENAME', 'enrol_semco');
@@ -213,4 +215,43 @@ function enrol_semco_roleassign_updatecallback() {
             core_role_set_assign_allowed($semcoroleid, $newsemcoroleid);
         }
     }
+}
+
+/**
+ * Helper function to check if our companion plugin local_recompletion is installed.
+ *
+ * @return boolean
+ */
+function enrol_semco_check_local_recompletion() {
+    global $CFG;
+
+    // Use a static variable, just to be sure if this function gets called multiple times.
+    static $localrecompletioninstalled;
+
+    // If the check has not been done yet.
+    if (!isset($localrecompletioninstalled)) {
+        // Check if local_recompletion is installed.
+        if (file_exists($CFG->dirroot . '/local/recompletion/version.php')) {
+            // Get the plugin version.
+            $pluginversion = core_plugin_manager::instance()->get_plugin_info('local_recompletion')->versiondb;
+
+            // If the version is high enough.
+            if ($pluginversion >= 2023111402) {
+                // Remember the check result.
+                $localrecompletioninstalled = true;
+
+                // Otherwise.
+            } else {
+                // Remember the check result.
+                $localrecompletioninstalled = false;
+            }
+
+            // Otherwise.
+        } else {
+            // Remember the check result.
+            $localrecompletioninstalled = false;
+        }
+    }
+
+    return $localrecompletioninstalled;
 }
