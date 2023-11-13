@@ -68,7 +68,7 @@ function xmldb_enrol_semco_upgrade($oldversion) {
 
     if ($oldversion < 2023092605) {
         // If the SEMCO user company profile field does not exist yet.
-        $profilefield2= $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD2NAME]);
+        $profilefield2 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD2NAME]);
         if ($profilefield2 == false) {
             // Get the profilefield category.
             $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
