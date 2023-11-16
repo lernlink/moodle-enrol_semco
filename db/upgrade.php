@@ -184,5 +184,46 @@ function xmldb_enrol_semco_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2023092606, 'enrol', 'semco');
     }
 
+    if ($oldversion < 2023092608) {
+        // If the SEMCO tenant shortname profile field does not exist yet.
+        $profilefield5 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD5NAME]);
+        if ($profilefield5 == false) {
+            // Get the profilefield category.
+            $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
+
+            // Create SEMCO tenant shortname profile field (this is rather hardcoded but should work in the forseeable future).
+            $fielddata = new stdClass();
+            $fielddata->id = 0;
+            $fielddata->action = 'editfield';
+            $fielddata->datatype = 'text';
+            $fielddata->shortname = ENROL_SEMCO_USERFIELD5NAME;
+            $fielddata->name = get_string('installer_userfield5fullname', 'enrol_semco');
+            $fielddata->description['text'] = '';
+            $fielddata->description['format'] = 1;
+            $fielddata->required = 0;
+            $fielddata->locked = 1;
+            $fielddata->forceunique = 1;
+            $fielddata->signup = 0;
+            $fielddata->visible = 0;
+            $fielddata->categoryid = $profilefieldcategory->id;
+            $fielddata->defaultdata = '';
+            $fielddata->param1 = 16;
+            $fielddata->param2 = 16;
+            $fielddata->param3 = 0;
+            $fielddata->param4 = '';
+            $fielddata->param5 = '';
+            profile_save_field($fielddata, []);
+
+            // And show a notification about that fact (this also looks fine in the CLI installer).
+            $notification = new \core\output\notification(get_string('updater_2023092608_addprofilefield5', 'enrol_semco'),
+                \core\output\notification::NOTIFY_INFO);
+            $notification->set_show_closebutton(false);
+            echo $OUTPUT->render($notification);
+        }
+
+        // Enrol_semco savepoint reached.
+        upgrade_plugin_savepoint(true, 2023092608, 'enrol', 'semco');
+    }
+
     return true;
 }
