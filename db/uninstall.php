@@ -108,6 +108,16 @@ function xmldb_enrol_semco_uninstall() {
         $fieldsremoved = true;
     }
 
+    // If the SEMCO tenant shortname profile field still exists.
+    $profilefield5 = $DB->get_record('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD5NAME]);
+    if ($profilefield5 != false) {
+        // Remove it.
+        profile_delete_field($profilefield5->id);
+
+        // And remember that fact.
+        $fieldsremoved = true;
+    }
+
     // If the SEMCO user profile field category still exists.
     $profilefieldcategory = $DB->get_record('user_info_category', ['name' => ENROL_SEMCO_USERFIELDCATEGORY]);
     if ($profilefieldcategory != false) {
