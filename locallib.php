@@ -32,6 +32,7 @@ define('ENROL_SEMCO_USERFIELD1NAME', 'semco_userid');
 define('ENROL_SEMCO_USERFIELD2NAME', 'semco_usercompany');
 define('ENROL_SEMCO_USERFIELD3NAME', 'semco_userbirthday');
 define('ENROL_SEMCO_USERFIELD4NAME', 'semco_userplaceofbirth');
+define('ENROL_SEMCO_USERFIELD5NAME', 'semco_branchtoken');
 define('ENROL_SEMCO_GET_COURSE_COMPLETIONS_MAXREQUEST', 100);
 
 /**
