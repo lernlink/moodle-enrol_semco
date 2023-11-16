@@ -77,8 +77,12 @@ During the installation, several steps to enable the webservice communication fr
 * A webservice token is created automatically for the 'SEMCO webservice' user.\
   You can verify this on /admin/webservice/tokens.php.
   It is correct that you will not see the token there, you will just see _that_ a token exists.
-* A 'SEMCO' user profile field category is created automatically and a 'SEMCO User ID' field is added to this category.\
+* A 'SEMCO' user profile field category is created automatically and the following user profile fields are added to this category.
   You can verify this on /user/profile/index.php.
+  * SEMCO User ID
+  * SEMCO User company
+  * SEMCO User birthday
+  * SEMCO User place of birth
 * The enrol_semco plugin is activated automatically.\
   You can verify this on /admin/settings.php?section=manageenrols.
 
