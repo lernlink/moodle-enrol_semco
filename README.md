@@ -199,6 +199,7 @@ Your SEMCO-Moodle integration does not necessarily need to fully match these usa
 * A course which is sold via SEMCO - or ideally all courses in the Moodle instance - should not have self-enrolment enabled. Alternatively, you should configure the 'Authenticated user' role in Moodle in a way that users cannot enrol into courses themselves. This is because you will not want that users who got enrolled into course A by SEMCO are able to enrol into course B themselves (without paying for the course via SEMCO). And you might not want that users who came from SEMCO snoop around in other Moodle courses which are not connected to SEMCO.
 * The role with which SEMCO enrols users into courses (and which can be set in the plugin configuration) should not have the moodle/course:viewparticipants capabilities set. This is because you should assume that these course participants are not all members of the same class / cohort and do not know each other. If they would see each other participants in the course, you might even have a data protection leak.
 * For the same reason, you should also disable the Moodle messaging system to avoid that users get in touch with each other on the Moodle instance. 
+* The system message 'Course completed' should be disabled (on /admin/message.php) as a default. This is because, from SEMCO 7.9 on, SEMCO is able to send out information mails itself as soon as a course has been completed.
 
 
 Backup & Restore
