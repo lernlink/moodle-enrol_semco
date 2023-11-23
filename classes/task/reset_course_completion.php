@@ -158,7 +158,7 @@ class reset_course_completion extends scheduled_task {
             foreach ($missedenrolments as $me) {
                 $record = new \stdClass();
                 $record->id = $me->enrolid;
-                $record->customint1 = -1;
+                $record->customint1 = ENROL_SEMCO_COURSERESETRESULT_FAILED;
                 $DB->update_record('enrol', $record);
             }
 
@@ -172,13 +172,15 @@ class reset_course_completion extends scheduled_task {
                 'and which have at least one preceding enrolment which is already finished.');
 
         // Get all enrolments which will start in the future
-        // and which have at least one preceding enrolment which is already finished.
+        // and which have at least one preceding enrolment which is already finished
+        // and which have not been handled by this task yet.
         $sql = 'SELECT e.id AS enrolid, e.customchar1 AS semcobookingid, ue.userid AS userid, e.courseid AS courseid,
                     ue.timestart AS timestart, e.customint1 AS hasbeenreset
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON e.id = ue.enrolid
                 WHERE e.enrol = :enrol
                 AND ue.timestart > :timestart
+                AND e.customint1 IS NULL
                 AND EXISTS
                    (SELECT e2.id
                     FROM {user_enrolments} ue2
@@ -232,21 +234,6 @@ class reset_course_completion extends scheduled_task {
                 continue;
             }
 
-            // If the course has already been reset in a previous run (which has been documented in the database).
-            // The customint1 field in the mdl_enrol row is used as flag if the course has been reset.
-            // null = has not been reset.
-            // 1 = has been reset.
-            if ($e->hasbeenreset != null && $e->hasbeenreset == 1) {
-                // Trace.
-                mtrace('... Skip resetting course completion as it has already been reset in a previous run.');
-
-                // Remember this enrolment in the array of processed courses.
-                $processedcourses[] = $e->courseid.'-'.$e->userid;
-
-                // And skip this enrolment.
-                continue;
-            }
-
             // If the enrolment still starts in less than the configured lead time.
             $leadtime = get_config('enrol_semco', 'resetleadtime');
             if ($e->timestart > time() + $leadtime) {
@@ -284,6 +271,12 @@ class reset_course_completion extends scheduled_task {
                 // Remember this enrolment in the array of processed courses.
                 $processedcourses[] = $e->courseid.'-'.$e->userid;
 
+                // And remember the reset in the database.
+                $record = new \stdClass();
+                $record->id = $e->enrolid;
+                $record->customint1 = ENROL_SEMCO_COURSERESETRESULT_SKIPPED;
+                $DB->update_record('enrol', $record);
+
                 // And skip this enrolment.
                 continue;
             }
@@ -296,6 +289,12 @@ class reset_course_completion extends scheduled_task {
 
                 // Remember this enrolment in the array of processed courses.
                 $processedcourses[] = $e->courseid.'-'.$e->userid;
+
+                // And remember the reset in the database.
+                $record = new \stdClass();
+                $record->id = $e->enrolid;
+                $record->customint1 = ENROL_SEMCO_COURSERESETRESULT_SKIPPED;
+                $DB->update_record('enrol', $record);
 
                 // And skip this enrolment.
                 continue;
@@ -338,7 +337,7 @@ class reset_course_completion extends scheduled_task {
                 // And remember the reset in the database.
                 $record = new \stdClass();
                 $record->id = $e->enrolid;
-                $record->customint1 = 1;
+                $record->customint1 = ENROL_SEMCO_COURSERESETRESULT_SUCCESS;
                 $DB->update_record('enrol', $record);
             }
         }
