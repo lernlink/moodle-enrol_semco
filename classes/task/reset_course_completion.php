@@ -251,7 +251,18 @@ class reset_course_completion extends scheduled_task {
             $leadtime = get_config('enrol_semco', 'resetleadtime');
             if ($e->timestart > time() + $leadtime) {
                 // Trace.
-                mtrace('... Skip resetting course completion as it\'s more than one hour until this enrolment starts.');
+                switch($leadtime) {
+                    case HOURSECS:
+                        $leadtimestring = 'one hour';
+                        break;
+                    case DAYSECS:
+                        $leadtimestring = 'one day';
+                        break;
+                    case WEEKSECS:
+                        $leadtimestring = 'one week';
+                        break;
+                }
+                mtrace('... Skip resetting course completion as it\'s more than '.$leadtimestring.' until this enrolment starts.');
 
                 // Remember this enrolment in the array of processed courses.
                 $processedcourses[] = $e->courseid.'-'.$e->userid;
