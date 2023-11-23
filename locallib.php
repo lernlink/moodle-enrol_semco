@@ -34,6 +34,9 @@ define('ENROL_SEMCO_USERFIELD3NAME', 'semco_userbirthday');
 define('ENROL_SEMCO_USERFIELD4NAME', 'semco_userplaceofbirth');
 define('ENROL_SEMCO_USERFIELD5NAME', 'semco_branchtoken');
 define('ENROL_SEMCO_GET_COURSE_COMPLETIONS_MAXREQUEST', 100);
+define('ENROL_SEMCO_COURSERESETRESULT_SUCCESS', 1);
+define('ENROL_SEMCO_COURSERESETRESULT_SKIPPED', -1);
+define('ENROL_SEMCO_COURSERESETRESULT_FAILED', -2);
 
 /**
  * Helper function to get the first student archetype role id.
