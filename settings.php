@@ -132,7 +132,13 @@ if ($ADMIN->fulltree) {
         $title = get_string('settings_resetcoursecompletion', 'enrol_semco', null, true);
         $localrecompletionurl = new moodle_url('/admin/settings.php', ['section' => 'local_recompletion']);
         $description = get_string('settings_resetcoursecompletion_desc', 'enrol_semco', null, true).'<br /><br />'.
-                get_string('settings_resetcoursecompletion_note', 'enrol_semco', $localrecompletionurl->out(), true);
+                get_string('settings_resetcoursecompletion_note',
+                        'enrol_semco',
+                        [
+                            'url' => $localrecompletionurl->out(),
+                            'ondemand' => get_string('recompletiontype:ondemand', 'local_recompletion', null, true),
+                        ],
+                        true);
         $setting = new admin_setting_configselect($name, $title, $description, ENROL_SEMCO_SETTING_SELECT_NO, $yesnooption);
         $settings->add($setting);
 
