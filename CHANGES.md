@@ -4,7 +4,7 @@ moodle-enrol_semco
 Changes
 -------
 
-### Unreleased
+### v4.2-r2
 
 * 2023-11-16 - Feature: The plugin will add new user profile field "SEMCO Tenant shortname" which will be filled by SEMCO with the SEMCO tenant shortname.
 * 2023-11-10 - Feature: Reset the course completion with local_recompletion if a user gets enrolled into a course again.
