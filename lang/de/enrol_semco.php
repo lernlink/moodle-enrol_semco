@@ -33,7 +33,7 @@ $string['settings_connectioninfoheading'] = 'Verbindungsdaten';
 $string['settings_coursecompletionheading'] = 'Kursabschluss';
 $string['settings_coursecompletionnotfound'] = '<p>Das SEMCO Einschreibeplugin ist in der Lage, den Kursabschluss eines Nutzers zurückzusetzen sobald dieser ein weiteres Mal von SEMCO in einen Kurs eingeschrieben wird.<br />
 Um diesen Reset umzusetzen und zu vermeiden, das Rad neu zu erfinden, hat dieses Plugin eine lose Abhängigkeit zu <a href="https://moodle.org/plugins/local_recompletion">local_recompletion</a> von Dan Marsden.</p><p>
-Bitte installieren Sie local_recompletion mit mindestens der Version 2023092801 falls Sie planen, mehrfache Kurseinschreibungen mit SEMCO zu nutzen und den Kursabschluss dabei zurücksetzen wollen.<br />
+Bitte installieren Sie local_recompletion mit mindestens der Version 2023111402 falls Sie planen, mehrfache Kurseinschreibungen mit SEMCO zu nutzen und den Kursabschluss dabei zurücksetzen wollen.<br />
 Falls Sie dies nicht planen, müssen Sie local_recompletion nicht installieren.</p>';
 $string['settings_enrolmentheading'] = 'Einschreibungsprozess';
 $string['settings_notifyonmissedreset'] = 'Benachrichtigung bei verpasstem Kursabschluss-Zurücksetzen';

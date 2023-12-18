@@ -33,7 +33,7 @@ $string['settings_connectioninfoheading'] = 'Connection information';
 $string['settings_coursecompletionheading'] = 'Course completion';
 $string['settings_coursecompletionnotfound'] = '<p>The SEMCO enrolment plugin is able to reset a user\'s course completion if he gets enrolled into a particular course by SEMCO once more.<br />
 To realize this course completion reset and to avoid to re-invent the wheel, this plugin has a soft dependency to <a href="https://moodle.org/plugins/local_recompletion">local_recompletion</a> by Dan Marsden.</p><p>
-Please install local_recompletion with at least version 2023092801 alongside this plugin if you plan to use subsequent user enrolments into the same course and need to reset course completion.<br />
+Please install local_recompletion with at least version 2023111402 alongside this plugin if you plan to use subsequent user enrolments into the same course and need to reset course completion.<br />
 If you do not need plan to reset course completion, you do not need to install local_recompletion.</p>';
 $string['settings_enrolmentheading'] = 'Enrolment process';
 $string['settings_notifyonmissedreset'] = 'Notify on missed course completion reset';

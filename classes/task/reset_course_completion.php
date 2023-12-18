@@ -30,8 +30,11 @@ defined('MOODLE_INTERNAL') || die();
 // Require plugin library.
 require_once($CFG->dirroot.'/enrol/semco/locallib.php');
 
-// Require local_recompletion plugin library.
-require_once($CFG->dirroot.'/local/recompletion/locallib.php');
+// If local_recompletion is installed.
+if (enrol_semco_check_local_recompletion() == true) {
+    // Require local_recompletion plugin library.
+    require_once($CFG->dirroot . '/local/recompletion/locallib.php');
+}
 
 /**
  * Enrolment method "SEMCO" - Scheduled task for resetting course completion on subsequent enrolments.
