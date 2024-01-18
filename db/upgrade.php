@@ -225,5 +225,60 @@ function xmldb_enrol_semco_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2022112806, 'enrol', 'semco');
     }
 
+    if ($oldversion < 2022112808) {
+        // With the 2022112804 upgrade step, the SEMCO user place of birth profile field was created with an incorrect shortname.
+        // due to a copy & paste glitch. The shortname was ENROL_SEMCO_USERFIELD3NAME but it should have been
+        // ENROL_SEMCO_USERFIELD4NAME.
+        // For all upgraded installations, we have to check if they are affected and, if yes, have to change the shortname.
+        // As a side note, this wouldn't have happened if the user_info_field table had a unique index on the shortname column.
+
+        // If there are two records with the ENROL_SEMCO_USERFIELD3NAME identifier.
+        $countfields = $DB->count_records('user_info_field', ['shortname' => ENROL_SEMCO_USERFIELD3NAME]);
+        if ($countfields == 2) {
+            // Get the field with the wrong shortname according to its fullname.
+            // We have to use sql_compare_text() here as the name column is a text column.
+            $affectedfieldparams =
+                [
+                    'shortname' => ENROL_SEMCO_USERFIELD3NAME,
+                    'name' => get_string('installer_userfield4fullname', 'enrol_semco'),
+                ];
+            $affectedfieldsql = 'SELECT * FROM {user_info_field}
+                    WHERE '.$DB->sql_compare_text('name').' = '.$DB->sql_compare_text(':name');
+            $affectedfield = $DB->get_record_sql($affectedfieldsql, $affectedfieldparams);
+
+            // If we have not found the field.
+            // This may happen if the fullname of the field has been changed by the admin or if Moodle is running with
+            // a language different from DE or EN currently.
+            if ($affectedfield === false) {
+                // Show a notification about that fact (this also looks fine in the CLI installer).
+                $notification = new \core\output\notification(
+                    get_string('updater_2023092610_fixprofilefield4', 'enrol_semco').' '.
+                            get_string('updater_2023092610_fixprofilefield4fail', 'enrol_semco'),
+                    \core\output\notification::NOTIFY_ERROR);
+                $notification->set_show_closebutton(false);
+                echo $OUTPUT->render($notification);
+
+                // Otherwise.
+            } else {
+                // Change the shortname.
+                $affectedfield->shortname = ENROL_SEMCO_USERFIELD4NAME;
+
+                // Write the field back.
+                $DB->update_record('user_info_field', $affectedfield);
+
+                // And show a notification about that fact (this also looks fine in the CLI installer).
+                $notification = new \core\output\notification(
+                    get_string('updater_2023092610_fixprofilefield4', 'enrol_semco').' '.
+                    get_string('updater_2023092610_fixprofilefield4succ', 'enrol_semco'),
+                    \core\output\notification::NOTIFY_WARNING);
+                $notification->set_show_closebutton(false);
+                echo $OUTPUT->render($notification);
+            }
+        }
+
+        // Enrol_semco savepoint reached.
+        upgrade_plugin_savepoint(true, 2022112808, 'enrol', 'semco');
+    }
+
     return true;
 }

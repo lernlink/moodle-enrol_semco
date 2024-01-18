@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2024-01-18 - Bugfix: For installations of this plugin which have been upgraded to v4.2-r2 (and not freshly installed on v4.2-r2), the user profile field "SEMCO User place of birth" was created with an incorrect shortname. This resulted in the fact that SEMCO could not write into this new user profile field. The shortname of the field was changed with an upgrade step now.
+
 ### v4.1-r2
 
 * 2023-11-16 - Feature: The plugin will add new user profile field "SEMCO Tenant shortname" which will be filled by SEMCO with the SEMCO tenant shortname.

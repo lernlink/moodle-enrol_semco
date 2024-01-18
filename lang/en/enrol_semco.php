@@ -119,6 +119,9 @@ $string['updater_2023092605_addprofilefield'] = 'The profile field \'SEMCO User 
 $string['updater_2023092606_addprofilefield3'] = 'The profile field \'SEMCO User birthday\' was created and properly configured automatically during the plugin update.';
 $string['updater_2023092606_addprofilefield4'] = 'The profile field \'SEMCO User place of birth\' was created and properly configured automatically during the plugin update.';
 $string['updater_2023092608_addprofilefield5'] = 'The profile field \'SEMCO Tenant shortname\' was created and properly configured automatically during the plugin update.';
+$string['updater_2023092610_fixprofilefield4'] = 'The profile field \'SEMCO User place of birth\' was created with an incorrect shortname during a previous update of this plugin. This resulted in the fact that SEMCO could not write into this new user profile field.';
+$string['updater_2023092610_fixprofilefield4succ'] = 'The shortname of the field was changed with an upgrade step now.';
+$string['updater_2023092610_fixprofilefield4fail'] = 'The installer has tried to change the shortname of the field with an upgrade step now, but it failed. Please go to the user profile fields management page, search for the \'SEMCO User place of birth\' field and change the shortname to \'semco_userplaceofbirth\'';
 
 // Capabilities.
 $string['semco:editenrolment'] = 'Edit an existing SEMCO user enrolment';
