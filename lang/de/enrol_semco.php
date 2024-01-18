@@ -102,6 +102,9 @@ $string['updater_2023092605_addprofilefield'] = 'Das Nutzerprofilfeld \'SEMCO Nu
 $string['updater_2023092606_addprofilefield3'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer Geburtstag\' wurde während des Plugin-Updates automatisch erstellt und passend konfiguriert.';
 $string['updater_2023092606_addprofilefield4'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer Geburtsort\' wurde während des Plugin-Updates automatisch erstellt und passend konfiguriert.';
 $string['updater_2023092608_addprofilefield5'] = 'Das Nutzerprofilfeld \'SEMCO Mandant Kurzname\' wurde während des Plugin-Updates automatisch erstellt und passend konfiguriert.';
+$string['updater_2023092610_fixprofilefield4'] = 'Das Nutzerprofilfeld \'SEMCO Nutzer Geburtsort\' wurde während eines früheren Plugin-Updates automatisch erstellt, aber leider mit einem falschen Kurznamen versehen. Dies führte dazu dass SEMCO in dieses Nutzerprofilfeld keine Daten schreiben konnte.';
+$string['updater_2023092610_fixprofilefield4succ'] = 'Der Kurzname des Nutzerprofilfelds wurde nun automatisch korrigiert.';
+$string['updater_2023092610_fixprofilefield4fail'] = 'Der Installer hat versucht den Kurznamen des Nutzerprofilfelds nun automatisch zu korrigieren, aber dies ist leider fehlgeschlagen. Bitte gehen Sie auf die Managementseite der Nutzerprofilfelder, suchen Sie das Nutzerprofilfeld \'SEMCO Nutzer Geburtsort\' und ändern Sie dessen Kurznamen händisch auf \'semco_userplaceofbirth\' ab.';
 
 // Capabilities.
 $string['semco:editenrolment'] = 'Bearbeitung einer existierenden SEMCO Einschreibung';
