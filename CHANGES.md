@@ -4,7 +4,7 @@ moodle-enrol_semco
 Changes
 -------
 
-### Unreleased
+### v4.1-r3
 
 * 2024-01-18 - Bugfix: For installations of this plugin which have been upgraded to v4.2-r2 (and not freshly installed on v4.2-r2), the user profile field "SEMCO User place of birth" was created with an incorrect shortname. This resulted in the fact that SEMCO could not write into this new user profile field. The shortname of the field was changed with an upgrade step now.
 
