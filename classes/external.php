@@ -80,6 +80,11 @@ class enrol_semco_external extends external_api {
                                         'The fact if the enrolment is suspended or not (0: not suspended, 1: suspended)'.
                                                 ' [optional].',
                                         VALUE_DEFAULT, false),
+                        'requirerecompletion' =>
+                                new external_value(PARAM_BOOL,
+                                        'The fact if local_recompletion is required to be enabled in the course or not'.
+                                                ' (0: not required, 1: required) [optional].',
+                                        VALUE_DEFAULT, false),
                 ]
         );
     }
@@ -95,10 +100,13 @@ class enrol_semco_external extends external_api {
      * @param int $timestart The timestamp when the enrolment starts [optional].
      * @param int $timeend The timestamp when the enrolment ends [optional].
      * @param bool $suspend The fact if the enrolment is suspended or not (0: not suspended, 1: suspended) [optional].
+     * @param bool $requirerecompletion The fact if local_recompletion is required to be enabled in the course or not
+                                        (0: not expected, 1: expected) [optional]
      * @return array The webservice's return array
      * @throws moodle_exception
      */
-    public static function enrol_user($userid, $courseid, $semcobookingid, $timestart = null, $timeend = null, $suspend = null) {
+    public static function enrol_user($userid, $courseid, $semcobookingid, $timestart = null, $timeend = null,
+            $suspend = null, $requirerecompletion = null) {
         global $DB, $CFG;
 
         // Require enrolment library.
@@ -112,6 +120,7 @@ class enrol_semco_external extends external_api {
                 'timestart' => $timestart,
                 'timeend' => $timeend,
                 'suspend' => $suspend,
+                'requirerecompletion' => $requirerecompletion,
         ];
         $params = self::validate_parameters(self::enrol_user_parameters(), $arrayparams);
 
@@ -189,6 +198,30 @@ class enrol_semco_external extends external_api {
                 $params['timeend']);
         if ($overlapexists == true) {
             throw new moodle_exception('bookingoverlap', 'enrol_semco');
+        }
+
+        // If the caller expects that local_recompletion is enabled.
+        if (!empty($params['requirerecompletion']) && $params['requirerecompletion'] == true) {
+            // Throw an exception if local_recompletion is not installed (or too old).
+            if (enrol_semco_check_local_recompletion() != true) {
+                throw new moodle_exception('localrecompletionnotexpectable', 'enrol_semco');
+            }
+
+            // Get the recompletion config for this course.
+            $recompletionconfig = (object) $DB->get_records_menu('local_recompletion_config',
+                ['course' => $params['courseid']], '', 'name, value');
+
+            // Throw an exception if recompletion is not enabled at all.
+            if (empty($recompletionconfig->recompletiontype)) {
+                $localrecompletionurl = new moodle_url('/local/recompletion/recompletion.php', ['id' => $params['courseid']]);
+                throw new moodle_exception('localrecompletionnotenabled', 'enrol_semco', '', $localrecompletionurl);
+            }
+
+            // Throw an exception if recompletion is not set to OnDemand.
+            if ($recompletionconfig->recompletiontype != \local_recompletion_recompletion_form::RECOMPLETION_TYPE_ONDEMAND) {
+                $localrecompletionurl = new moodle_url('/local/recompletion/recompletion.php', ['id' => $params['courseid']]);
+                throw new moodle_exception('localrecompletionnotondemand', 'enrol_semco', '', $localrecompletionurl);
+            }
         }
 
         // Add an enrolment instance to the course on-the-fly.
