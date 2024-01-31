@@ -85,4 +85,12 @@ $functions = [
                 'type' => 'read',
                 'services' => [ENROL_SEMCO_SERVICENAME],
         ],
+        'enrol_semco_reset_course_completion' => [
+                'classname' => 'enrol_semco_external',
+                'methodname' => 'reset_course_completion',
+                'description' => 'Reset the course completion for the given SEMCO user enrolment',
+                'capabilities' => 'enrol/semco:resetcoursecompletion',
+                'type' => 'write',
+                'services' => [ENROL_SEMCO_SERVICENAME],
+        ],
 ];

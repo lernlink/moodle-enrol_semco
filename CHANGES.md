@@ -3,6 +3,9 @@ moodle-enrol_semco
 
 Changes
 -------
+### Unreleased
+
+* 2024-01-30 - Feature change: Resetting the course completion with local_recompletion is now trigged directly by SEMCO and not with a scheduled task within Moodle anymore.
 
 ### v4.3-r1
 

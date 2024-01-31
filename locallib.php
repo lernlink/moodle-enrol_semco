@@ -22,8 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-define('ENROL_SEMCO_SETTING_SELECT_YES', 'yes');
-define('ENROL_SEMCO_SETTING_SELECT_NO', 'no');
 define('ENROL_SEMCO_ROLEANDUSERNAME', 'semcowebservice');
 define('ENROL_SEMCO_AUTH', 'webservice');
 define('ENROL_SEMCO_SERVICENAME', 'enrol_semco');
