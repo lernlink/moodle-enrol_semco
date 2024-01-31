@@ -107,6 +107,7 @@ In this section, you control with which role SEMCO enrols users into courses. Th
 
 In this section, you can verify that the local_recompletion plugin is installed and SEMCO would be able to reset the completion of a user if he is enrolled into a particular course once more.
 
+
 Connecting to SEMCO
 -------------------
 
@@ -224,7 +225,8 @@ It should also work with Boost child themes, including Moodle Core's Classic the
 Plugin repositories
 -------------------
 
-This plugin is not published in the Moodle plugins repository.
+This plugin is published and regularly updated in the Moodle plugins repository, but currently waiting for approval:
+http://moodle.org/plugins/view/enrol_semco
 
 The latest stable version can be found on Github:
 https://github.com/lernlink/moodle-enrol_semco
@@ -238,13 +240,11 @@ This plugin is carefully developed and thoroughly tested, but bugs and problems 
 Please report bugs and problems on Github:
 https://github.com/lernlink/moodle-enrol_semco/issues
 
-Alternatively, you can report your issues to us via support@lernlink.de.
-
 
 Community feature proposals
 ---------------------------
 
-The functionality of this plugin is primarily implemented for the needs of our clients. We are aware that members of the community will have other needs and would love to see them solved by this plugin.
+The functionality of this plugin is primarily implemented for the needs of our clients and published as-is to the community. We are aware that members of the community will have other needs and would love to see them solved by this plugin.
 
 Please issue feature proposals on Github:
 https://github.com/lernlink/moodle-enrol_semco/issues
@@ -274,7 +274,7 @@ If you are running a legacy version of Moodle, but want or need to run the lates
 Translating this plugin
 -----------------------
 
-This Moodle plugin is shipped with an english and german language pack. It can't be translated on AMOS as it is not published in the Moodle plugins repository.
+This Moodle plugin is shipped with an english and german language pack. It can't be translated on AMOS yet as it is not approved in the Moodle plugins repository.
 
 
 Right-to-left support
