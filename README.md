@@ -105,7 +105,7 @@ In this section, you control with which role SEMCO enrols users into courses. Th
 
 ### 3. Course completion
 
-In this section, you control if the course completion of a user is reset if he is enrolled into a particular course once more by SEMCO. If this setting is disabled, course completion is not touched at all. If this setting is enabled, the course completion is reset by a scheduled task before the next enrolment period starts.
+In this section, you can verify that the local_recompletion plugin is installed and SEMCO would be able to reset the completion of a user if he is enrolled into a particular course once more.
 
 Connecting to SEMCO
 -------------------

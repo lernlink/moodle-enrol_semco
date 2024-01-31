@@ -35,14 +35,4 @@ $tasks = [
                 'dayofweek' => '*',
                 'disabled' => 0,
         ],
-        [
-                'classname' => '\enrol_semco\task\reset_course_completion',
-                'blocking' => 0,
-                'minute' => '*/5',
-                'hour' => '*',
-                'day' => '*',
-                'month' => '*',
-                'dayofweek' => '*',
-                'disabled' => 0,
-        ],
 ];

@@ -937,4 +937,165 @@ class enrol_semco_external extends external_api {
                 )
         );
     }
+
+    /**
+     * Returns description of method parameters.
+     *
+     * @return external_function_parameters
+     */
+    public static function reset_course_completion_parameters() {
+        return new external_function_parameters(
+                [
+                        'enrolid' =>
+                                new external_value(PARAM_INT,
+                                        'The Moodle enrolment ID for which the course completion should be reset.',
+                                        VALUE_REQUIRED),
+                ]
+        );
+    }
+
+    /**
+     * Resetting the existing course completion for the given SEMCO user enrolment.
+     *
+     * @param array $enrolid The Moodle enrolment ID for which the course completion should be reset.
+     * @return array The webservice's return array
+     * @throws moodle_exception
+     */
+    public static function reset_course_completion($enrolid) {
+        global $CFG, $DB;
+
+        // Require local_recompletion plugin library.
+        require_once($CFG->dirroot.'/local/recompletion/locallib.php');
+
+        // Validate given parameters.
+        $arrayparams = [
+                'enrolid' => $enrolid,
+        ];
+        $params = self::validate_parameters(self::reset_course_completion_parameters(), $arrayparams);
+
+        // Initialize warnings.
+        $warnings = [];
+
+        // Start a transaction to rollback all changes if an error occurs (except if the DB doesn't support it).
+        $transaction = $DB->start_delegated_transaction();
+
+        // Retrieve the SEMCO enrolment plugin.
+        $enrol = enrol_get_plugin('semco');
+        if (empty($enrol)) {
+            throw new moodle_exception('semcopluginnotinstalled', 'enrol_semco');
+        }
+
+        // Throw an exception if the SEMCO enrolment plugin is not enabled.
+        if (enrol_is_enabled('semco') == false) {
+            throw new moodle_exception('semcopluginnotenabled', 'enrol_semco');
+        }
+
+        // Throw an exception if local_recompletion is not installed (or too old).
+        if (enrol_semco_check_local_recompletion() != true) {
+            throw new moodle_exception('localrecompletionnotinstalled', 'enrol_semco');
+        }
+
+        // Get the user enrolment associated to the given enrolment ID from the database,
+        // throw an exception if it does not exist.
+        $userinstance = $DB->get_record('user_enrolments', ['id' => $params['enrolid']]);
+        if (empty($userinstance)) {
+            throw new moodle_exception('enrolnouserinstance', 'enrol_semco', '', $params['enrolid']);
+        }
+
+        // Get the enrolment instance associated to the given enrolment ID from the database,
+        // throw an exception if it does not exist.
+        $instance = $DB->get_record('enrol', ['enrol' => 'semco', 'id' => $userinstance->enrolid]);
+        if (empty($instance)) {
+            throw new moodle_exception('enrolnoinstance', 'enrol_semco', '', $params['enrolid']);
+        }
+
+        // Ensure the webservice user is allowed to run this function in the enrolment context.
+        $context = context_course::instance($instance->courseid);
+        self::validate_context($context);
+
+        // Check that the webservice user has the permission to reset course completions for SEMCO users.
+        require_capability('enrol/semco:resetcoursecompletion', $context);
+
+        // Get the enrolled user from the DB, throw an exception if it does not exist.
+        $user = \core_user::get_user($userinstance->userid);
+        if (!$user) {
+            throw new moodle_exception('usernotexist', 'enrol_semco', '', $userinstance->userid);
+        }
+
+        // Get the recompletion config for this course.
+        $recompletionconfig = (object) $DB->get_records_menu('local_recompletion_config',
+                ['course' => $instance->courseid], '', 'name, value');
+
+        // Throw an exception if recompletion is not enabled at all.
+        if (empty($recompletionconfig->recompletiontype)) {
+            $localrecompletionurl = new moodle_url('/local/recompletion/recompletion.php', ['id' => $instance->courseid]);
+            throw new moodle_exception('localrecompletionnotenabled', 'enrol_semco', '', $localrecompletionurl);
+        }
+
+        // Throw an exception if recompletion is not set to OnDemand.
+        if ($recompletionconfig->recompletiontype != \local_recompletion_recompletion_form::RECOMPLETION_TYPE_ONDEMAND) {
+            $localrecompletionurl = new moodle_url('/local/recompletion/recompletion.php', ['id' => $instance->courseid]);
+            throw new moodle_exception('localrecompletionnotondemand', 'enrol_semco', '', $localrecompletionurl);
+        }
+
+        // Get the local_recompletion reset task.
+        $resettask = new \local_recompletion\task\check_recompletion();
+
+        // Get the full course record.
+        $course = get_course($instance->courseid);
+
+        // Trigger the reset and store the error output (which is an array).
+        $reseterrors = $resettask->reset_user($userinstance->userid, $course, $recompletionconfig);
+
+        // If there was an error.
+        if (!empty($reseterrors)) {
+            // Remember the reset result.
+            $resetresult = false;
+
+            // Pipe the reset errors through to the webservice warnings as we can't do anything else.
+            foreach ($reseterrors as $re) {
+                // Because of a glitch which is reported on https://github.com/danmarsden/moodle-local_recompletion/issues/146,
+                // we drop all empty error messages.
+                if (empty($re)) {
+                    continue;
+                }
+
+                // Add the error to the warning array.
+                $warnings[] = [
+                    'item' => 'course',
+                    'itemid' => $instance->courseid,
+                    'warningcode' => 'localrecompletionerror',
+                    'message' => $re,
+                ];
+            }
+
+            // Otherwise, if the reset seemed to be successful.
+        } else {
+            // Remember the reset result.
+            $resetresult = true;
+        }
+
+        // Commit the DB transaction.
+        $transaction->allow_commit();
+
+        // Return the results.
+        $result = ['result' => $resetresult,
+            'warnings' => $warnings, ];
+        return $result;
+    }
+
+    /**
+     * Returns description of method result value.
+     *
+     * @return external_single_structure
+     */
+    public static function reset_course_completion_returns() {
+        return new external_single_structure(
+                [
+                        'result' => new external_value(PARAM_BOOL, 'The course completion reset result'.
+                                ' (1: reset successful, 0: reset not successful, please check the warnings).'),
+                        'warnings' => new external_warnings(),
+                ]
+        );
+    }
 }
