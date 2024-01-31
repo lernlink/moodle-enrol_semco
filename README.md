@@ -140,6 +140,10 @@ This capability controls the ability to edit an existing SEMCO user enrolment in
 
 This capability controls the ability to get the existing SEMCO user enrolments in a course.
 
+### enrol/semco:resetcoursecompletion
+
+This capability controls the ability to reset the course completion for a given SEMCO user enrolment.
+
 ### Please note
 
 By default, these capabilities are not allowed to any role archetype as they should just be used by a webservice.
