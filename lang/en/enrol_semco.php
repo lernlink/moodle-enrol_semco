@@ -57,6 +57,7 @@ $string['enrolnouserinstance'] = 'The given user enrolment instance ({$a}) does 
 $string['getcoursecompletionsmaxrequest'] = 'You passed more than the maximum amount of enrolment IDs (which is {$a}).';
 $string['semcopluginnotenabled'] = 'The SEMCO enrolment plugin is not enabled currently.';
 $string['semcopluginnotinstalled'] = 'The SEMCO enrolment plugin has not yet been installed.';
+$string['localrecompletionnotexpectable'] = 'The local_recompletion plugin is not installed or too old. Please install / update local_recompletion before you use the requirerecompletion parameter of this webservice function.';
 $string['localrecompletionnotinstalled'] = 'The local_recompletion plugin is not installed or too old. Please install / update local_recompletion to allow this webservice function to do its job.';
 $string['localrecompletionnotenabled'] = 'Course recompletion is not enabled at all in the course\'s recompletion settings. Please go to {$a} and set the \'Recompletion type\' to \'On demand\'.';
 $string['localrecompletionnotondemand'] = 'Course recompletion is not set to \'On demand\' in the course\'s recompletion settings. Please go to {$a} and set the \'Recompletion type\' to \'On demand\'.';

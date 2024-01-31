@@ -3,8 +3,10 @@ moodle-enrol_semco
 
 Changes
 -------
+
 ### Unreleased
 
+* 2024-01-31 - Improvement: The webservice enrol_semco_enrol_user got an additional optional parameter which will process the enrolment only if local_recompletion is enabled in the course.
 * 2024-01-30 - Feature change: Resetting the course completion with local_recompletion is now trigged directly by SEMCO and not with a scheduled task within Moodle anymore.
 
 ### v4.3-r1
