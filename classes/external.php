@@ -964,9 +964,6 @@ class enrol_semco_external extends external_api {
     public static function reset_course_completion($enrolid) {
         global $CFG, $DB;
 
-        // Require local_recompletion plugin library.
-        require_once($CFG->dirroot.'/local/recompletion/locallib.php');
-
         // Validate given parameters.
         $arrayparams = [
                 'enrolid' => $enrolid,
@@ -994,6 +991,9 @@ class enrol_semco_external extends external_api {
         if (enrol_semco_check_local_recompletion() != true) {
             throw new moodle_exception('localrecompletionnotinstalled', 'enrol_semco');
         }
+
+        // Require local_recompletion plugin library.
+        require_once($CFG->dirroot.'/local/recompletion/locallib.php');
 
         // Get the user enrolment associated to the given enrolment ID from the database,
         // throw an exception if it does not exist.
