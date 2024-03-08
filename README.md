@@ -225,7 +225,7 @@ It should also work with Boost child themes, including Moodle Core's Classic the
 Plugin repositories
 -------------------
 
-This plugin is published and regularly updated in the Moodle plugins repository, but currently waiting for approval:
+This plugin is published and regularly updated in the Moodle plugins repository:
 http://moodle.org/plugins/view/enrol_semco
 
 The latest stable version can be found on Github:
@@ -264,7 +264,9 @@ As certified Moodle Partner, we also offer paid support for this plugin. If you 
 Moodle release support
 ----------------------
 
-This plugin is only maintained for the most recent major release of Moodle as well as the most recent LTS release of Moodle. Bugfixes are backported to the LTS release. However, new features and improvements are not necessarily backported to the LTS release.
+This plugin is maintained for all officially supported Moodle core versions, particularly the most recent major release of Moodle as well as the most recent LTS release of Moodle. Bugfixes are backported to each supported release. New features and improvements are backported to the each supported release as well, if possible.
+
+Apart from these maintained releases, previous versions of this plugin which work in legacy major releases of Moodle are still available as-is without any further updates in the Moodle Plugins repository.
 
 There may be several weeks after a new major release of Moodle has been published until we can do a compatibility check and fix problems if necessary. If you encounter problems with a new major release of Moodle - or can confirm that this plugin still works with a new major release - please let us know on Github.
 
@@ -274,7 +276,9 @@ If you are running a legacy version of Moodle, but want or need to run the lates
 Translating this plugin
 -----------------------
 
-This Moodle plugin is shipped with an english and german language pack. It can't be translated on AMOS yet as it is not approved in the Moodle plugins repository.
+This Moodle plugin is shipped with an english language pack only. All translations into other languages must be managed through AMOS (https://lang.moodle.org) by what they will become part of Moodle's official language pack.
+
+As the plugin creator, we manage the translation into german for our own local needs on AMOS. Please contribute your translation into all other languages in AMOS where they will be reviewed by the official language pack maintainers for Moodle.
 
 
 Right-to-left support
