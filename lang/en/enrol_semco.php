@@ -38,6 +38,9 @@ $string['settings_coursecompletionlrcnotfound'] = '<p>Please install local_recom
 If you do not need plan to reset course completion, you do not need to install local_recompletion.</p>';
 $string['settings_coursecompletionnote'] = '<p>Please note: SEMCO just triggers the on-demand course recompletion which is provided by the <a href="{$a}">course recompletion plugin</a>. It\'s still up to the individual teachers to configure course recompletion in their courses according to the individual needs and to set the course\'s recompletion type to \'On demand\'.</p>';
 $string['settings_enrolmentheading'] = 'Enrolment process';
+$string['settings_enrolmentreportheading'] = 'Enrolment report';
+$string['settings_enrolmentreportheading_desc'] = 'There is a site report where you can see all enrolments which have been made by SEMCO.';
+$string['settings_enrolmentreportbutton'] = 'View report';
 $string['settings_role'] = 'Role';
 $string['settings_role_desc'] = 'With this setting, you control with which role SEMCO enrols users into courses. The configured role is mandatory for all users who are enrolled from SEMCO and cannot be overridden with the SEMCO enrolment webservice endpoint. Please note as well that changes of this setting will not have any effect on existing enrolments.';
 $string['settings_tokeninfo'] = 'Webservice token';
@@ -45,6 +48,21 @@ $string['settings_tokeninfofound'] = 'The webservice token for the SEMCO webserv
 $string['settings_tokeninfononefound'] = 'No existing webservice token was found for the SEMCO webservice user. Please create a token manually.';
 $string['settings_wwwrootinfo'] = 'Moodle base URL';
 $string['settings_wwwrootinfofound'] = 'The Moodle base URL for the SEMCO webservice connection is:<br /><strong>{$a}</strong><br />Please use this Moodle base URL to configure the Moodle connection in SEMCO.';
+
+// Enrolment report.
+$string['reportpagetitle'] = 'SEMCO enrolments';
+$string['emptytable'] = 'There are not any SEMCO enrolments yet in this Moodle instance.';
+$string['tablecourseid'] = 'Course ID';
+$string['tablecoursename'] = 'Course name';
+$string['tableenrolend'] = 'Enrolment end';
+$string['tableenrolid'] = 'Enrolment ID';
+$string['tableenrolstart'] = 'Enrolment start';
+$string['tableenrolstatus'] = 'Enrolment status';
+$string['tablesemcobookingid'] = 'SEMCO booking ID';
+$string['tableuserid'] = 'Moodle User ID';
+$string['tableusername'] = 'Moodle Username';
+$string['tableuserstatus'] = 'Moodle User status';
+$string['tableviewenrolment'] = 'View course profile';
 
 // Webservice errors.
 $string['bookingidduplicate'] = 'There is already an enrolment instance with this SEMCO booking ID ({$a}).';
@@ -126,6 +144,7 @@ $string['semco:getcoursecompletions'] = 'Get the course completions for given SE
 $string['semco:resetcoursecompletion'] = 'Reset the course completion for the given SEMCO user enrolment';
 $string['semco:unenrol'] = 'Unenrol SEMCO users from a course';
 $string['semco:usewebservice'] = 'Use the SEMCO enrolment webservices';
+$string['semco:viewreport'] = 'View the SEMCO enrolment report';
 
 // Tasks.
 $string['task_cleanorphaned'] = 'Clean orphaned SEMCO enrolment instances.';
