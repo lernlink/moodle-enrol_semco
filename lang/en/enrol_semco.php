@@ -150,4 +150,7 @@ $string['semco:viewreport'] = 'View the SEMCO enrolment report';
 $string['task_cleanorphaned'] = 'Clean orphaned SEMCO enrolment instances.';
 
 // Privacy API.
-$string['privacy:metadata'] = 'The SEMCO enrolment plugin does not store any personal data.';
+$string['privacy:metadata:enrol_semco:SEMCO'] = 'SEMCO is a course management system which is connected to Moodle for organizing course enrolments.';
+$string['privacy:metadata:enrol_semco:SEMCO:user_profile'] = 'User profile data like the username, firstname, lastname and email are shared between SEMCO and Moodle. The data flows from SEMCO to Moodle.';
+$string['privacy:metadata:enrol_semco:SEMCO:course_enrolments'] = 'Course enrolment metadata like course memberships and enrolment dates are shared between SEMCO and Moodle. The data flows from SEMCO to Moodle.';
+$string['privacy:metadata:enrol_semco:SEMCO:course_completions'] = 'Course completion data including completion dates, grades and passing states are shared between SEMCO and Moodle. The data flows from Moodle to SEMCO.';
