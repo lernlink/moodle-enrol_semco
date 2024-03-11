@@ -93,17 +93,22 @@ After installing the plugin and after the automatic configuration, it is ready t
 To configure the plugin and its behaviour, please visit:
 Site administration -> Plugins -> Enrolments -> SEMCO
 
-There, you find two sections:
+There, you find four sections:
 
 ### 1. Connection information
 
 In this section, you will find the Moodle base URL and the webservice token which was automatically created during the plugin installation. Please use this data to configure the Moodle connection in SEMCO.
 
-### 2. Enrolment process
+### 2. Enrolment report
+
+In this section, you will find the link to a site report where you can see all enrolments which have been made by SEMCO.
+For managers, this report is also linked in the 'Reports' section within the site administration.
+
+### 3. Enrolment process
 
 In this section, you control with which role SEMCO enrols users into courses. The configured role is mandatory for all users who are enrolled from SEMCO and cannot be overridden with the SEMCO enrolment webservice endpoint.
 
-### 3. Course completion
+### 4. Course completion
 
 In this section, you can verify that the local_recompletion plugin is installed and SEMCO would be able to reset the completion of a user if he is enrolled into a particular course once more.
 
@@ -149,6 +154,11 @@ This capability controls the ability to reset the course completion for a given 
 
 By default, these capabilities are not allowed to any role archetype as they should just be used by a webservice.
 They will be automatically assigned to the 'SEMCO webservice' role during the plugin installation.
+
+### enrol/semco:viewreport
+
+This capability controls the ability to view the enrolment report of all SEMCO user enrolments.
+In contrast to the previous capabilities, this capability is allowed for the manager role by default.
 
 
 How this plugin works

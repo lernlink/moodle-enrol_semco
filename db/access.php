@@ -78,4 +78,14 @@ $capabilities = [
                 'captype' => 'write',
                 'contextlevel' => CONTEXT_COURSE,
         ],
+        // Ability to view the enrolment report of all SEMCO user enrolments.
+        // By default, this is allowed for the manager role.
+        'enrol/semco:viewreport' => [
+            'captype' => 'read',
+            'riskbitmask' => RISK_PERSONAL,
+            'contextlevel' => CONTEXT_SYSTEM,
+            'archetypes' => [
+                'manager' => CAP_ALLOW,
+            ],
+        ],
 ];

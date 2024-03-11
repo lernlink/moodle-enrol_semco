@@ -82,6 +82,17 @@ if ($ADMIN->fulltree) {
         }
     }
 
+    // Create enrolment report heading.
+    $name = 'enrol_semco/settings_enrolmentreportheading';
+    $reporturl = new moodle_url('/enrol/semco/enrolreport.php');
+    $title = get_string('settings_enrolmentreportheading', 'enrol_semco', null, true);
+    $description = get_string('settings_enrolmentreportheading_desc', 'enrol_semco', null, true).'<br />'.
+            html_writer::link($reporturl,
+                    get_string('settings_enrolmentreportbutton', 'enrol_semco', null, true),
+                    ['class' => 'btn btn-secondary my-3']);
+    $setting = new admin_setting_heading($name, $title, $description);
+    $settings->add($setting);
+
     // Create enrolment settings heading.
     $name = 'enrol_semco/settings_enrolmentheading';
     $title = get_string('settings_enrolmentheading', 'enrol_semco', null, true);
