@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2024-03-11 - Improvement: Add description of data transfer between SEMCO and Moodle to Privacy API, resolves #1.
 * 2024-03-11 - Release: Remove german language pack after the strings have been imported into AMOS.
 * 2024-03-08 - Feature: Add a site report which shows a list of existing SEMCO enrolment instances.
 * 2024-01-31 - Improvement: The webservice enrol_semco_enrol_user got an additional optional parameter which will process the enrolment only if local_recompletion is enabled in the course.
