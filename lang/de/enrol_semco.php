@@ -38,6 +38,9 @@ $string['settings_coursecompletionlrcnotfound'] = '<p>Bitte installieren Sie loc
 Falls Sie dies nicht planen, müssen Sie local_recompletion nicht installieren.</p>';
 $string['settings_coursecompletionnote'] = '<p>Bitte beachten Sie: SEMCO stößt nur die manuelle Zurücksetzung des Kursabschluss welche vom <a href="{$a}">Plugin Kurswiederholung</a> angeboten wird an. Es ist trotzdem Aufgabe der jeweiligen Trainer die Kurswiederholung in ihrem Kurs bedarfsgerecht zu konfigurieren und die Kurswiederholung im Kurs auf \'On demand\' zu stellen.</p>';
 $string['settings_enrolmentheading'] = 'Einschreibungsprozess';
+$string['settings_enrolmentreportheading'] = 'Einschreibungsbericht';
+$string['settings_enrolmentreportheading_desc'] = 'Es gibt einen Bericht, in welchem Sie alle SEMCO Einschreibungen auf einen Blick sehen können:';
+$string['settings_enrolmentreportbutton'] = 'Bericht aufrufen';
 $string['settings_role'] = 'Rolle';
 $string['settings_role_desc'] = 'Mit dieser Einstellung steuern Sie mit welcher Rolle SEMCO Nutzer in Kurse eingeschrieben werden. Die konfigurierte Rolle wird verpflichtend für alle Nutzer genutzt, welche von SEMCO heraus eingeschrieben werden und kann auch über den SEMCO Webservice-Endpunkt überschrieben werden. Bitte beachten Sie außerdem dass Änderungen an dieser Einstellung sich nicht auf schon erfolgte Einschreibungen auswirken werden.';
 $string['settings_tokeninfo'] = 'Webservice Tokens';
@@ -45,6 +48,21 @@ $string['settings_tokeninfofound'] = 'Das Webserver Token des SEMCO Webservice N
 $string['settings_tokeninfononefound'] = 'Es wurde kein existierendes Webservice Token für den SEMCO Webservice Nutzer gefunden. Bitte legen Sie manuell ein Token an.';
 $string['settings_wwwrootinfo'] = 'Moodle Basis-URL';
 $string['settings_wwwrootinfofound'] = 'Die Moodle Basis-URL für die SEMCO Webservice Verbindung lautet:<br /><strong>{$a}</strong><br />Bitte nutzen Sie diese Basis-URL um die Verbindung zu Moodle in SEMCO herzustellen.';
+
+// Enrolment report.
+$string['reportpagetitle'] = 'SEMCO Einschreibungen';
+$string['emptytable'] = 'Es gibt aktuell noch keine SEMCO Einschreibungen in dieser Moodle Installation.';
+$string['tablecourseid'] = 'Kurs-ID';
+$string['tablecoursename'] = 'Kursname';
+$string['tableenrolend'] = 'Einschreibungs-Ende';
+$string['tableenrolid'] = 'Einschreibungs-ID';
+$string['tableenrolstart'] = 'Einschreibungs-Start';
+$string['tableenrolstatus'] = 'Einschreibungs-Status';
+$string['tablesemcobookingid'] = 'SEMCO Buchungsnummer';
+$string['tableuserid'] = 'Moodle Nutzer-ID';
+$string['tableusername'] = 'Moodle Anmeldename';
+$string['tableuserstatus'] = 'Moodle Nutzer-Status';
+$string['tableviewenrolment'] = 'Kursprofil ansehen';
 
 // Installer.
 $string['installer_addedusertorole'] = 'Die Rolle \'SEMCO Webservice\' wurde dem Nutezr \'SEMCO Webservice\' automatisch zugewiesen.';
@@ -105,6 +123,7 @@ $string['semco:getcoursecompletions'] = 'Abrufen der (abgeschlossenen) Kursabsch
 $string['semco:resetcoursecompletion'] = 'Zurücksetzen des Kursabschlusses für den Nutzer und den Kurs mit der gegebenen SEMCO Einschreibung';
 $string['semco:unenrol'] = 'Ausschreibung eines SEMCO Nutzers aus einem Kurs';
 $string['semco:usewebservice'] = 'Benutzung der SEMCO Webservices zur Einschreibung';
+$string['semco:viewreport'] = 'Abrufen des SEMCO Einschreibungs-Bericht';
 
 // Tasks.
 $string['task_cleanorphaned'] = 'Bereinigung verwaister SEMCO Einschreibungsinstanzen.';
