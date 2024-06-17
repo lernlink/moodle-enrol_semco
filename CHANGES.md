@@ -4,7 +4,7 @@ moodle-enrol_semco
 Changes
 -------
 
-### Unreleased
+### v4.3-r2
 
 * 2024-03-11 - Improvement: Add description of data transfer between SEMCO and Moodle to Privacy API, resolves #1.
 * 2024-03-11 - Release: Remove german language pack after the strings have been imported into AMOS.
