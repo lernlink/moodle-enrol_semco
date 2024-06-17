@@ -199,33 +199,14 @@ class enrol_semco_plugin extends enrol_plugin {
 }
 
 /**
- * The enrol plugin type, unfortunately, does not include settings.php for non-admins.
- * So we have to use a nasty workaround to add the SEMCO enrolment report link to the site administration
- * where managers will find it.
- * This is done here by hooking into the page navigation manually before the page output is started.
+ * Callback to add head elements (for releases up to Moodle 4.3).
  */
 function enrol_semco_before_standard_top_of_body_html() {
-    global $PAGE;
+    global $CFG;
 
-    // Allow admins and users with the enrol/semco:viewreport capability to access the report.
-    $context = context_system::instance();
-    if (has_capability('moodle/site:config', $context) ||
-        has_capability('enrol/semco:viewreport', $context)) {
+    // Require local library.
+    require_once($CFG->dirroot.'/enrol/semco/locallib.php');
 
-        // Create new navigation node for enrolment report.
-        $reportnode = navigation_node::create(get_string('reportpagetitle', 'enrol_semco', null, true),
-            new moodle_url('/enrol/semco/enrolreport.php'),
-            navigation_node::TYPE_SETTING,
-            null,
-            'enrol_semco_enrolreport');
-
-        // Find the reports container in navigation.
-        $reports = $PAGE->settingsnav->find('reports', navigation_node::TYPE_SETTING);
-
-        // If the reports container was found.
-        if ($reports != false) {
-            // Add our report node to the list of reports.
-            $reports->add_node($reportnode);
-        }
-    }
+    // Call and return callback implementation.
+    return enrol_semco_callbackimpl_before_standard_top_of_body_html();
 }
