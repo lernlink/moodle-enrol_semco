@@ -125,7 +125,7 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
         // OR which do not have an end date and start before this one ends
         // OR which do not have a start date
         // OR which end before this one ends.
-        $overlapstartexistssql = 'SELECT ue.id
+        $overlapendexistssql = 'SELECT ue.id
                 FROM {user_enrolments} ue
                 JOIN {enrol} e ON ue.enrolid = e.id AND e.courseid = :courseid
                 WHERE e.enrol = :enrol AND
@@ -134,7 +134,7 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
                         OR ue.timeend = 0 AND ue.timestart <= :timeend1
                         OR ue.timestart = 0
                         OR ue.timeend > 0 AND ue.timeend <= :timeend2)';
-        $overlapstartparams = ['courseid' => $courseid,
+        $overlapendparams = ['courseid' => $courseid,
                 'userid' => $userid,
                 'enrol' => 'semco',
                 'timeend1' => $timeend,
@@ -142,10 +142,10 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
                 'timestart' => $timestart,
         ];
         if ($ignoreoriginalid != null) {
-            $overlapstartexistssql .= ' AND e.id != :ignoreid';
-            $overlapstartparams['ignoreid'] = $ignoreoriginalid;
+            $overlapendexistssql .= ' AND e.id != :ignoreid';
+            $overlapendparams['ignoreid'] = $ignoreoriginalid;
         }
-        $overlapstartexists = $DB->record_exists_sql($overlapstartexistssql, $overlapstartparams);
+        $overlapendexists = $DB->record_exists_sql($overlapendexistssql, $overlapendparams);
     }
 
     // If we have a given end date and a given start date.
@@ -182,8 +182,10 @@ function enrol_semco_detect_enrolment_overlap($courseid, $userid, $timestart, $t
     }
 
     // If any overlap exists.
-    if ($overlapunlimitedexists == true || $overlapstartexists == true || $overlapstartexists == true ||
-            $overlapbothexists == true) {
+    if ((isset($overlapunlimitedexists) && $overlapunlimitedexists == true) ||
+            (isset($overlapstartexists) && $overlapstartexists == true) ||
+            (isset($overlapendexists) && $overlapendexists == true) ||
+            (isset($overlapbothexists) && $overlapbothexists == true)) {
         return true;
 
         // Otherwise.
