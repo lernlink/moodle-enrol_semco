@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'enrol_semco';
-$plugin->version = 2022112811;
-$plugin->release = 'v4.1-r3';
+$plugin->version = 2022112812;
+$plugin->release = 'v4.1-r4';
 $plugin->requires = 2022112800;
 $plugin->supported = [401, 401];
 $plugin->maturity = MATURITY_STABLE;
