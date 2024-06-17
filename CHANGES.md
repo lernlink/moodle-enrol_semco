@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2024-06-01 - Bugfix: Remove debug warning in enrol_semco_enrol_user webservice endpoint.
 * 2024-06-01 - Upgrade: Migrate the enrol_semco_before_standard_top_of_body_html() function to the new hook callback on Moodle 4.4.
 * 2024-06-01 - Release: Let codechecker ignore some sniffs in the language pack.
 
