@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2024-06-01 - Prepare compatibility for Moodle 4.4.
+
 ### v4.3-r3
 
 * 2024-06-01 - Bugfix: Remove debug warning in enrol_semco_enrol_user webservice endpoint.
