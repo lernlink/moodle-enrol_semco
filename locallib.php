@@ -257,3 +257,42 @@ function enrol_semco_check_local_recompletion() {
 
     return $localrecompletioninstalled;
 }
+
+/**
+ * Callback to modify the page navigation.
+ * This function is implemented here and used from two locations:
+ * -> function enrol_semco_before_standard_top_of_body_html in lib.php (for releases up to Moodle 4.3)
+ * -> class enrol_semco\local\hook\output\before_standard_top_of_body_html_generation (for releases from Moodle 4.4 on).
+ *
+ * We use this callback as the enrol plugin type, unfortunately, does not include settings.php for non-admins.
+ * So we have to use a nasty workaround to add the SEMCO enrolment report link to the site administration
+ * where managers will find it.
+ * This is done here by hooking into the page navigation manually before the page output is started.
+ *
+ * @param \core\hook\output\before_standard_top_of_body_html_generation $hook The hook (which is unused in this plugin).
+ */
+function enrol_semco_callbackimpl_before_standard_top_of_body_html(&$hook = null) {
+    global $PAGE;
+
+    // Allow admins and users with the enrol/semco:viewreport capability to access the report.
+    $context = context_system::instance();
+    if (has_capability('moodle/site:config', $context) ||
+            has_capability('enrol/semco:viewreport', $context)) {
+
+        // Create new navigation node for enrolment report.
+        $reportnode = navigation_node::create(get_string('reportpagetitle', 'enrol_semco', null, true),
+                new moodle_url('/enrol/semco/enrolreport.php'),
+                navigation_node::TYPE_SETTING,
+                null,
+                'enrol_semco_enrolreport');
+
+        // Find the reports container in navigation.
+        $reports = $PAGE->settingsnav->find('reports', navigation_node::TYPE_SETTING);
+
+        // If the reports container was found.
+        if ($reports != false) {
+            // Add our report node to the list of reports.
+            $reports->add_node($reportnode);
+        }
+    }
+}
