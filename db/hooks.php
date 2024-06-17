@@ -15,18 +15,19 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Enrolment method "SEMCO" - Version file
+ * Enrolment method "SEMCO" - Hook callbacks.
  *
  * @package    enrol_semco
- * @copyright  2022 Alexander Bias, lern.link GmbH <alexander.bias@lernlink.de>
+ * @copyright  2024 Alexander Bias, lern.link GmbH <alexander.bias@lernlink.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'enrol_semco';
-$plugin->version = 2023100907;
-$plugin->release = 'v4.3-r2';
-$plugin->requires = 2023100900;
-$plugin->supported = [403, 403];
-$plugin->maturity = MATURITY_STABLE;
+$callbacks = [
+    [
+        'hook' => \core\hook\output\before_standard_top_of_body_html_generation::class,
+        'callback' => 'enrol_semco\local\hook\output\before_standard_top_of_body_html_generation::callback',
+        'priority' => 0,
+    ],
+];
