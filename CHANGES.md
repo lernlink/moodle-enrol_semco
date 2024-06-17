@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2024-06-01 - Release: Let codechecker ignore some sniffs in the language pack.
+
 ### v4.3-r2
 
 * 2024-03-11 - Improvement: Add description of data transfer between SEMCO and Moodle to Privacy API, resolves #1.
