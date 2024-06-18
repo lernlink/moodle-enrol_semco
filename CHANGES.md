@@ -4,7 +4,7 @@ moodle-enrol_semco
 Changes
 -------
 
-### Unreleased
+### v4.2-r5
 
 * 2024-06-01 - Bugfix: Remove debug warning in enrol_semco_enrol_user webservice endpoint.
 * 2024-06-01 - Upgrade: Migrate the enrol_semco_before_standard_top_of_body_html() function to the new hook callback on Moodle 4.4.
