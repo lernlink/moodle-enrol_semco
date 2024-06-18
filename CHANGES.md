@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2024-06-01 - Raise Moodle core requirements which had been forgotten during the upgrade to Moodle 4.4.
+
 ### v4.4-r1
 
 * 2024-06-01 - Prepare compatibility for Moodle 4.4.
