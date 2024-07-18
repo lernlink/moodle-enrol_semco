@@ -35,7 +35,7 @@ Soft dependencies
 The SEMCO enrolment plugin is able to reset a user's course completion if he gets enrolled into a particular course by SEMCO once more.
 To realize this course completion reset and to avoid to re-invent the wheel, this plugin has a soft dependency to local_recompletion (see https://moodle.org/plugins/local_recompletion) by Dan Marsden.
 
-Please install local_recompletion with at least version 2023111402 alongside this plugin if you plan to use subsequent user enrolments into the same course and need to reset course completion.
+Please install local_recompletion with at least version 2024071103 alongside this plugin if you plan to use subsequent user enrolments into the same course and need to reset course completion.
 If you do not need plan to reset course completion, you do not need to install local_recompletion.
 
 
@@ -223,7 +223,7 @@ Useful settings for local_recompletion
 
 If you decide to use the companion plugin local_recompletion to allow SEMCO to reset course completions during subsequent user enrolments, please verify these settings of local_recompletion before the go-live of your integration:
 
-* SEMCO can only reset a user's course completion if the "Recompletion type" setting in the particular course is set to "On demand". To avoid hickups with courses where the teacher forgot to set the proper "Recompletion type" in his course, you should set the default recompletion type on /admin/settings.php?section=local_recompletion to "On demand" as well.
+* SEMCO can only reset a user's course completion if the "Recompletion type" setting in the particular course is set to "On demand". It's up to the individual teachers to go to the course recompletion settings in their courses and save the settings before SEMCO can reset a user's course completion in a course.
 * By design, SEMCO will reset a user's course completion even on the user's first SEMCO enrolment into the course. This might seem unnecessary, but as it is not impossible that the user might have been manually enrolled before into that course (and might have completed it then), SEMCO resets the course completion just to be sure that the course is clean before each and every SEMCO enrolment. Against this background, the standard behaviour of local_recompletion to send out a notification message to the user when the course is reset will confuse the user. To avoid such confusion, you should disable the "Send recompletion message" setting on /admin/settings.php?section=local_recompletion.
 * By default, local_recompletion is configured in a way that it does not reset any activity in a course unless the teacher activates the activity type's reset in his particular course. To ease the teacher's life and to avoid that SEMCO triggers a course completion reset but nothing is deleted from the course in the end, you should enable all items in the "Plugins settings" section on /admin/settings.php?section=local_recompletion which are relevant for the courses in your Moodle instance.
 
