@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2024-07-18 - Raise version requirement of soft dependency to local_recompletion due to fixed bugs there.
+
 ### v4.1-r5
 
 * 2024-06-01 - Bugfix: Remove debug warning in enrol_semco_enrol_user webservice endpoint.
