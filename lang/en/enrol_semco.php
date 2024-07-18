@@ -37,8 +37,8 @@ $string['settings_connectioninfoheading'] = 'Connection information';
 $string['settings_coursecompletionheading'] = 'Course completion';
 $string['settings_coursecompletionlrcintro'] = '<p>The SEMCO enrolment plugin is able to reset a user\'s course completion if he gets enrolled into a particular course by SEMCO once more.<br />
 To realize this course completion reset and to avoid to re-invent the wheel, this plugin has a soft dependency to <a href="https://moodle.org/plugins/local_recompletion">local_recompletion</a> by Dan Marsden.</p>';
-$string['settings_coursecompletionlrcfound'] = '<p>The plugin local_recompletion is installed with at least version 2023111402. You are able to use subsequent user enrolments into the same course and to reset course completion.</p>';
-$string['settings_coursecompletionlrcnotfound'] = '<p>Please install local_recompletion with at least version 2023111402 alongside this plugin if you plan to use subsequent user enrolments into the same course and need to reset course completion.<br />
+$string['settings_coursecompletionlrcfound'] = '<p>The plugin local_recompletion is installed with at least version 2023112707. You are able to use subsequent user enrolments into the same course and to reset course completion.</p>';
+$string['settings_coursecompletionlrcnotfound'] = '<p>Please install local_recompletion with at least version 2023112707 alongside this plugin if you plan to use subsequent user enrolments into the same course and need to reset course completion.<br />
 If you do not need plan to reset course completion, you do not need to install local_recompletion.</p>';
 $string['settings_coursecompletionnote'] = '<p>Please note: SEMCO just triggers the on-demand course recompletion which is provided by the <a href="{$a}">course recompletion plugin</a>. It\'s still up to the individual teachers to configure course recompletion in their courses according to the individual needs and to set the course\'s recompletion type to \'On demand\'.</p>';
 $string['settings_enrolmentheading'] = 'Enrolment process';
