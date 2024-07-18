@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2024-07-18 - Raise version requirement of soft dependency to local_recompletion due to fixed bugs there.
+
 ### v4.4-r2
 
 * 2024-06-01 - Raise Moodle core requirements which had been forgotten during the upgrade to Moodle 4.4.
