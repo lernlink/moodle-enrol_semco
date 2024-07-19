@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unchanged
+
+* 2024-07-19 - Release: Remove Boost Union theme from Moodle-Plugin-CI config which was clearly wrong
+
 ### v4.2-r6
 
 * 2024-07-18 - Raise version requirement of soft dependency to local_recompletion due to fixed bugs there.
