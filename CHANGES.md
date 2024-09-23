@@ -6,6 +6,7 @@ Changes
 
 ### Unchanged
 
+* 2024-09-23 - Documentation: Add a note about the removal of the local/recompletion:resetmycompletion capability to README.md
 * 2024-07-19 - Release: Remove Boost Union theme from Moodle-Plugin-CI config which was clearly wrong
 
 ### v4.3-r4
