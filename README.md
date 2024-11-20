@@ -161,6 +161,17 @@ This capability controls the ability to view the enrolment report of all SEMCO u
 In contrast to the previous capabilities, this capability is allowed for the manager role by default.
 
 
+Scheduled Tasks
+---------------
+
+This plugin also introduces these additional scheduled tasks:
+
+### \enrol_semco\task\cleanup_orphaned_enrolment_instances
+
+This task is there to clean orphaned SEMCO enrolment instances.
+By default, the task is enabled and runs once per hour.
+
+
 How this plugin works
 ---------------------
 
