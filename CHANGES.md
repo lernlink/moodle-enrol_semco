@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2024-10-07 - Prepare compatibility for Moodle 4.5.
+
 ### v4.4-r4
 
 * 2024-09-23 - Documentation: Add a note about the removal of the local/recompletion:resetmycompletion capability to README.md

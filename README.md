@@ -9,7 +9,7 @@ Moodle enrolment plugin which allows the SEMCO seminar management system to enro
 Requirements
 ------------
 
-This plugin requires Moodle 4.4+
+This plugin requires Moodle 4.5+
 
 
 Motivation for this plugin
