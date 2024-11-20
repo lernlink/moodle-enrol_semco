@@ -6,6 +6,7 @@ Changes
 
 ### v4.4-r4
 
+* 2024-10-20 - Upgrade: Adopt changes from MDL-81031 and use new \core\user class.
 * 2024-10-07 - Prepare compatibility for Moodle 4.5.
 * 2024-09-23 - Documentation: Add a note about the removal of the local/recompletion:resetmycompletion capability to README.md
 * 2024-07-19 - Release: Remove Boost Union theme from Moodle-Plugin-CI config which was clearly wrong

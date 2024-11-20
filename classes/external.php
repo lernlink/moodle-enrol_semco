@@ -162,7 +162,7 @@ class enrol_semco_external extends external_api {
         }
 
         // Get the user to enrol from the DB, throw an exception if it does not exist.
-        $user = \core_user::get_user($params['userid']);
+        $user = \core\user::get_user($params['userid']);
         if (!$user) {
             throw new moodle_exception('usernotexist', 'enrol_semco', '', $params['userid']);
         }
@@ -361,7 +361,7 @@ class enrol_semco_external extends external_api {
         require_capability('enrol/semco:unenrol', $context);
 
         // Get the enrolled user from the DB, throw an exception if it does not exist.
-        $user = \core_user::get_user($userinstance->userid);
+        $user = \core\user::get_user($userinstance->userid);
         if (!$user) {
             throw new moodle_exception('usernotexist', 'enrol_semco', '', $userinstance->userid);
         }
@@ -498,7 +498,7 @@ class enrol_semco_external extends external_api {
         require_capability('enrol/semco:editenrolment', $context);
 
         // Get the enrolled user from the DB, throw an exception if it does not exist.
-        $user = \core_user::get_user($userinstance->userid);
+        $user = \core\user::get_user($userinstance->userid);
         if (!$user) {
             throw new moodle_exception('usernotexist', 'enrol_semco', '', $userinstance->userid);
         }
@@ -1053,7 +1053,7 @@ class enrol_semco_external extends external_api {
         require_capability('enrol/semco:resetcoursecompletion', $context);
 
         // Get the enrolled user from the DB, throw an exception if it does not exist.
-        $user = \core_user::get_user($userinstance->userid);
+        $user = \core\user::get_user($userinstance->userid);
         if (!$user) {
             throw new moodle_exception('usernotexist', 'enrol_semco', '', $userinstance->userid);
         }
