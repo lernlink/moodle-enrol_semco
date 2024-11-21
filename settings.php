@@ -33,7 +33,7 @@ if ($ADMIN->fulltree) {
     // And if we are not during the initial install or if the script is called without setting the page URL
     // (which will happen during the plugin installation and will show a debug warning, that's why we suppress debugging messages
     // temporarily).
-    $settingsurl = new moodle_url('/admin/settings.php', ['section' => 'enrolsettingssemco']);
+    $settingsurl = new \core\url('/admin/settings.php', ['section' => 'enrolsettingssemco']);
     $olddebug = $CFG->debug;
     $CFG->debug = 0;
     $pageurl = $PAGE->url;
@@ -84,7 +84,7 @@ if ($ADMIN->fulltree) {
 
     // Create enrolment report heading.
     $name = 'enrol_semco/settings_enrolmentreportheading';
-    $reporturl = new moodle_url('/enrol/semco/enrolreport.php');
+    $reporturl = new \core\url('/enrol/semco/enrolreport.php');
     $title = get_string('settings_enrolmentreportheading', 'enrol_semco', null, true);
     $description = get_string('settings_enrolmentreportheading_desc', 'enrol_semco', null, true).'<br />'.
             html_writer::link($reporturl,
@@ -137,7 +137,7 @@ if ($ADMIN->fulltree) {
         // Create information widget.
         $name = 'enrol_semco/settings_coursecompletionnotfound';
         $title = '';
-        $localrecompletionurl = new moodle_url('/admin/settings.php', ['section' => 'local_recompletion']);
+        $localrecompletionurl = new \core\url('/admin/settings.php', ['section' => 'local_recompletion']);
         $notification = new \core\output\notification(get_string('settings_coursecompletionlrcintro', 'enrol_semco', null, true).
                 get_string('settings_coursecompletionlrcfound', 'enrol_semco', null, true).
                 get_string('settings_coursecompletionnote', 'enrol_semco', $localrecompletionurl->out(), true),
@@ -152,7 +152,7 @@ if ($ADMIN->fulltree) {
         // Create information widget.
         $name = 'enrol_semco/settings_coursecompletionnotfound';
         $title = '';
-        $localrecompletionurl = new moodle_url('/admin/settings.php', ['section' => 'local_recompletion']);
+        $localrecompletionurl = new \core\url('/admin/settings.php', ['section' => 'local_recompletion']);
         $notification = new \core\output\notification(get_string('settings_coursecompletionlrcintro', 'enrol_semco', null, true).
                 get_string('settings_coursecompletionlrcnotfound', 'enrol_semco', null, true).
                 get_string('settings_coursecompletionnote', 'enrol_semco', $localrecompletionurl->out(), true),

@@ -283,7 +283,7 @@ function enrol_semco_callbackimpl_before_standard_top_of_body_html(&$hook = null
 
         // Create new navigation node for enrolment report.
         $reportnode = navigation_node::create(get_string('reportpagetitle', 'enrol_semco', null, true),
-                new moodle_url('/enrol/semco/enrolreport.php'),
+                new \core\url('/enrol/semco/enrolreport.php'),
                 navigation_node::TYPE_SETTING,
                 null,
                 'enrol_semco_enrolreport');

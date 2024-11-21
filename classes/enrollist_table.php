@@ -167,7 +167,7 @@ class enrollist_table extends \table_sql {
 
         // Inject actions column.
         if ($column === 'actions') {
-            $buttonurl = new \moodle_url('/user/view.php', ['id' => $row->moodleuserid, 'course' => $row->courseid]);
+            $buttonurl = new \core\url('/user/view.php', ['id' => $row->moodleuserid, 'course' => $row->courseid]);
             $buttonlabel = get_string('tableviewenrolment', 'enrol_semco');
             return $OUTPUT->single_button($buttonurl, $buttonlabel, 'get');
         }

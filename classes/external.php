@@ -216,13 +216,13 @@ class enrol_semco_external extends external_api {
 
             // Throw an exception if recompletion is not enabled at all.
             if (empty($recompletionconfig->recompletiontype)) {
-                $localrecompletionurl = new moodle_url('/local/recompletion/recompletion.php', ['id' => $params['courseid']]);
+                $localrecompletionurl = new \core\url('/local/recompletion/recompletion.php', ['id' => $params['courseid']]);
                 throw new moodle_exception('localrecompletionnotenabled', 'enrol_semco', '', $localrecompletionurl->out());
             }
 
             // Throw an exception if recompletion is not set to OnDemand.
             if ($recompletionconfig->recompletiontype != \local_recompletion_recompletion_form::RECOMPLETION_TYPE_ONDEMAND) {
-                $localrecompletionurl = new moodle_url('/local/recompletion/recompletion.php', ['id' => $params['courseid']]);
+                $localrecompletionurl = new \core\url('/local/recompletion/recompletion.php', ['id' => $params['courseid']]);
                 throw new moodle_exception('localrecompletionnotondemand', 'enrol_semco', '', $localrecompletionurl->out());
             }
         }
@@ -1064,13 +1064,13 @@ class enrol_semco_external extends external_api {
 
         // Throw an exception if recompletion is not enabled at all.
         if (empty($recompletionconfig->recompletiontype)) {
-            $localrecompletionurl = new moodle_url('/local/recompletion/recompletion.php', ['id' => $instance->courseid]);
+            $localrecompletionurl = new \core\url('/local/recompletion/recompletion.php', ['id' => $instance->courseid]);
             throw new moodle_exception('localrecompletionnotenabled', 'enrol_semco', '', $localrecompletionurl->out());
         }
 
         // Throw an exception if recompletion is not set to OnDemand.
         if ($recompletionconfig->recompletiontype != \local_recompletion_recompletion_form::RECOMPLETION_TYPE_ONDEMAND) {
-            $localrecompletionurl = new moodle_url('/local/recompletion/recompletion.php', ['id' => $instance->courseid]);
+            $localrecompletionurl = new \core\url('/local/recompletion/recompletion.php', ['id' => $instance->courseid]);
             throw new moodle_exception('localrecompletionnotondemand', 'enrol_semco', '', $localrecompletionurl->out());
         }
 
