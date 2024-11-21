@@ -87,7 +87,7 @@ if ($ADMIN->fulltree) {
     $reporturl = new \core\url('/enrol/semco/enrolreport.php');
     $title = get_string('settings_enrolmentreportheading', 'enrol_semco', null, true);
     $description = get_string('settings_enrolmentreportheading_desc', 'enrol_semco', null, true).'<br />'.
-            html_writer::link($reporturl,
+            \core\output\html_writer::link($reporturl,
                     get_string('settings_enrolmentreportbutton', 'enrol_semco', null, true),
                     ['class' => 'btn btn-secondary my-3']);
     $setting = new admin_setting_heading($name, $title, $description);
