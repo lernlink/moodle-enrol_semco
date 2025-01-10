@@ -46,7 +46,7 @@ $services = [
 
 $functions = [
         'enrol_semco_enrol_user' => [
-                'classname' => 'enrol_semco_external',
+                'classname' => 'enrol_semco\external',
                 'methodname' => 'enrol_user',
                 'description' => 'Enrol a given user from SEMCO',
                 'capabilities' => 'enrol/semco:enrol',
@@ -54,7 +54,7 @@ $functions = [
                 'services' => [ENROL_SEMCO_SERVICENAME],
         ],
         'enrol_semco_unenrol_user' => [
-                'classname' => 'enrol_semco_external',
+                'classname' => 'enrol_semco\external',
                 'methodname' => 'unenrol_user',
                 'description' => 'Unenrol a given user from SEMCO',
                 'capabilities' => 'enrol/semco:unenrol',
@@ -62,7 +62,7 @@ $functions = [
                 'services' => [ENROL_SEMCO_SERVICENAME],
         ],
         'enrol_semco_edit_enrolment' => [
-                'classname' => 'enrol_semco_external',
+                'classname' => 'enrol_semco\external',
                 'methodname' => 'edit_enrolment',
                 'description' => 'Edit an existing user enrolment from SEMCO',
                 'capabilities' => 'enrol/semco:editenrolment',
@@ -70,7 +70,7 @@ $functions = [
                 'services' => [ENROL_SEMCO_SERVICENAME],
         ],
         'enrol_semco_get_enrolments' => [
-                'classname' => 'enrol_semco_external',
+                'classname' => 'enrol_semco\external',
                 'methodname' => 'get_enrolments',
                 'description' => 'Get the existing user enrolments from SEMCO in a course',
                 'capabilities' => 'enrol/semco:getenrolments',
@@ -78,7 +78,7 @@ $functions = [
                 'services' => [ENROL_SEMCO_SERVICENAME],
         ],
         'enrol_semco_get_course_completions' => [
-                'classname' => 'enrol_semco_external',
+                'classname' => 'enrol_semco\external',
                 'methodname' => 'get_course_completions',
                 'description' => 'Get the course completions for given SEMCO user enrolments',
                 'capabilities' => 'enrol/semco:getcoursecompletions',
@@ -86,7 +86,7 @@ $functions = [
                 'services' => [ENROL_SEMCO_SERVICENAME],
         ],
         'enrol_semco_reset_course_completion' => [
-                'classname' => 'enrol_semco_external',
+                'classname' => 'enrol_semco\external',
                 'methodname' => 'reset_course_completion',
                 'description' => 'Reset the course completion for the given SEMCO user enrolment',
                 'capabilities' => 'enrol/semco:resetcoursecompletion',

@@ -22,10 +22,24 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace enrol_semco;
+
+use completion_info;
+use context_course;
+use core_external\external_api;
+use core_external\external_function_parameters;
+use core_external\external_multiple_structure;
+use core_external\external_single_structure;
+use core_external\external_value;
+use core_external\external_warnings;
+use grade_grade;
+use grade_item;
+use moodle_exception;
+use moodle_url;
+
 defined('MOODLE_INTERNAL') || die;
 
 // Require libraries.
-require_once($CFG->libdir.'/externallib.php');
 require_once($CFG->libdir.'/enrollib.php');
 require_once($CFG->dirroot.'/grade/querylib.php');
 
@@ -36,7 +50,7 @@ require_once($CFG->dirroot.'/grade/querylib.php');
  * @copyright  2022 Alexander Bias, lern.link GmbH <alexander.bias@lernlink.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class enrol_semco_external extends external_api {
+class external extends external_api {
     /*
      * Note to future developers:
      * Throughout these webservices, we use the outward-facing term 'enrolid' different from the inward-facing term.
@@ -154,7 +168,7 @@ class enrol_semco_external extends external_api {
         // Throw an exception if the webservice user is not able to assign the role.
         $roles = get_assignable_roles($context);
         if (!array_key_exists($roleid, $roles)) {
-            $errorparams = new stdClass();
+            $errorparams = new \stdClass();
             $errorparams->roleid = $roleid;
             $errorparams->courseid = $params['courseid'];
             $errorparams->userid = $params['userid'];
