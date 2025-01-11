@@ -158,6 +158,12 @@ class external extends external_api {
         // Retrieve the role from the SEMCO enrolment plugin configuration.
         $roleid = get_config('enrol_semco', 'role');
 
+        // Get the course from the DB, throw an exception if it does not exist.
+        $courseexists = $DB->record_exists('course', ['id' => $params['courseid']]);
+        if ($courseexists == false) {
+            throw new moodle_exception('coursenotexist', 'enrol_semco', '', $params['courseid']);
+        }
+
         // Ensure the webservice user is allowed to run this function in the enrolment context.
         $context = context_course::instance($params['courseid']);
         self::validate_context($context);
