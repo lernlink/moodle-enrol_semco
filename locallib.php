@@ -229,11 +229,27 @@ function enrol_semco_roleassign_updatecallback() {
 function enrol_semco_check_local_recompletion() {
     global $CFG;
 
-    // Use a static variable, just to be sure if this function gets called multiple times.
-    static $localrecompletioninstalled;
+    // If PHPUnit tests are running.
+    if (defined('PHPUNIT_TEST') && PHPUNIT_TEST) {
+        // Compared to normal operation, this variable must not be static as we have to check it for each test run individually.
+        $localrecompletioninstalled = null;
+    } else {
+        // Use a static variable, just to be sure if this function gets called multiple times.
+        static $localrecompletioninstalled;
+    }
 
     // If the check has not been done yet.
     if (!isset($localrecompletioninstalled)) {
+
+        // If PHPUnit tests are running.
+        if (defined('PHPUNIT_TEST') && PHPUNIT_TEST) {
+            // If we simulate the plugin to be not installed.
+            if (isset($CFG->localrecompletionnotinstalled) && $CFG->localrecompletionnotinstalled == true) {
+                // Return this.
+                return false;
+            }
+        }
+
         // Check if local_recompletion is installed.
         if (file_exists($CFG->dirroot . '/local/recompletion/version.php')) {
             // Get the plugin version.

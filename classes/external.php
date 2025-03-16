@@ -746,9 +746,17 @@ class external extends external_api {
     public static function get_course_completions($enrolmentids) {
         global $DB, $CFG;
 
-        // Initialize a static variable to hold the 'canbecompleted' status for courses.
-        // We don't want to fetch that more than once per course.
-        static $coursescanbecompleted = [];
+        // If PHPUnit tests are running.
+        if (defined('PHPUNIT_TEST') && PHPUNIT_TEST) {
+            // Initialize a variable to hold the 'canbecompleted' status for courses.
+            // Compared to normal operation, this variable must not be static as a test might change the course completion status
+            // during the same test run.
+            $coursescanbecompleted = [];
+        } else {
+            // Initialize a static variable to hold the 'canbecompleted' status for courses.
+            // We don't want to fetch that more than once per course.
+            static $coursescanbecompleted = [];
+        }
 
         // Require enrolment library.
         require_once($CFG->libdir.'/enrollib.php');

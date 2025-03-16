@@ -20,9 +20,17 @@ Upstream changes
 Automated tests
 ---------------
 
-* Due to the fact that the plugin mainly offers webservice endpoints to an external application, there aren't any automated test (yet).
+* The plugin has a good coverage with PHPUnit tests which test all of the plugin's webservices.
+* However, there aren't any Behat tests which test the plugin's user interface (yet).
+
 
 Manual tests
 ------------
 
 * Manual tests are carried out by SEMCO staff.
+
+
+Visual checks
+-------------
+
+* There aren't any additional visual checks in the Moodle GUI needed to upgrade this theme.

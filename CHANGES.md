@@ -6,6 +6,7 @@ Changes
 
 ### Unreleased
 
+* 2025-01-10 - Add PHPUnit tests which cover the webservice functionality.
 * 2025-01-10 - Add coursenotexist exception to enrol_user webservice.
 * 2025-01-10 - Upgrade: Adopt Moodle core change from MDL-76583 and replace usage of lib/externallib.php.
 * 2024-10-20 - Upgrade: Adopt changes from MDL-82183 and use several new class names.
