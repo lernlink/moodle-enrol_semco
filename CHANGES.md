@@ -4,7 +4,7 @@ moodle-enrol_semco
 Changes
 -------
 
-### Unreleased
+### v4.5-r1
 
 * 2025-03-17 - Development: Rename master branch to main, please update your clones.
 * 2025-01-10 - Add PHPUnit tests which cover the webservice functionality.
