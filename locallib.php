@@ -292,6 +292,12 @@ function enrol_semco_check_local_recompletion() {
 function enrol_semco_callbackimpl_before_standard_top_of_body_html(&$hook = null) {
     global $PAGE;
 
+    // If we are in the installation process or a major upgrade is required,
+    // we cannot do anything here and return immediately.
+    if (during_initial_install() || moodle_needs_upgrading()) {
+        return;
+    }
+
     // Allow admins and users with the enrol/semco:viewreport capability to access the report.
     $context = context_system::instance();
     if (has_capability('moodle/site:config', $context) ||
