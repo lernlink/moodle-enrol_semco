@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2025-06-08 - Bugfix: Upgrading Moodle core with enrol_semco in place could have triggered a fatal error in Moodle core, resolves #2.
+
 ### v4.5-r1
 
 * 2025-03-17 - Development: Rename master branch to main, please update your clones.
