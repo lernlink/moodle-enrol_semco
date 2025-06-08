@@ -4,6 +4,10 @@ moodle-enrol_semco
 Changes
 -------
 
+### Unreleased
+
+* 2025-06-08 - Bugfix: Upgrading Moodle core with enrol_semco in place could have triggered a fatal error in Moodle core, resolves #2.
+
 ### v4.4-r4
 
 * 2024-09-23 - Documentation: Add a note about the removal of the local/recompletion:resetmycompletion capability to README.md
